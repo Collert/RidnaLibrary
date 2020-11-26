@@ -31,5 +31,5 @@ def index():
 def login():
     error = False
     #if request.method == "POST":
-
-    return render_template("login.html")
+        
+    return render_template("login.html", error=error)
