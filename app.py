@@ -22,10 +22,10 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Initialise database
-engine = create_engine(os.getenv("DB_URL")) # Push the database url to environment using [export DB_URL="the url"] on MAC/Linux or [set DB_URL="the url"] on Windows
+engine = create_engine(os.getenv("DATABASE_URL")) # Push the database url to environment using [export DATABASE_URL="the url"] on MAC/Linux or [set DATABASE_URL="the url"] on Windows
 db = scoped_session(sessionmaker(bind=engine))
-if not os.environ.get("DB_URL"):
-    raise RuntimeError("DB_URL not set")
+if not os.environ.get("DATABASE_URL"):
+    raise RuntimeError("DATABASE_URL not set")
 
 # Get Google client ID for sign in button
 gclient_id = os.environ.get("GOOGLE_CLIENT_ID")
