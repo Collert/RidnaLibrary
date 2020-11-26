@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+<!-- Google authentication tags-->
+{% block google_auth %}
+    <meta name="google-signin-client_id" content="381057537277-pmtvd839t2a60eslm0bvke78rviilr5l.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+{% endblock %}
+
+{% block main %}
+    <style>
+        div{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+{% endblock %}
