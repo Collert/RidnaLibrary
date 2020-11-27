@@ -1,6 +1,6 @@
 // Sign in function to pass the user info to session
 function onSignIn(_googleUser){
-    var id_token = googleUser.getAuthResponse().id_token;
+    var id_token = _googleUser.getAuthResponse().id_token;
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/login'); // Change the url after we move to our subdomain
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
