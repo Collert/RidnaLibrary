@@ -51,10 +51,15 @@ def login():
             # Invalid token
             pass
         user = db.execute("SELECT * FROM users WHERE google_id = (?)", guserid).fetchone()
+        user = user[0]
         if not user:
             db.execute("INSERT INTO users (first, last, email, google_id) VALUES (?, ?, ?, ?)", idinfo["given_name"], idinfo["family_name"], idinfo["email"], guserid)
             db.commit()
             user = db.execute("SELECT * FROM users WHERE google_id = (?)", guserid).fetchone()
+            user = user[0]
         session["user_id"] = user["school_id"]
         return redirect("/")
     return render_template("login.html", error=error, google_signin_client_id=gclient_id)
+
+if __name__ == "__main__":
+    app.run()
