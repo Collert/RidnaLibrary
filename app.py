@@ -41,7 +41,7 @@ def index():
 def login():
     error = False
     if request.method == "POST":
-        token = request.form.get("idtoken")
+        token = request.form["idtoken"]
         print()
         print(token)
         print()
