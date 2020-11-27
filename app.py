@@ -61,7 +61,7 @@ def login():
             pass
         user = db.execute("SELECT * FROM users WHERE google_id = :guserid", {"guserid" : guserid}).fetchone()
         if not user:
-            db.execute("INSERT INTO users (first, last, email, google_id) VALUES (:fname, :lname, :email, :gid)", {"fname"idinfo["given_name"], "lname"idinfo["family_name"], "email"idinfo["email"], "gid"guserid})
+            db.execute("INSERT INTO users (first, last, email, google_id) VALUES (:fname, :lname, :email, :gid)", {"fname": idinfo["given_name"], "lname": idinfo["family_name"], "email": idinfo["email"], "gid": guserid})
             db.commit()
             user = db.execute("SELECT * FROM users WHERE google_id = :guserid", {"guserid" : guserid}).fetchone()
         session["user_id"] = user["school_id"]
