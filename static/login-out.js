@@ -8,7 +8,7 @@ function onSignIn(googleUser){
         console.log('Signed in as: ' + xhr.responseText);
     };
     console.log(id_token);
-    xhr.send(`idtoken=${id_token}`);
+    xhr.send('idtoken=' + id_token);
 }
 
 // Logoou function
