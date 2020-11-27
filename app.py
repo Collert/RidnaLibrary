@@ -53,6 +53,7 @@ def login():
         user = db.execute("SELECT * FROM users WHERE google_id = (?)", guserid).fetchone()
         if not user:
             db.execute("INSERT INTO users (first, last, email, google_id) VALUES (?, ?, ?, ?)", idinfo["given_name"], idinfo["family_name"], idinfo["email"], guserid)
+            db.commit()
             user = db.execute("SELECT * FROM users WHERE google_id = (?)", guserid).fetchone()
         session["user_id"] = user["school_id"]
         return redirect("/")
