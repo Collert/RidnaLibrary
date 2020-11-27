@@ -41,7 +41,7 @@ def index():
 def login():
     error = False
     if request.method == "POST":
-        token = request.form["idtoken"]
+        token = request.form.get("idtoken")
         try:
             idinfo = id_token.verify_oauth2_token(token, requests.Request(), gclient_id)
 
