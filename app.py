@@ -42,11 +42,20 @@ def login():
     error = False
     if request.method == "POST":
         token = request.form.get("idtoken")
+        print()
+        print(token)
+        print()
         try:
             idinfo = id_token.verify_oauth2_token(token, requests.Request(), gclient_id)
+            print()
+            print(idinfo)
+            print()
 
             # ID token is valid. Get the user's Google Account ID from the decoded token.
             guserid = idinfo['sub']
+            print()
+            print(guserid)
+            print()
         except ValueError:
             # Invalid token
             pass
