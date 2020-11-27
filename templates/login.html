@@ -4,7 +4,7 @@
 {% block google_auth %}
     <meta name="google-signin-client_id" content="{{ google_signin_client_id }}">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <script src="/static/login.js"></script>
+    <script src="/static/login-out.js"></script>
 {% endblock %}
 
 {% block main %}
@@ -16,4 +16,5 @@
         }
     </style>
     <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <a href="#" onclick="signOut();">Sign out</a>
 {% endblock %}
