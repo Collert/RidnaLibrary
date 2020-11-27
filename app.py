@@ -59,7 +59,7 @@ def login():
         except ValueError:
             # Invalid token
             pass
-        user = db.execute("SELECT * FROM users WHERE google_id = (?)", guserid).fetchone()
+        user = db.execute("SELECT * FROM users WHERE google_id = :guserid", {"guserid" : guserid}).fetchone()
         if not user:
             db.execute("INSERT INTO users (first, last, email, google_id) VALUES (?, ?, ?, ?)", idinfo["given_name"], idinfo["family_name"], idinfo["email"], guserid)
             db.commit()
