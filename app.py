@@ -52,7 +52,7 @@ def login():
         if not user:
             user = User(first=idinfo["given_name"], last=idinfo["family_name"], email=idinfo["email"], google_id=guserid, picture=idinfo["picture"])
             db.session.add(user)
-            db.sesssion.commit()
+            db.session.commit()
             user = User.query.filter_by(google_id=guserid).first()
         session["user_id"] = user.school_id
         session["first"] = user.first
