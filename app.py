@@ -20,18 +20,15 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 Session(app)
 
 # Initialise database
-engine = create_engine(os.getenv("DATABASE_URL")) # Push the database url to environment using [export DATABASE_URL="the url"] on MAC/Linux or [set DATABASE_URL="the url"] on Windows
-db = scoped_session(sessionmaker(bind=engine))
-if not os.environ.get("DATABASE_URL"):
-    raise RuntimeError("DATABASE_URL not set")
+db.init_app(app)
 
 # Get Google client ID for sign in button
 gclient_id = os.environ.get("GOOGLE_CLIENT_ID")
-#if not gclient_id:
-#    raise RuntimeError("GOOGLE_CLIENT_ID not set")
 
 @app.route("/")
 def index():
@@ -51,19 +48,21 @@ def login():
         except ValueError:
             # Invalid token
             pass
-        user = db.execute("SELECT * FROM users WHERE google_id = :guserid", {"guserid" : guserid}).fetchone()
+        user = User.query.filter_by(google_id=guserid).first()
         if not user:
-            db.execute("INSERT INTO users (first, last, email, google_id, picture) VALUES (:fname, :lname, :email, :gid, :picture)", {"fname": idinfo["given_name"], "lname": idinfo["family_name"], "email": idinfo["email"], "gid": guserid, "picture": idinfo["picture"]})
-            db.commit()
-            user = db.execute("SELECT * FROM users WHERE google_id = :guserid", {"guserid" : guserid}).fetchone()
-        session["user_id"] = user["school_id"]
-        session["first"] = user["first"]
-        session["last"] = user["last"]
-        session["email"] = user["email"]
-        session["role"] = user["role"]
-        session["pfp"] = user["picture"]
+            user = User(first=idinfo["given_name"], last=idinfo["family_name"], email=idinfo["email"], google_id=guserid, picture=idinfo["picture"])
+            db.session.add(user)
+            db.sesssion.commit()
+            user = User.query.filter_by(google_id=guserid).first()
+        session["user_id"] = user.school_id
+        session["first"] = user.first
+        session["last"] = user.last
+        session["email"] = user.email
+        session["role"] = user.role
+        session["pfp"] = user.picture
         return redirect("/")
     return render_template("login.html", error=error, google_signin_client_id=gclient_id)
 
 if __name__ == "__main__":
-    app.run()
+    with app.app_context():
+        app.run()
