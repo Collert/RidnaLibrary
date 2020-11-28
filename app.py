@@ -42,29 +42,28 @@ def login():
     error = False
     if request.method == "POST":
         token = request.form["idtoken"]
-        print()
-        print(token)
-        print()
         try:
             idinfo = id_token.verify_oauth2_token(token, requests.Request(), gclient_id)
-            print()
-            print(idinfo)
-            print()
 
             # ID token is valid. Get the user's Google Account ID from the decoded token.
             guserid = idinfo['sub']
-            print()
-            print(guserid)
-            print()
         except ValueError:
             # Invalid token
             pass
         user = db.execute("SELECT * FROM users WHERE google_id = :guserid", {"guserid" : guserid}).fetchone()
         if not user:
-            db.execute("INSERT INTO users (first, last, email, google_id) VALUES (:fname, :lname, :email, :gid)", {"fname": idinfo["given_name"], "lname": idinfo["family_name"], "email": idinfo["email"], "gid": guserid})
+            db.execute("INSERT INTO users (first, last, email, google_id, picture) VALUES (:fname, :lname, :email, :gid, :picture)", {"fname": idinfo["given_name"], "lname": idinfo["family_name"], "email": idinfo["email"], "gid": guserid, "picture": idinfo["picture"]})
             db.commit()
             user = db.execute("SELECT * FROM users WHERE google_id = :guserid", {"guserid" : guserid}).fetchone()
         session["user_id"] = user["school_id"]
+        session["first"] = user["first"]
+        session["last"] = user["last"]
+        session["email"] = user["email"]
+        session["role"] = user["role"]
+        session["pfp"] = user["picture"]
+        print()
+        print(session)
+        print()
         return redirect("/")
     return render_template("login.html", error=error, google_signin_client_id=gclient_id)
 
