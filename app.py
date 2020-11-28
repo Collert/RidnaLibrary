@@ -12,6 +12,7 @@ from google.auth.transport import requests
 
 # Custom libraries
 from functions import login_required
+from models import *
 
 # Configure app
 app = Flask(__name__)
@@ -61,9 +62,6 @@ def login():
         session["email"] = user["email"]
         session["role"] = user["role"]
         session["pfp"] = user["picture"]
-        print()
-        print(session)
-        print()
         return redirect("/")
     return render_template("login.html", error=error, google_signin_client_id=gclient_id)
 
