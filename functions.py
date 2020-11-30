@@ -16,3 +16,19 @@ def login_required(f):
             return redirect(url_for('/login', next=request.url))
         return f(*args, **kwargs)
     return decorated_function
+
+def admin_required(f):
+    """
+    Decorate routes to require admin previleges
+
+    Documentation here:
+    http://flask.pocoo.org/docs/1.0/patterns/viewdecorators/
+    """
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get("role") is not "admin":
+            error=True
+            flash("Not enough previleges")
+            return redirect("/")
+        return f(*args, **kwargs)
+    return decorated_function

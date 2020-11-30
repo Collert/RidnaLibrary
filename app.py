@@ -30,7 +30,36 @@ db.init_app(app)
 # Get Google client ID for sign in button
 gclient_id = os.environ.get("GOOGLE_CLIENT_ID")
 
+@app.route("/profile")
+@login_required
+def profile():
+    """Display user's profile"""
+
+@app.route("/search")
+@login_required
+def search():
+    """Lookup a book by criteria"""
+
+@app.route("/board")
+@admin_required
+@login_required
+def board():
+    """Show the library dashboard"""
+
+@app.route("/markout")
+@admin_required
+@login_required
+def markout():
+    """Mark out a book under someone's name"""
+
+@app.route("/students")
+@admin_required
+@login_required
+def students():
+    """Lookup student info"""
+
 @app.route("/")
+@login_required
 def index():
     return render_template("home.html")
 
@@ -62,6 +91,13 @@ def login():
         session["pfp"] = user.picture
         return redirect("/")
     return render_template("login.html", error=error, google_signin_client_id=gclient_id)
+
+@app.route("/logout")
+@login_required
+def logout():
+    """Logout user"""
+    session.clear()
+    return redirect("/login")
 
 if __name__ == "__main__":
     with app.app_context():
