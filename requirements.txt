@@ -4,3 +4,4 @@ gunicorn
 sqlalchemy
 google-api-python-client
 psycopg2
+flask_sqlalchemy

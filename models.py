@@ -1,0 +1,25 @@
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
+
+class User(db.Model):
+    __tablename__="users"
+    school_id = db.Column(db.Integer, primary_key=True)
+    first = db.Column(db.String, nullable=False)
+    last = db.Column(db.String, nullable=False)
+    email = db.Column(db.String, nullable=False)
+    google_id = db.Column(db.String, nullable=False)
+    role = db.Column(db.String, nullable=False, default="student")
+    picture = db.Column(db.String, nullable=False, default="/static/nopic.jpg")
+
+class Book(db.Model):
+    __tablename__="inventory"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    author = db.Column(db.String, nullable=False)
+    cover = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=False)
+    borrowed = db.Column(db.Boolean, nullable=False, default=False)
+    borrowed_by = db.Column(db.Integer, nullable=True, default=None)
+    borrowed_start = db.Column(db.Date, nullable=True, default=None)
+    borrowed_end = db.Column(db.Date, nullable=True, default=None)
