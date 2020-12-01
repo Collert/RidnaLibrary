@@ -18,7 +18,14 @@
         <title>Ridna Library: {% block title %}{% endblock %}</title>
     </head>
     <body>
-        {% include "navbar_admin.html" %}
+        <div id="page-container">
+        <div id="content-wrap">
+        <!--Dropdown menu-->
+        {% if user["role"] == "admin" %}
+            {% include "navbar_admin.html" %}
+        {% else %}
+            {% include "navbar_user.html" %}
+        {% endif %}
         <!-- Notification banner -->
         {% if get_flashed_messages(with_categories = true) %}
             <header>
@@ -37,8 +44,10 @@
         <main class="container p-5">
             {% block main %}{% endblock %}
         </main>
+        </div>
         <footer>
             <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
         </footer>
+    </div>
     </body>
 </html>
