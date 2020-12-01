@@ -150,7 +150,7 @@ def database():
 def students():
     """Lookup student info"""
     error=False
-    if request.method="POST":
+    if request.method == "POST":
         id = int(request.form.get("id"))
         first = request.form.get("first")
         last = request.form.get("last")
@@ -158,7 +158,7 @@ def students():
         if id:
             student = User.query.filter_by(school_id=id).first()
         elif first and last:
-            student = User.query.filter((first=first) & (last=last)).all()
+            student = User.query.filter((first = first) & (last = last)).all()
         elif email:
             student = User.query.filter_by(email=email).first()
         if not student:
