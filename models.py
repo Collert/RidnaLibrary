@@ -21,5 +21,5 @@ class Book(db.Model):
     description = db.Column(db.String, nullable=False)
     borrowed = db.Column(db.Boolean, nullable=False, default=False)
     borrowed_by = db.Column(db.Integer, nullable=True, default=None)
-    borrowed_start = db.Column(db.Date, nullable=True, default=None)
-    borrowed_end = db.Column(db.Date, nullable=True, default=None)
+    borrow_start = db.Column(db.Date, nullable=True, default=None)
+    borrow_end = db.Column(db.Date, nullable=True, default=None)

@@ -1,7 +1,7 @@
 import os
 import datetime
 
-from flask import redirect, render_template, request, session, url_for
+from flask import redirect, render_template, request, session, url_for, flash
 from functools import wraps
 
 def login_required(f):
@@ -14,7 +14,7 @@ def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if session.get("user_id") is None:
-            return redirect(url_for('/login', next=request.url))
+            return redirect('/login')
         return f(*args, **kwargs)
     return decorated_function
 
@@ -26,8 +26,8 @@ def admin_required(f):
     """
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if session.get("role") is not "admin":
-            error=True
+        if session.get("role") != "admin":
+            session["error"]=True
             flash("Not enough previleges")
             return redirect("/")
         return f(*args, **kwargs)

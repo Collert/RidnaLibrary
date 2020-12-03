@@ -3,7 +3,7 @@ import os
 from tempfile import mkdtemp
 
 # Downloaded libraries
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, or_, and_
 from sqlalchemy.orm import scoped_session, sessionmaker
 from flask import Flask, flash, redirect, render_template, request, session, jsonify
 from flask_session import Session
@@ -131,8 +131,8 @@ def back_conf(id):
     book = Book.query.filter_by(id=id).first()
     book.borrowed = False
     book.borrowed_by = None
-    book.borrowed_start = None
-    book.borrowed_end = None
+    book.borrow_start = None
+    book.borrow_end = None
     db.session.commit()
     flash("Return susesful")
     return redirect("/return", error=error)
@@ -158,7 +158,7 @@ def students():
         if id:
             student = User.query.filter_by(school_id=id).first()
         elif first and last:
-            student = User.query.filter((first = first) & (last = last)).all()
+            student = User.query.filter((first == first), (last == last)).all()
         elif email:
             student = User.query.filter_by(email=email).first()
         if not student:
@@ -171,8 +171,9 @@ def students():
 @app.route("/")
 @login_required
 def index():
-    inventory = Book.query.filter_by(borrowed_by=(session["school_id"])).all()
-    return render_template("home.html", user=session, inventory=inventory)
+    error=False
+    inventory = Book.query.filter_by(borrowed_by=session["user_id"]).all()
+    return render_template("home.html", user=session, inventory=inventory, error=error)
 
 # Login route
 @app.route("/login", methods=["GET", "POST"])
@@ -201,7 +202,7 @@ def login():
         session["role"] = user.role
         session["pfp"] = user.picture
         return redirect("/")
-    return render_template("login.html", error=error, google_signin_client_id=gclient_id)
+    return render_template("login.html", error=error, google_signin_client_id=gclient_id, user=session)
 
 @app.route("/logout")
 @login_required
