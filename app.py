@@ -40,17 +40,17 @@ def profile():
 @login_required
 def search():
     """Lookup a book by criteria"""
-    error=False
+    session["error"]=False
     if request.method == "POST":
         query = "%%" + request.form.get("query") + "%%"
         number = int(request.form.get("number"))
         book = Book.query.filter((author == query) | (name == query) | (id == number))
         if not book:
-            error=True
+            session["error"]=True
             flash("Couldn't find the book")
-            return render_template("search.html", error=error, user=session)
-        return render_template("book.html", user=session, book=book, error=error)
-    return render_template("search.html", error=error, user=session)
+            return render_template("search.html", error=session.get("error"), user=session)
+        return render_template("book.html", user=session, book=book, error=session.get("error"))
+    return render_template("search.html", error=session.get("error"), user=session)
 
 @app.route("/board")
 @admin_required
@@ -58,21 +58,21 @@ def search():
 def board():
     """Show the library dashboard"""
     dash = Book.query.filter_by(borrowed=True).all()
-    return render_template("dashboard.html", error=error, user=session, board=dash)
+    return render_template("dashboard.html", error=session.get("error"), user=session, board=dash)
 
 @app.route("/borrow/<int:id>", methods=["GET", "POST"])
 @login_required
 def borrow(id):
     """Borrow a book"""
-    error=False
+    session["error"]=False
     book = Book.query.filter_by(id=id).first()
     if not book:
-        error=True
+        session["error"]=True
         flash("No such book id")
-        return render_template("search.html", error=error)
+        return render_template("search.html", error=session.get("error"))
     if request.method == "POST":
         return redirect(f"/borrowed/{id}")
-    return render_template("borrow.html", user=session, error=error, book=book)
+    return render_template("borrow.html", user=session, error=session.get("error"), book=book)
 
 @app.route("/borrowed/<int:id>", methods=["POST"])
 def borrowed(id):
@@ -93,7 +93,7 @@ def borrowed(id):
 @login_required
 def markout():
     """Mark out a book under someone's name"""
-    error=False
+    session["error"]=False
     if request.method == "POST":
         person = request.form.get("person")
         book = Book.query.filter_by(id=(request.form.get("book"))).first()
@@ -105,29 +105,29 @@ def markout():
         else:
             book.borrowed_end = "2069-04-20"
         db.session.commit()
-        return render_template("borrowed.html", user=session, error=error)
-    return render_template("markout.html", user=session, error=error)
+        return render_template("borrowed.html", user=session, error=session.get("error"))
+    return render_template("markout.html", user=session, error=session.get("error"))
 
 @app.route("/return", methods=["GET", "POST"])
 @admin_required
 @login_required
 def back():
-    error=False
+    session["error"]=False
     if request.method == "POST":
         book = request.form.get("book")
         return redirect(f"/return/{book}")
-    return render_template("return.html", user=session, error=error)
+    return render_template("return.html", user=session, error=session.get("error"))
 
 @app.route("/return/<int:id>", methods=["POST"])
 @admin_required
 @login_required
 def back_conf(id):
     """Submit return to database"""
-    error=False
+    session["error"]=False
     if not id:
         flash("No book id found")
-        error=True
-        return render_template("return.html", error=error, user=session)
+        session["error"]=True
+        return render_template("return.html", error=session.get("error"), user=session)
     book = Book.query.filter_by(id=id).first()
     book.borrowed = False
     book.borrowed_by = None
@@ -135,7 +135,7 @@ def back_conf(id):
     book.borrow_end = None
     db.session.commit()
     flash("Return susesful")
-    return redirect("/return", error=error)
+    return redirect("/return", error=session.get("error"))
 
 @app.route("/db")
 @admin_required
@@ -149,7 +149,7 @@ def database():
 @login_required
 def students():
     """Lookup student info"""
-    error=False
+    session["error"]=False
     if request.method == "POST":
         id = int(request.form.get("id"))
         first = request.form.get("first")
@@ -162,18 +162,17 @@ def students():
         elif email:
             student = User.query.filter_by(email=email).first()
         if not student:
-            error=True
+            session["error"]=True
             flash("No such student found")
-            return render_template("students.html", user=session, error=error)
-        return render_template("student.html", user=session, error=error, student=student)
-    return render_template("students.html", user=session, error=error)
+            return render_template("students.html", user=session, error=session.get("error"))
+        return render_template("student.html", user=session, error=session.get("error"), student=student)
+    return render_template("students.html", user=session, error=session.get("error"))
 
 @app.route("/")
 @login_required
 def index():
-    error=False
     inventory = Book.query.filter_by(borrowed_by=session["user_id"]).all()
-    return render_template("home.html", user=session, inventory=inventory, error=error)
+    return render_template("home.html", user=session, inventory=inventory, error=session.get("error"))
 
 # Login route
 @app.route("/login", methods=["GET", "POST"])

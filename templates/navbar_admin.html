@@ -8,7 +8,7 @@
 
         <ul class="menu-bar">
             <li>
-                <a href="/profile">
+                <a href="/profile" style="color: #c48301;">
                     <div class="icon">
                         <img src="{{ user['pfp'] }}" alt="profile picture">
                     </div>
@@ -42,7 +42,7 @@
             </li>
 
             <li>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfGIrtuNR9FmprYQxWTP_50Sr4gV91-OJwX0SjzFWNQsQ0p0g/viewform">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfGIrtuNR9FmprYQxWTP_50Sr4gV91-OJwX0SjzFWNQsQ0p0g/viewform" target="_blank">
                     <div class="icon">
                         <span class="fas fa-exclamation-circle"></span>
                     </div>
@@ -51,11 +51,11 @@
             </li>
 
             <li>
-                <a href="/logout" onclick="signOut();">
+                <a href="https://www.ridneslovo.ca/">
                     <div class="icon">
-                        <span class="fas fa-sign-out-alt"></span>
+                        <span class="far fa-hand-point-left"></span>
                     </div>
-                Log out </a>
+                Back to website </a>
             </li>
         </ul>
 
@@ -64,43 +64,21 @@
         <ul class="setting-drop">
             <li class="arrow back-setting-btn">
                 <span class="fas fa-arrow-left"></span>
-                Settings & privacy
+                Settings
             </li>
             <li>
-                <a href="#">
+                <a href="#" id="theme-name">
                     <div class="icon">
-                        <span class="fas fa-user"></span>
+                        <span class="fas fa-moon || fas fa-sun" id="theme-icon"></span>
                     </div>
-                Personal info 
-                </a>
+                Dark Theme </a>
             </li>
             <li>
-                <a href="#">
+                <a href="/logout" onclick="signOut();">
                     <div class="icon">
-                        <span class="fas fa-lock"></span></div>
-                Password </a>
-            </li>
-             <li>
-                 <a href="#">
-                    <div class="icon">
-                        <span class="fas fa-address-book"></span></div>
-            Activity log 
-                </a>
-            </li>
-
-            <li>
-                <a href="#">
-                    <div class="icon">
-                        <span class="fas fa-globe-asia"></span></div>
-                    Languages 
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <div class="icon">
-                        <span class="fas fa-sign-out-alt"></span></div>
-                    Log out 
-                </a>
+                        <span class="fas fa-sign-out-alt"></span>
+                    </div>
+                Log out </a>
             </li>
         </ul>
 

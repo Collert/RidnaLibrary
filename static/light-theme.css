@@ -5,24 +5,31 @@
   box-sizing: border-box;
   user-select: none;
   font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
 }
 body{
   overflow: hidden;
+  background-color: #f5f2f0;
 }
+
+/* Dropdown menu */
+
 nav.menu{
-  position: absolute;
-  top: 5%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: -webkit-sticky;
+  position: sticky;
+    top: 10px;
+    left: 50%;
+    transform: translate(-50%, -100%);
+    width: 55px;
 }
 nav .drop-btn{
     width: auto;
-  background: #242526;
+  background: #ffe05f;
   border-radius: 5px;
   line-height: 55px;
   font-size: 20px;
   font-weight: 500;
-  color: #b0b3b8;
+  color: #e89c00;
   padding: 0 20px;
 }
 nav .drop-btn span{
@@ -53,7 +60,7 @@ nav .wrapper{
     width: 319px;
     overflow: hidden;
     border-radius: 5px;
-    background: #242526;
+    background: #ffe05f;
     display: none;
     transition: all 0.3s ease;
 }
@@ -72,7 +79,7 @@ nav .wrapper.show{
 }
 .wrapper ul li a{
   position: relative;
-  color: #b0b3b8;
+  color: #e89c00;
   font-size: 18px;
   font-weight: 500;
   padding: 0 10px;
@@ -82,13 +89,13 @@ nav .wrapper.show{
   text-decoration: none;
 }
 .wrapper ul li:hover a{
-  background: #3A3B3C;
+  background: #f5f2f0;
 }
 ul li a .icon{
   height: 40px;
   width: 40px;
   margin-right: 13px;
-  background: #ffffff1a;
+  background: #ffffff60;
   display: flex;
   justify-content: center;
   text-align: center;
@@ -97,7 +104,7 @@ ul li a .icon{
 ul li a .icon span{
   line-height: 40px;
   font-size: 20px;
-  color: #b0b3b8;
+  color: #e89c00;
 }
 ul li a .icon img{
     max-width: 40px;
@@ -118,7 +125,7 @@ ul li a i {
   padding-left: 10px;
   font-size: 20px;
   font-weight: 500;
-  color: #b0b3b8;
+  color: #c48301;
   cursor: pointer;
 }
 .wrapper .arrow span{
