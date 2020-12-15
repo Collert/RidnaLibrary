@@ -1,23 +1,37 @@
-{% extends "layout.html" %}
+<!DOCTYPE html>
 
-{% block title %}
-Login
-{% endblock %}
+<html lang="en-US">
+    <head>
+        <!-- bootstrap -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--Custom styling-->
+        <link href="/static/images/favicon.png" rel="icon">
+        <link href="/static/light-theme.css" rel="stylesheet" id="theme-link">
+        <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
-<!-- Google authentication tags-->
-{% block google_auth %}
-    <meta name="google-signin-client_id" content="{{ google_signin_client_id }}">
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <script src="/static/login-out.js"></script>
-{% endblock %}
-
-{% block main %}
-    <style>
-        div{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-    </style>
-    <div class="g-signin2" data-onsuccess="onSignIn"></div>
-{% endblock %}
+        <!-- Google authentication tags-->
+        <meta name="google-signin-client_id" content="{{ google_signin_client_id }}">
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <script src="/static/login-out.js"></script>
+        
+        <title>Ridna Library: Login</title>
+    </head>
+    <body>
+        <div id="page-container">
+        <div id="content-wrap">
+        <main class="container p-5">
+            <style>
+                div{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+            </style>
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        </main>
+        </div>
+    </div>
+    </body>
+</html>

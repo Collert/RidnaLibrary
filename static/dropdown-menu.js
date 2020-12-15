@@ -45,6 +45,21 @@ help_btn.onclick = (()=>{
 const btn = document.querySelector("#theme-toggle");
 const theme = document.querySelector("#theme-link");
 const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+const currentTheme = sessionStorage.getItem("theme");
+const body = document.querySelector("body");
+
+window.onload = (() => {
+    if (currentTheme == "dark") {
+        theme.setAttribute("href", "/static/dark-theme.css");
+        btn.innerHTML = "<div class='icon'><span class='fas fa-sun'</span></div>Light theme";
+        body.classList.toggle("preload");
+    }
+    else {
+        theme.setAttribute("href", "/static/light-theme.css");
+        btn.innerHTML = "<div class='icon'><span class='fas fa-moon'</span></div>Dark Theme";
+        body.classList.toggle("preload");
+    }
+});
 
 //if (prefersDarkScheme.matches) {
 //    theme.href = "/static/dark-theme.css";
@@ -64,11 +79,13 @@ btn.addEventListener("click", function() {
       // ...then apply the light theme stylesheet to override those styles
       theme.setAttribute("href", "/static/light-theme.css");
       btn.innerHTML = "<div class='icon'><span class='fas fa-moon'</span></div>Dark Theme";
+      sessionStorage.setItem("theme", "light");
       // Otherwise...
     } 
     else {
       // ...apply the dark theme stylesheet to override the default light styles
       theme.setAttribute("href", "/static/dark-theme.css");
       btn.innerHTML = "<div class='icon'><span class='fas fa-sun'</span></div>Light theme";
+      sessionStorage.setItem("theme", "dark");
     }
   });

@@ -9,6 +9,9 @@ from flask import Flask, flash, redirect, render_template, request, session, jso
 from flask_session import Session
 from google.oauth2 import id_token
 from google.auth.transport import requests
+import psycopg2
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
 # Custom libraries
 from functions import login_required, admin_required, nextSat
@@ -177,7 +180,7 @@ def index():
 # Login route
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    error = False
+    session["error"] = False
     if request.method == "POST":
         token = request.form["idtoken"]
         try:

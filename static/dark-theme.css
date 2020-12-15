@@ -5,13 +5,16 @@
   box-sizing: border-box;
   user-select: none;
   font-family: 'Poppins', sans-serif;
-  transition: all 0.3s ease;
 }
 body{
-  overflow: hidden;
   background-color: #2d2d2d;
-  transition: all 0.3s ease;
   color: #b0b3b8;
+}
+body.preload{
+  transition: all 0.3s ease;
+}
+html {
+  height: 100%;
 }
 
 /* Dropdown menu */
