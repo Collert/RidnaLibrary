@@ -204,7 +204,7 @@ def login():
         session["role"] = user.role
         session["pfp"] = user.picture
         return redirect("/")
-    return render_template("login.html", error=error, google_signin_client_id=gclient_id, user=session)
+    return render_template("login.html", error=session.get("error"), google_signin_client_id=gclient_id, user=session)
 
 @app.route("/logout")
 @login_required
