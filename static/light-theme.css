@@ -9,11 +9,17 @@
 body{
   background-color: #f5f2f0;
 }
+main {
+  text-align: center;
+}
 body.preload{
   transition: all 0.3s ease;
 }
 html {
   height: 100%;
+}
+.card {
+  position: static;
 }
 /* Dropdown menu */
 
@@ -76,6 +82,26 @@ nav .wrapper.show{
   list-style: none;
   padding: 10px;
   transition: all 0.3s ease;
+}
+@media (max-width: 576px){
+  nav .wrapper {
+    left: -263px;
+    top: 75px;
+  }
+  nav.menu {
+    left: 85%;
+    transform: translate(-50%, -140%);
+  }
+}
+@media (max-width: 320px){
+  nav .wrapper {
+    left: -238px;
+    top: 75px;
+  }
+  nav.menu {
+    left: 85%;
+    transform: translate(-50%, -120%);
+  }
 }
 .wrapper ul li{
   line-height: 55px;

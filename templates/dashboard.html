@@ -5,5 +5,152 @@ Dashboard
 {% endblock %}
 
 {% block main %}
-    
+<style>
+  .alignMe b {
+    text-align: right;
+  display: inline-block;
+  width: 50%;
+  position: relative;
+  padding-right: 10px; /* Ensures colon does not overlay the text */
+}
+.alignMe #no {
+  text-align: center;
+}
+.alignMe b::after {
+  content: ":";
+  position: absolute;
+  right: 1px;
+}
+</style>
+    <h1>Borrowed books:</h1>
+    <!--Navigation-->
+    <nav>
+        <div class="nav nav-tabs justify-content-center" id="nav-tab" role="tablist">
+          <a class="nav-link active text-success" id="nav-today-tab" data-bs-toggle="tab" href="#nav-today" role="tab" aria-controls="nav-today" aria-selected="true">Due today</a>
+          <a class="nav-link text-warning" id="nav-soon-tab" data-bs-toggle="tab" href="#nav-soon" role="tab" aria-controls="nav-soon" aria-selected="false">Due soon</a>
+          <a class="nav-link text-danger" id="nav-over-tab" data-bs-toggle="tab" href="#nav-over" role="tab" aria-controls="nav-over" aria-selected="false">Overdue</a>
+          <a class="nav-link" id="nav-later-tab" data-bs-toggle="tab" href="#nav-later" role="tab" aria-controls="nav-later" aria-selected="false">Due later</a>
+        </div>
+      </nav>
+      <div class="tab-content" id="nav-tabContent">
+
+        <!--Due today tab-->
+        <div class="tab-pane fade show active" id="nav-today" role="tabpanel" aria-labelledby="nav-today-tab">
+            {% if today %}
+          <div class="row">
+            {% for book in today %}
+            <div class="col-lg-4 col-md-6 col-sm-10" style="margin-top: 7px; margin-bottom: 7px;">
+            <div class="card border-success" style="width: 18rem;">
+                <img src="/static/images/book-covers/{{book[0].id}}.jpg" class="card-img-top" alt="Cover for {{book[0].name}}">
+                <div class="card-body">
+                  <h5 class="card-title">{{book[0].name}}</h5>
+                  <p class="card-text">{{book[0].description|truncate(100, end=" ...")}}</p>
+                </div>
+                <ul class="list-group list-group-flush alignMe" style="text-align: left;">
+                  <li class="list-group-item" id="no"><b>Borrowed by</b> <br>{{book[1].first}} {{book[1].last}}</li>
+                  <li class="list-group-item"><b>Borrow date</b> {{book[0].borrow_start.strftime("%b %d")}}</li>
+                  <li class="list-group-item"><b>Due date</b> {{book[0].borrow_end.strftime("%b %d")}}</li>
+                </ul>
+                <div class="card-body">
+                  <a href="mailto:{{book[1].email}}" class="card-link text-success">Contact student</a>
+                  <a href="/book/{{book[0].id}}" class="card-link text-success">View book</a>
+                </div>
+              </div>
+              </div>
+              {% endfor %}
+            </div>
+              {% else %}
+              <h1 style="margin: 20px;">No books due today</h1>
+              {% endif %}
+        </div>
+
+        <!--Due soon tab-->
+        <div class="tab-pane fade" id="nav-soon" role="tabpanel" aria-labelledby="nav-soon-tab">
+          {% if soon %}
+          <div class="row">
+            {% for book in soon %}
+            <div class="col-lg-4 col-md-6 col-sm-10" style="margin-top: 7px; margin-bottom: 7px;">
+            <div class="card border-warning" style="width: 18rem;">
+                <img src="/static/images/book-covers/{{book[0].id}}.jpg" class="card-img-top" alt="Cover for {{book[0].name}}">
+                <div class="card-body">
+                  <h5 class="card-title">{{book[0].name}}</h5>
+                  <p class="card-text">{{book[0].description|truncate(100, end=" ...")}}</p>
+                </div>
+                <ul class="list-group list-group-flush alignMe" style="text-align: left;">
+                  <li class="list-group-item" id="no"><b>Borrowed by</b> <br>{{book[1].first}} {{book[1].last}}</li>
+                  <li class="list-group-item"><b>Borrow date</b> {{book[0].borrow_start.strftime("%b %d")}}</li>
+                  <li class="list-group-item"><b>Due date</b> {{book[0].borrow_end.strftime("%b %d")}}</li>
+                </ul>
+                <div class="card-body">
+                  <a href="mailto:{{book[1].email}}" class="card-link text-warning">Contact student</a>
+                  <a href="/book/{{book[0].id}}" class="card-link text-warning">View book</a>
+                </div>
+              </div>
+              </div>
+              {% endfor %}
+            </div>
+              {% else %}
+              <h1 style="margin: 20px;">No books due soon</h1>
+              {% endif %}
+        </div>
+
+        <!--Overdue tab-->
+        <div class="tab-pane fade" id="nav-over" role="tabpanel" aria-labelledby="nav-over-tab">
+          {% if over %}
+          <div class="row">
+            {% for book in over %}
+            <div class="col-lg-4 col-md-6 col-sm-10" style="margin-top: 7px; margin-bottom: 7px;">
+            <div class="card border-danger" style="width: 18rem;">
+                <img src="/static/images/book-covers/{{book[0].id}}.jpg" class="card-img-top" alt="Cover for {{book[0].name}}">
+                <div class="card-body">
+                  <h5 class="card-title">{{book[0].name}}</h5>
+                  <p class="card-text">{{book[0].description|truncate(100, end=" ...")}}</p>
+                </div>
+                <ul class="list-group list-group-flush alignMe" style="text-align: left;">
+                  <li class="list-group-item" id="no"><b>Borrowed by</b> <br>{{book[1].first}} {{book[1].last}}</li>
+                  <li class="list-group-item"><b>Borrow date</b> {{book[0].borrow_start.strftime("%b %d")}}</li>
+                  <li class="list-group-item"><b>Due date</b> {{book[0].borrow_end.strftime("%b %d")}}</li>
+                </ul>
+                <div class="card-body">
+                  <a href="mailto:{{book[1].email}}" class="card-link text-danger">Contact student</a>
+                  <a href="/book/{{book[0].id}}" class="card-link text-danger">View book</a>
+                </div>
+              </div>
+              </div>
+              {% endfor %}
+            </div>
+              {% else %}
+              <h1 style="margin: 20px;">No overdue books</h1>
+              {% endif %}
+        </div>
+
+        <!--Due later tab-->
+        <div class="tab-pane fade" id="nav-later" role="tabpanel" aria-labelledby="nav-later-tab">
+          {% if later %}
+          <div class="row">
+            {% for book in later %}
+            <div class="col-lg-4 col-md-6 col-sm-10" style="margin-top: 7px; margin-bottom: 7px;">
+            <div class="card border-primary" style="width: 18rem;">
+                <img src="/static/images/book-covers/{{book[0].id}}.jpg" class="card-img-top" alt="Cover for {{book[0].name}}">
+                <div class="card-body">
+                  <h5 class="card-title">{{book[0].name}}</h5>
+                  <p class="card-text">{{book[0].description|truncate(100, end=" ...")}}</p>
+                </div>
+                <ul class="list-group list-group-flush alignMe" style="text-align: left;">
+                  <li class="list-group-item" id="no"><b>Borrowed by</b> <br><a href="/profile/{{book[1].id}}">{{book[1].first}} {{book[1].last}}</a></li>
+                  <li class="list-group-item"><b>Borrow date</b> {{book[0].borrow_start.strftime("%b %d")}}</li>
+                  <li class="list-group-item"><b>Due date</b> {{book[0].borrow_end.strftime("%b %d")}}</li>
+                </ul>
+                <div class="card-body">
+                  <a href="mailto:{{book[1].email}}" class="card-link text-primary">Contact student</a>
+                  <a href="/book/{{book[0].id}}" class="card-link text-primary">View book</a>
+                </div>
+              </div>
+              </div>
+              {% endfor %}
+          </div>
+              {% else %}
+              <h1 style="margin: 20px;">No books due later</h1>
+              {% endif %}
+      </div>
 {% endblock %}

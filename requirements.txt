@@ -6,3 +6,4 @@ google-api-python-client
 psycopg2
 flask_sqlalchemy
 sendgrid
+googletrans==3.1.0a0

@@ -27,11 +27,31 @@
                     display: flex;
                     justify-content: center;
                     align-items: center;
+                    text-align: center;
+                }
+                div img,
+                div h3 {
+                    margin: 10px;
+                }
+                div.all{
+                    display: block;
+                    position: relative;
+                    top: -50px;
+                }
+                img {
+                    height: auto;
+                    max-width: 10%;
                 }
             </style>
+        <div class="all">
+            <div>
+                <img src="/static/images/logo.png" alt="Ridne slovo logo">
+            </div>
+            <div><h3>Please sign in</h3></div>
             <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        </div>
         </main>
         </div>
-    </div>
+        </div>
     </body>
 </html>

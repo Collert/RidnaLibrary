@@ -5,5 +5,70 @@ Students
 {% endblock %}
 
 {% block main %}
-    
+<style>
+    form {
+        margin: 15px;
+    }
+</style>
+    <h5>Look up students and information about them using one of the fields below</h5>
+
+<!--Search bar-->
+
+<div class="row">
+<div class="col-md-4">
+    <form method="POST" action="/students" class="row g-3">
+        <div class="col-md-12">
+            <input type="number" class="form-control" required name="id" placeholder="Student number">
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+</div>
+<div class="col-md-4">
+    <form method="POST" action="/students" class="row g-3">
+        <div class="col-md-12">
+            <input type="text" autocomplete="off" class="form-control" required name="first" placeholder="First name">
+        </div>
+        <div class="col-md-12">
+            <input type="text" autocomplete="off" class="form-control" required name="last" placeholder="Last name">
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+</div>
+<div class="col-md-4">
+    <form method="POST" action="/students" class="row g-3">
+        <div class="col-md-12">
+            <input type="text" autocomplete="off" class="form-control" required name="email" placeholder="Email">
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+</div>
+
+</div>
+
+<!--Search results-->
+
+{% if people %}
+<div class="row">
+    {% for person in people %}
+    <div class="col-sm-4" style="margin-top: 7px; margin-bottom: 7px;">
+        <div class="card" style="width: 18rem;">
+            <img src="{{person.picture}}" class="card-img-top" alt="{{person.first}}'s profile picture">
+            <div class="card-body">
+              <h5 class="card-title"><b>{{person.first}} {{person.last}}</b></h5>
+              <p class="card-text">ID: {{person.school_id}}<br>Email: {{person.email}}</p>
+              <a href="/profile/{{person.school_id}}" class="btn btn-primary">Open</a>
+            </div>
+          </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<h1 style="margin: 20px;">No results</h1>
+{% endif %}
 {% endblock %}

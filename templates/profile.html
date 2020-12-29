@@ -1,9 +1,61 @@
 {% extends "layout.html" %}
 
 {% block title %}
-Profile
+{{person.first}} {{person.last}}
 {% endblock %}
 
 {% block main %}
-    
+<script>
+    jQuery(document).ready(function($) {
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
+});
+</script>
+<style>
+    main img {
+        margin: 20px;
+    }
+    th {
+            width: 150px;
+        }
+    th img {
+        width:100%;
+    }
+</style>
+    <img src="{{person.picture}}" style="width: 25%; border-radius: 50%;" alt="{{person.first}}'s profile picture">
+    <h1>{{person.first}} {{person.last}}</h1>
+    <h5 style="text-align: left;"><b>Email:</b> <a href="mailto:{{person.email}}">{{person.email}}</a></h5>
+    <h5 style="text-align: left;"><b>School ID:</b> #{{person.school_id}}</h5>
+    {% if books %}
+        <h3>Borrowed books:</h3>
+        <table class="table table-striped table-hover" name="table">
+            <thead>
+              <tr>
+                <th scope="col"><!--Image--></th>
+                <th scope="col">Book name</th>
+                <th scope="col">Borrow date</th>
+                <th scope="col">Return date</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for book in books %}
+              <tr class='clickable-row' data-href="/book/{{ book.id }}">
+                <th><img src="/static/images/book-covers/{{ book.id }}.jpg" class="rounded float-start"></th>
+                <td><b>{{ book["name"]}}</b></td>
+                <td>{{ book.borrow_start.strftime("%b %d") }}</td>
+                {% if book.borrow_end.strftime("%y/%m/%d") == "69/04/20" %}
+                <td>Unlimited access</td>
+                {% else %}
+                <td>{{ book.borrow_end.strftime("%b %d") }}</td>
+                {% endif %}
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+    {% else %}
+    <br>
+    <h6>This profile info was pulled from your Google account. To edit it, go to your user settings on Google.</h6>
+    <a class="btn btn-primary" href="https://myaccount.google.com/personal-info" role="button">Settings</a>
+    {% endif %}
 {% endblock %}

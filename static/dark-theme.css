@@ -10,13 +10,47 @@ body{
   background-color: #2d2d2d;
   color: #b0b3b8;
 }
+main {
+  text-align: center;
+}
 body.preload{
   transition: all 0.3s ease;
 }
 html {
   height: 100%;
 }
+.table-dark {
+  --bs-table-bg: #2d2d2d;
+  --bs-table-striped-bg: #222425;
+  --bs-table-hover-bg: #4e4f50;
+  --bs-table-striped-color: #b0b3b8;
+  color: #b0b3b8;
+}
 
+.card {
+  background-color: #222425;
+  position: static;
+}
+ul.pagination li a{
+  background-color: #222425;
+  color: #b0b3b8;
+  border-color: #222425;
+}
+.page-item.disabled .page-link{
+  background-color: #222425;
+  border-color: #222425;
+}
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
+  background-color: #222425;
+  border-color: #2d2d2d;
+  color: #b0b3b8;
+}
+.nav-tabs{
+  border-bottom: 1px solid #222425;
+}
+div.card .list-group-item{
+  background-color: #222425;
+}
 /* Dropdown menu */
 
 nav.menu{
@@ -28,7 +62,7 @@ nav.menu{
     width: 55px;
 }
 nav .drop-btn{
-    width: auto;
+  width: auto;
   background: #222425;
   border-radius: 5px;
   line-height: 55px;
@@ -61,7 +95,6 @@ nav .wrapper{
     margin-right: auto;
     left: -135px;
     top: 65px;
-    display: flex;
     width: 319px;
     overflow: hidden;
     border-radius: 5px;
@@ -69,8 +102,27 @@ nav .wrapper{
     display: none;
     transition: all 0.3s ease;
 }
+@media (max-width: 576px){
+  nav .wrapper {
+    left: -263px;
+    top: 75px;
+  }
+  nav.menu {
+    left: 85%;
+    transform: translate(-50%, -140%);
+  }
+}
+@media (max-width: 320px){
+  nav .wrapper {
+    left: -238px;
+    top: 75px;
+  }
+  nav.menu {
+    left: 85%;
+    transform: translate(-50%, -120%);
+  }
+}
 nav .wrapper.show{
-  display: block;
   display: flex;
 }
 .wrapper ul{

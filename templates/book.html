@@ -1,9 +1,98 @@
 {% extends "layout.html" %}
 
 {% block title %}
-Book
+{{ book["name"]}}
 {% endblock %}
 
 {% block main %}
-    
+<style>
+    h1 {
+        font-size: 40px;
+    }
+    main div {
+        margin: 20px;
+    }
+    main div img {
+        max-width: 50%;
+        height: auto;
+        margin-right: 20px;
+    }
+    @media (max-width: 768px){
+        main div img {
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+        }
+    }
+</style>
+    <div style="display: inline-block;">
+        <img src="/static/images/book-covers/{{ book['id'] }}.jpg" class="rounded float-start">
+        <span><h1>{{ book['name'] }}</h1></span>
+        <span>{{ book['description'] }}</span>
+    </div>
+    <div>
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <a class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="false">Information</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link disabled" id="pills-profile-tab" data-bs-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Reviews</a>
+            </li>
+            {% if user.role == "admin" %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle active bg-danger" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Tools</a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item disabled">Edit book</a></li>
+                  {% if book.borrowed %}
+                  <li><a class="dropdown-item text-success" href="/return/{{book.id}}">Return book</a></li>
+                  {% endif %}
+                  <li><hr class="dropdown-divider"></li>
+                  {% if borrower %}
+                  <li><a class="dropdown-item" href="#">Borrowed by: {{borrower.first}} {{borrower.last}}</a></li>
+                  {% else %}
+                  <li><a class="dropdown-item" href="#">Borrowed by: No one</a></li>
+                  {% endif %}
+                </ul>
+              </li>
+            {%endif%}
+        </ul>
+          <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" style="text-align: left;" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+            <ul>
+                <li><b>Author:</b> {{ book.author }}</li>
+                <li><b>Book ID:</b> {{book.id}}</li>
+            </ul>
+            </div>
+            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"><!--TODO--></div>
+          </div>
+    </div>
+    <div>
+        <form action="/borrow/{{ book['id'] }}" method="post">
+            {% if book.borrowed == False %}
+            <div class="col-12">
+                <button type="button" class="btn btn-primary mb-3 btn-lg justify-content-center" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Borrow</button>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Confirm borrow</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Borrow this book?
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Confirm</button>
+                </div>
+                </div>
+            </div>
+            </div>
+            {% else %}
+            <button type="submit" class="btn btn-secondary mb-3 btn-lg" aria-disabled="true" disabled>Already borrowed</button>
+            {%endif%}
+        </form>
+    </div>
 {% endblock %}
