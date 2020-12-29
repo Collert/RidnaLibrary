@@ -2,6 +2,7 @@
 import os
 from tempfile import mkdtemp
 import datetime
+import time
 
 # Downloaded libraries
 from sqlalchemy import create_engine, or_, and_
@@ -270,6 +271,7 @@ def logout():
     """Logout user"""
     flash("Logged out")
     session.clear()
+    time.sleep(2)
     return redirect("/login")
 
 if __name__ == "__main__":
