@@ -137,9 +137,9 @@ Dashboard
                   <p class="card-text">{{book[0].description|truncate(100, end=" ...")}}</p>
                 </div>
                 <ul class="list-group list-group-flush alignMe" style="text-align: left;">
-                  <li class="list-group-item" id="no"><b>Borrowed by</b> <br><a href="/profile/{{book[1].id}}">{{book[1].first}} {{book[1].last}}</a></li>
+                  <li class="list-group-item" id="no"><b>Borrowed by</b> <br><a href="/profile/{{book[1].school_id}}">{{book[1].first}} {{book[1].last}}</a></li>
                   <li class="list-group-item"><b>Borrow date</b> {{book[0].borrow_start.strftime("%b %d")}}</li>
-                  <li class="list-group-item"><b>Due date</b> {{book[0].borrow_end.strftime("%b %d")}}</li>
+                  <li class="list-group-item"><b>Due date</b> {% if book[0].borrow_end.strftime("%y/%m/%d") == "69/04/20" %} Unlimited access {% else %} {{ book[0].borrow_end.strftime("%b %d") }} {% endif %}")}}</li>
                 </ul>
                 <div class="card-body">
                   <a href="mailto:{{book[1].email}}" class="card-link text-primary">Contact student</a>
