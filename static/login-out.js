@@ -1,7 +1,5 @@
 // Sign in function to pass the user info to session
 function onSignIn(googleUser){
-    const goto = document.getElementById("goto");
-    var loggedin = sessionStorage.getItem("loggedin");
     var id_token = googleUser.getAuthResponse().id_token;
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/login'); // Change the url after we move to our subdomain
@@ -11,11 +9,7 @@ function onSignIn(googleUser){
     };
     console.log(id_token);
     xhr.send('idtoken=' + id_token);
-    if (loggedin) {
-        goto.style.display = "block";
-    };
-    sessionStorage.setItem("loggedin", true);
-    window.location.href = "/";
+    setTimeout(function(){window.location.href = "/";}, 5000);
 }
 
 // Logout function
