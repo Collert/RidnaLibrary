@@ -15,6 +15,7 @@ function onSignIn(googleUser){
         goto.style.display = "block";
     };
     sessionStorage.setItem("loggedin", true);
+    window.location.href = "/";
 }
 
 // Logout function
