@@ -13,12 +13,21 @@ Home
 });
 </script>
 <style>
+  @media(min-width: 425px){
     th {
         width: 150px;
     }
-    th img {
+  }
+  th img {
         width:100%;
     }
+  @media(max-width: 425px) {
+    th img{
+      width: auto;
+      height: 65px;
+    }
+  }
+    
     tr {
       cursor: pointer;
     }

@@ -10,7 +10,8 @@
         font-size: 40px;
     }
     main div {
-        margin: 20px;
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
     main div img {
         max-width: 50%;
@@ -24,6 +25,7 @@
         margin-bottom: 20px;
         }
     }
+    
 </style>
     <div style="display: inline-block;">
         <img src="/static/images/book-covers/{{ book['id'] }}.jpg" class="rounded float-start">
@@ -31,8 +33,9 @@
         <span>{{ book['description'] }}</span>
     </div>
     <div>
-        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-            <li class="nav-item" role="presentation">
+        <div class="d-flex align-items-start">
+        <ul class="nav nav-pills mb-3 justify-content-center " style="margin: 5px;" id="pills-tab" role="tablist">
+            <li class="nav-item" style="margin-bottom: 7px;" role="presentation">
               <a class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="false">Information</a>
             </li>
             <li class="nav-item" role="presentation">
@@ -55,7 +58,7 @@
                 </ul>
               </li>
             {%endif%}
-        </ul>
+        </ul></div>
           <div class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade show active" style="text-align: left;" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
             <ul>
@@ -66,7 +69,7 @@
             <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"><!--TODO--></div>
           </div>
     </div>
-    <div>
+    <div class="justify-content-center">
         <form action="/borrow/{{ book['id'] }}" method="post">
             {% if book.borrowed == False %}
             <div class="col-12">

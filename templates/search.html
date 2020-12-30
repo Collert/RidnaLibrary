@@ -42,8 +42,8 @@ Search
 {% if books %}
 <div class="row">
     {% for book in books %}
-    <div class="col-lg-4 col-md-6 col-sm-10" style="margin-top: 7px; margin-bottom: 7px;">
-        <div class="card" style="width: 18rem;">
+    <div class="col-lg-4 col-md-6" style="margin-top: 7px; margin-bottom: 7px;">
+        <div class="card h-100" style="width: 18rem;">
             <img src="/static/images/book-covers/{{ book.id }}.jpg" class="card-img-top" alt="Cover for {{book.name}}">
             <div class="card-body">
               <h5 class="card-title"><b>{{book.name}}</b></h5>
