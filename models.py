@@ -18,7 +18,7 @@ class Book(db.Model):
     name = db.Column(db.String, nullable=False)
     author = db.Column(db.String, nullable=False)
     description = db.Column(db.String, nullable=False)
-    age_group = db.Column(db.string, nullable=False)
+    age_group = db.Column(db.String, nullable=False)
     borrowed = db.Column(db.Boolean, nullable=False, default=False)
     borrowed_by = db.Column(db.Integer, db.ForeignKey("users.school_id"), nullable=True, default=None)
     borrow_start = db.Column(db.Date, nullable=True, default=None)
