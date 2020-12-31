@@ -20,6 +20,7 @@ from functions import login_required, admin_required, nextSat
 from models import *
 
 # Configure app
+translator = Translator()
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["SESSION_FILE_DIR"] = mkdtemp()
