@@ -14,6 +14,7 @@ from google.auth.transport import requests
 import psycopg2
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
+from googletrans import Translator
 
 # Custom libraries
 from functions import login_required, admin_required, nextSat
