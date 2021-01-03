@@ -68,7 +68,7 @@ Search
             <li class="page-item"><a class="page-link" href="/search/{{pagenum-1}}">Previous</a></li>
         {%endif%}
           {% for n in range(qty) %}
-          {% if n == pagenum %}
+          {% if n+1 == pagenum %}
           <li class="page-item active"><a class="page-link" href="/search/{{n+1}}">{{n+1}}</a></li>
           {% else %}
           <li class="page-item"><a class="page-link" href="/search/{{n+1}}">{{n+1}}</a></li>
