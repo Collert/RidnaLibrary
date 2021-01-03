@@ -59,7 +59,7 @@ Search
 {% endif %}
 
 <!--Page selector-->
-
+{% if books %}
     <nav aria-label="Search result pages">
         <ul class="pagination justify-content-center" style="margin: 10px;">
         {% if pagenum == 1 %}
@@ -68,7 +68,11 @@ Search
             <li class="page-item"><a class="page-link" href="/search/{{pagenum-1}}">Previous</a></li>
         {%endif%}
           {% for n in range(qty) %}
+          {% if n == pagenum %}
+          <li class="page-item active"><a class="page-link" href="/search/{{n+1}}">{{n+1}}</a></li>
+          {% else %}
           <li class="page-item"><a class="page-link" href="/search/{{n+1}}">{{n+1}}</a></li>
+          {% endif %}
           {% endfor %}
         {% if pagenum == qty %}
             <li class="page-item disabled"><a class="page-link" href="/search/{{pagenum+1}}">Next</a></li>
@@ -77,4 +81,5 @@ Search
         {%endif%}
         </ul>
     </nav>
+{% endif %}
 {% endblock %}
