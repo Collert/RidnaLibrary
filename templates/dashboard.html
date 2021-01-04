@@ -26,16 +26,61 @@ Dashboard
     <!--Navigation-->
     <nav>
         <div class="nav nav-tabs justify-content-center" id="nav-tab" role="tablist">
-          <a class="nav-link active text-success" id="nav-today-tab" data-bs-toggle="tab" href="#nav-today" role="tab" aria-controls="nav-today" aria-selected="true">Due today</a>
-          <a class="nav-link text-warning" id="nav-soon-tab" data-bs-toggle="tab" href="#nav-soon" role="tab" aria-controls="nav-soon" aria-selected="false">Due soon</a>
+          {% if prep %}
+          <a class="nav-link active text-primary" id="nav-prep-tab" data-bs-toggle="tab" href="#nav-prep" role="tab" aria-controls="nav-prep" aria-selected="true">Prepare for handoff</a>
           <a class="nav-link text-danger" id="nav-over-tab" data-bs-toggle="tab" href="#nav-over" role="tab" aria-controls="nav-over" aria-selected="false">Overdue</a>
-          <a class="nav-link" id="nav-later-tab" data-bs-toggle="tab" href="#nav-later" role="tab" aria-controls="nav-later" aria-selected="false">Due later</a>
+          <a class="nav-link" style="color: rgb(241, 113, 67);" id="nav-today-tab" data-bs-toggle="tab" href="#nav-today" role="tab" aria-controls="nav-today" aria-selected="true">Due today</a>
+          {% else %}
+          <a class="nav-link text-primary" id="nav-prep-tab" data-bs-toggle="tab" href="#nav-prep" role="tab" aria-controls="nav-prep" aria-selected="true">Prepare for handoff</a>
+          <a class="nav-link text-danger" id="nav-over-tab" data-bs-toggle="tab" href="#nav-over" role="tab" aria-controls="nav-over" aria-selected="false">Overdue</a>
+          <a class="nav-link active" style="color: rgb(241, 113, 67);" id="nav-today-tab" data-bs-toggle="tab" href="#nav-today" role="tab" aria-controls="nav-today" aria-selected="true">Due today</a>
+          {% endif %}
+          <a class="nav-link text-warning" id="nav-soon-tab" data-bs-toggle="tab" href="#nav-soon" role="tab" aria-controls="nav-soon" aria-selected="false">Due soon</a>
+          <a class="nav-link text-success" id="nav-later-tab" data-bs-toggle="tab" href="#nav-later" role="tab" aria-controls="nav-later" aria-selected="false">Due later</a>
         </div>
       </nav>
       <div class="tab-content" id="nav-tabContent">
 
+        <!--Prep tab-->
+        {% if prep %}
+        <div class="tab-pane fade show active" id="nav-prep" role="tabpanel" aria-labelledby="nav-prep-tab">
+        {% else %}
+        <div class="tab-pane fade" id="nav-prep" role="tabpanel" aria-labelledby="nav-prep-tab">
+        {% endif %}
+          {% if prep %}
+          <div class="row">
+            {% for book in prep %}
+            <div class="col-lg-4 col-md-6 col-sm-10" style="margin-top: 7px; margin-bottom: 7px;">
+            <div class="card border-primary" style="width: 18rem;">
+                <img src="/static/images/book-covers/{{book[0].id}}.jpg" class="card-img-top" alt="Cover for {{book[0].name}}">
+                <div class="card-body">
+                  <h5 class="card-title">{{book[0].name}}</h5>
+                  <p class="card-text">{{book[0].description|truncate(100, end=" ...")}}</p>
+                </div>
+                <ul class="list-group list-group-flush alignMe" style="text-align: left;">
+                  <li class="list-group-item" id="no"><b>Borrowed by</b> <br><a href="/profile/{{book[1].school_id}}">{{book[1].first}} {{book[1].last}}</a></li>
+                  <li class="list-group-item"><b>Borrow date</b> {{book[0].borrow_start.strftime("%b %d")}}</li>
+                  <li class="list-group-item"><b>Due date</b> {% if book[0].borrow_end.strftime("%y/%m/%d") == "69/04/20" %} Unlimited {% else %} {{ book[0].borrow_end.strftime("%b %d") }} {% endif %}</li>
+                </ul>
+                <div class="card-body">
+                  <a href="mailto:{{book[1].email}}" class="card-link text-primary">Contact student</a>
+                  <a href="/book/{{book[0].id}}" class="card-link text-primary">View book</a>
+                </div>
+              </div>
+              </div>
+              {% endfor %}
+          </div>
+              {% else %}
+              <h1 style="margin: 20px;">No books to prepare</h1>
+              {% endif %}
+        </div>
+
         <!--Due today tab-->
+        {% if not prep %}
         <div class="tab-pane fade show active" id="nav-today" role="tabpanel" aria-labelledby="nav-today-tab">
+        {% else %}
+        <div class="tab-pane fade" id="nav-today" role="tabpanel" aria-labelledby="nav-today-tab">
+        {% endif %}
             {% if today %}
           <div class="row">
             {% for book in today %}
@@ -49,7 +94,7 @@ Dashboard
                 <ul class="list-group list-group-flush alignMe" style="text-align: left;">
                   <li class="list-group-item" id="no"><b>Borrowed by</b> <br>{{book[1].first}} {{book[1].last}}</li>
                   <li class="list-group-item"><b>Borrow date</b> {{book[0].borrow_start.strftime("%b %d")}}</li>
-                  <li class="list-group-item"><b>Due date</b> {{book[0].borrow_end.strftime("%b %d")}}</li>
+                  <li class="list-group-item"><b>Due date</b> {% if book[0].borrow_end.strftime("%y/%m/%d") == "69/04/20" %} Unlimited {% else %} {{ book[0].borrow_end.strftime("%b %d") }} {% endif %}</li>
                 </ul>
                 <div class="card-body">
                   <a href="mailto:{{book[1].email}}" class="card-link text-success">Contact student</a>
@@ -79,7 +124,7 @@ Dashboard
                 <ul class="list-group list-group-flush alignMe" style="text-align: left;">
                   <li class="list-group-item" id="no"><b>Borrowed by</b> <br>{{book[1].first}} {{book[1].last}}</li>
                   <li class="list-group-item"><b>Borrow date</b> {{book[0].borrow_start.strftime("%b %d")}}</li>
-                  <li class="list-group-item"><b>Due date</b> {{book[0].borrow_end.strftime("%b %d")}}</li>
+                  <li class="list-group-item"><b>Due date</b> {% if book[0].borrow_end.strftime("%y/%m/%d") == "69/04/20" %} Unlimited {% else %} {{ book[0].borrow_end.strftime("%b %d") }} {% endif %}</li>
                 </ul>
                 <div class="card-body">
                   <a href="mailto:{{book[1].email}}" class="card-link text-warning">Contact student</a>
@@ -109,7 +154,7 @@ Dashboard
                 <ul class="list-group list-group-flush alignMe" style="text-align: left;">
                   <li class="list-group-item" id="no"><b>Borrowed by</b> <br>{{book[1].first}} {{book[1].last}}</li>
                   <li class="list-group-item"><b>Borrow date</b> {{book[0].borrow_start.strftime("%b %d")}}</li>
-                  <li class="list-group-item"><b>Due date</b> {{book[0].borrow_end.strftime("%b %d")}}</li>
+                  <li class="list-group-item"><b>Due date</b> {% if book[0].borrow_end.strftime("%y/%m/%d") == "69/04/20" %} Unlimited {% else %} {{ book[0].borrow_end.strftime("%b %d") }} {% endif %}</li>
                 </ul>
                 <div class="card-body">
                   <a href="mailto:{{book[1].email}}" class="card-link text-danger">Contact student</a>
@@ -130,7 +175,7 @@ Dashboard
           <div class="row">
             {% for book in later %}
             <div class="col-lg-4 col-md-6 col-sm-10" style="margin-top: 7px; margin-bottom: 7px;">
-            <div class="card border-primary" style="width: 18rem;">
+            <div class="card border-success" style="width: 18rem;">
                 <img src="/static/images/book-covers/{{book[0].id}}.jpg" class="card-img-top" alt="Cover for {{book[0].name}}">
                 <div class="card-body">
                   <h5 class="card-title">{{book[0].name}}</h5>
@@ -139,11 +184,11 @@ Dashboard
                 <ul class="list-group list-group-flush alignMe" style="text-align: left;">
                   <li class="list-group-item" id="no"><b>Borrowed by</b> <br><a href="/profile/{{book[1].school_id}}">{{book[1].first}} {{book[1].last}}</a></li>
                   <li class="list-group-item"><b>Borrow date</b> {{book[0].borrow_start.strftime("%b %d")}}</li>
-                  <li class="list-group-item"><b>Due date</b> {% if book[0].borrow_end.strftime("%y/%m/%d") == "69/04/20" %} Unlimited access {% else %} {{ book[0].borrow_end.strftime("%b %d") }} {% endif %}</li>
+                  <li class="list-group-item"><b>Due date</b> {% if book[0].borrow_end.strftime("%y/%m/%d") == "69/04/20" %} Unlimited {% else %} {{ book[0].borrow_end.strftime("%b %d") }} {% endif %}</li>
                 </ul>
                 <div class="card-body">
-                  <a href="mailto:{{book[1].email}}" class="card-link text-primary">Contact student</a>
-                  <a href="/book/{{book[0].id}}" class="card-link text-primary">View book</a>
+                  <a href="mailto:{{book[1].email}}" class="card-link text-success">Contact student</a>
+                  <a href="/book/{{book[0].id}}" class="card-link text-success">View book</a>
                 </div>
               </div>
               </div>
@@ -152,5 +197,6 @@ Dashboard
               {% else %}
               <h1 style="margin: 20px;">No books due later</h1>
               {% endif %}
+        </div>
       </div>
 {% endblock %}

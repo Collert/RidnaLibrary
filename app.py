@@ -95,7 +95,7 @@ def search(pagenum):
 def board():
     """Show the library dashboard"""
     dash = db.session.query(Book, User).outerjoin(Book, Book.borrowed_by == User.school_id).filter_by(borrowed=True).all()
-    today, later, soon, over = ([] for i in range(4))
+    today, later, soon, over, prep = ([] for i in range(5))
     for book in dash:
         if book[0].borrow_end == datetime.date.today():
             today.append(book)
@@ -103,9 +103,11 @@ def board():
             later.append(book)
         elif book[0].borrow_end < datetime.date.today():
             over.append(book)
+        elif book[0].borrow_start == datetime.date.today():
+            prep.append(book)
         else:
             soon.append(book)
-    return render_template("dashboard.html", error=session.get("error"), user=session, today=today, later=later, soon=soon, over=over)
+    return render_template("dashboard.html", error=session.get("error"), user=session, today=today, later=later, soon=soon, over=over, prep=prep)
 
 @app.route("/borrow/<int:id>", methods=["GET", "POST"])
 @login_required
