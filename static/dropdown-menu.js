@@ -52,6 +52,7 @@ const tables = document.getElementsByName("table");
 window.onload = (() => {
     if (currentTheme == "dark") {
         theme.setAttribute("href", "/static/dark-theme.css");
+        document.querySelector('meta[name="theme-color"]').setAttribute("content", "#2d2d2d");
         btn.innerHTML = "<div class='icon'><span class='fas fa-sun'</span></div>Light theme";
         for (var i=0; i<tables.length; i++) {
             tables[i].classList.add("table-dark");
@@ -61,6 +62,7 @@ window.onload = (() => {
     else {
         theme.setAttribute("href", "/static/light-theme.css");
         btn.innerHTML = "<div class='icon'><span class='fas fa-moon'</span></div>Dark Theme";
+        document.querySelector('meta[name="theme-color"]').setAttribute("content", "#ffe05f");
         for (var i=0; i<tables.length; i++) {
             tables[i].classList.remove("table-dark");
         }
@@ -87,6 +89,7 @@ btn.addEventListener("click", function() {
         theme.setAttribute("href", "/static/light-theme.css");
         btn.innerHTML = "<div class='icon'><span class='fas fa-moon'</span></div>Dark Theme";
         sessionStorage.setItem("theme", "light");
+        document.querySelector('meta[name="theme-color"]').setAttribute("content", "#ffe05f");
         for (var i=0; i<tables.length; i++) {
             tables[i].classList.remove("table-dark");
         }
@@ -97,6 +100,7 @@ btn.addEventListener("click", function() {
         theme.setAttribute("href", "/static/dark-theme.css");
         btn.innerHTML = "<div class='icon'><span class='fas fa-sun'</span></div>Light theme";
         sessionStorage.setItem("theme", "dark");
+        document.querySelector('meta[name="theme-color"]').setAttribute("content", "#2d2d2d");
         for (var i=0; i<tables.length; i++) {
             tables[i].classList.add("table-dark");
         }
