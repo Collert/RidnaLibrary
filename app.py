@@ -278,6 +278,13 @@ def logout():
     time.sleep(2)
     return redirect("/login")
 
+# PWA routes
+
+@app.route('/<path:text>')
+def sw(text):
+    if text.endswith("service-worker.js"):
+        return app.send_static_file('service-worker.js')
+
 if __name__ == "__main__":
     with app.app_context():
         app.run()
