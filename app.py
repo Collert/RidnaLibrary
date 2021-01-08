@@ -15,6 +15,7 @@ import psycopg2
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from googletrans import Translator
+from flask_talisman import Talisman
 
 # Custom libraries
 from functions import login_required, admin_required, nextSat
@@ -23,6 +24,7 @@ from models import *
 # Configure app
 translator = Translator()
 app = Flask(__name__)
+Talisman(app)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
