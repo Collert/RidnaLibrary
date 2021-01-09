@@ -146,7 +146,7 @@ def book(id):
         session["error"]=True
         flash("No such book")
         return render_template("search.html", error=session.get("error"))
-    if Book.borrowed_by:
+    if book.borrowed_by:
         borrower = User.query.filter_by(school_id=Book.borrowed_by).first()
     else:
         borrower=None
