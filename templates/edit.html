@@ -1,0 +1,106 @@
+{% extends "layout.html" %}
+
+{% block title %}
+editing {{ book["name"]}}
+{% endblock %}
+
+{% block main %}
+<style>
+    h1 {
+        font-size: 40px;
+    }
+    main div {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    main div img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+    }
+    form div input {
+        text-align: left;
+    }
+    
+</style>
+    <div class="container">
+        <div class="row">
+            <div class="col-md">
+                <img src="/static/images/book-covers/{{ book['id'] }}.jpg" class="rounded float-start">
+                <form action="/delete/{{book['id']}}">
+                    <div class="col-12">
+                        <button type="button" class="btn btn-danger mb-3 btn-lg justify-content-center" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete Book</button>
+                    </div>
+                <!-- Delete modal -->
+                    <div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Confirm delete</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Delete this book? <br> <b>THIS CANNOT BE UNDONE!</b>
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-danger">Confirm</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md">
+                <form action="/edit/{{ book['id'] }}" method="POST">
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label"><h3>Name</h3></label>
+                        <input class="form-control" id="exampleFormControlInput1" name="name" value="{{ book['name'] }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label"><h3>Author</h3></label>
+                        <input class="form-control" id="exampleFormControlInput1" name="author" value="{{ book['author'] }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label"><h3>Age Group</h3></label>
+                        <select class="form-select" name="age_group" aria-label="Current age group">
+                            <option selected hidden value="{{ book['age_group'] }}">{{ book["age_group"] }}</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label"><h3>ID</h3></label>
+                        <input class="form-control" id="exampleFormControlInput1" disabled value="{{ book['id'] }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlTextarea1" class="form-label"><h3>Description</h3></label>
+                        <textarea class="form-control" rows="3" name="description" id="exampleFormControlTextarea1">{{book['description']}}</textarea>
+                    </div>
+                    <div class="col-12">
+                        <button type="button" class="btn btn-primary mb-3 btn-lg justify-content-center" data-bs-toggle="modal" data-bs-target="#editModal">Submit</button>
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Confirm edit</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Confirm this edit?
+                        </div>
+                        <div class="modal-footer justify-content-center">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Confirm</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -198,6 +198,23 @@ def database():
     """Route admin to database directly"""
     return render_template("database.html", user=session)
 
+@app.route("/edit/<int:id>", methods=["GET", "POST"])
+@admin_required
+@login_required
+def edit(id):
+    """Edit book"""
+    session["error"]=False
+    book = Book.query.filter_by(id=id).first()
+    if request.method == "POST":
+        book.name = request.form.get("name")
+        book.author = request.form.get("author")
+        book.description = request.form.get("description")
+        book.age_group = request.form.get("age_group")
+        db.session.commit()
+        flash("Edit susesful")
+        return redirect(f"/edit/{id}")
+    return render_template("edit.html", error=session.get("error"), user=session, book=book)
+
 @app.route("/students", methods=["GET", "POST"])
 @admin_required
 @login_required
