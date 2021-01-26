@@ -215,6 +215,16 @@ def edit(id):
         return redirect(f"/edit/{id}")
     return render_template("edit.html", error=session.get("error"), user=session, book=book)
 
+@app.route("/delete/<int:id>")
+@admin_required
+@login_required
+def delete(id):
+    """Delete book"""
+    session["error"]=False
+    book = Book.query.filter_by(id=id).first()
+    db.session.delete(book)
+    return redirect("/search")
+
 @app.route("/students", methods=["GET", "POST"])
 @admin_required
 @login_required
