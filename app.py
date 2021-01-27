@@ -35,11 +35,11 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 borrow_period = 21
 Session(app)
-Cloud.config.update = ({
-    'cloud_name':os.environ.get('CLOUDINARY_CLOUD_NAME'),
-    'api_key': os.environ.get('CLOUDINARY_API_KEY'),
-    'api_secret': os.environ.get('CLOUDINARY_API_SECRET')
-})
+cloudinary.config( 
+  cloud_name = "ridna-library", 
+  api_key = "293991876227891", 
+  api_secret = "J-JAEXn7Cnb7pk8E6BBq2XqtbeA" 
+)
 
 # Initialise database
 db.init_app(app)
