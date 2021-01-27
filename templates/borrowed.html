@@ -26,7 +26,11 @@ Borrowed
     }
 </style>
     <div>
-        <img src="/static/images/book-covers/{{ book['id'] }}.jpg">
+        {% if book.image %}
+            <img src="{{ book.image }}" class="rounded float-start">
+        {% else %}
+            <img src="/static/images/nocover.jpg" class="rounded float-start">
+        {% endif %}
         <div><h1>{{ book['name'] }}</h1></div>
         Book borrowed!
     </div><br>

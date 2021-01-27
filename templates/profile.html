@@ -41,7 +41,13 @@
             <tbody>
             {% for book in books %}
               <tr class='clickable-row' data-href="/book/{{ book.id }}">
-                <th><img src="/static/images/book-covers/{{ book.id }}.jpg" class="rounded float-start"></th>
+                <th>
+                  {% if book.image %}
+                      <img src="{{ book.image }}" class="rounded float-start">
+                  {% else %}
+                      <img src="/static/images/nocover.jpg" class="rounded float-start">
+                  {% endif %}
+                </th>
                 <td><b>{{ book["name"]}}</b></td>
                 <td>{{ book.borrow_start.strftime("%b %d") }}</td>
                 {% if book.borrow_end.strftime("%y/%m/%d") == "69/04/20" %}

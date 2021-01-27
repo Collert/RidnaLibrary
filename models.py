@@ -23,3 +23,4 @@ class Book(db.Model):
     borrowed_by = db.Column(db.Integer, db.ForeignKey("users.school_id"), nullable=True, default=None)
     borrow_start = db.Column(db.Date, nullable=True, default=None)
     borrow_end = db.Column(db.Date, nullable=True, default=None)
+    image = db.Column(db.String, nullable=True)

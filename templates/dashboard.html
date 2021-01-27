@@ -52,7 +52,11 @@ Dashboard
             {% for book in prep %}
             <div class="col-lg-4 col-md-6 col-sm-10" style="margin-top: 7px; margin-bottom: 7px;">
             <div class="card border-primary" style="width: 18rem;">
-                <img src="/static/images/book-covers/{{book[0].id}}.jpg" class="card-img-top" alt="Cover for {{book[0].name}}">
+                {% if book[0].image %}
+                  <img src="{{ book[0].image }}" class="card-img-top" alt="Cover for {{book[0].name}}">
+                {% else %}
+                  <img src="/static/images/nocover.jpg" class="card-img-top" alt="Cover for {{book[0].name}}">
+                {% endif %}
                 <div class="card-body">
                   <h5 class="card-title">{{book[0].name}}</h5>
                   <p class="card-text">{{book[0].description|truncate(100, end=" ...")}}</p>
