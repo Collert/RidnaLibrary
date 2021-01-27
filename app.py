@@ -5,21 +5,23 @@ import datetime
 import time
 
 # Downloaded libraries
-from sqlalchemy import create_engine, or_, and_
+from sqlalchemy import create_engine, or_, and_, func
 from sqlalchemy.orm import scoped_session, sessionmaker
-from flask import Flask, flash, redirect, render_template, request, session, jsonify
+from flask import Flask, flash, redirect, render_template, request, session, jsonify, make_response, send_from_directory, url_for
 from flask_session import Session
+from werkzeug.utils import secure_filename
 from google.oauth2 import id_token
 from google.auth.transport import requests
 import psycopg2
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from googletrans import Translator
-from flask_talisman import Talisman
-import cloudinary as Cloud
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Custom libraries
-from functions import login_required, admin_required, nextSat
+from functions import *
 from models import *
 
 # Configure app
@@ -31,6 +33,7 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+borrow_period = 21
 Session(app)
 Cloud.config.update = ({
     'cloud_name':os.environ.get('CLOUDINARY_CLOUD_NAME'),
@@ -135,7 +138,7 @@ def borrow(id):
         book.borrowed_by = session["user_id"]
         book.borrow_start = nextSat()
         if session["role"] == "student":
-            book.borrow_end = book.borrow_start + datetime.timedelta(days=14)
+            book.borrow_end = book.borrow_start + datetime.timedelta(days=borrow_period)
         else:
             book.borrow_end = "2069-04-20"
         db.session.commit()
@@ -197,13 +200,6 @@ def back(id):
     flash("Return susesful")
     return redirect("/board")
 
-@app.route("/db")
-@admin_required
-@login_required
-def database():
-    """Route admin to database directly"""
-    return render_template("database.html", user=session)
-
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
 @admin_required
 @login_required
@@ -221,6 +217,31 @@ def edit(id):
         return redirect(f"/edit/{id}")
     return render_template("edit.html", error=session.get("error"), user=session, book=book)
 
+@app.route("/add", methods=["GET", "POST"])
+@admin_required
+@login_required
+def add():
+    """Add book to the library"""
+    session["error"]=False
+    if request.method == "POST":
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            upload_result = cloudinary.uploader.upload(file)
+            pic = upload_result["url"]
+        else:
+            pic = None
+        book = Book(name=request.form.get("name"), author=request.form.get("author"), description=request.form.get("description"), age_group=request.form.get("age_group"), image=pic)
+        db.session.add(book)
+        db.session.commit()
+        newid = book.id
+        flash("Book added")
+        return redirect(f"/book/{newid}")
+    return render_template("add.html", error=session.get("error"), user=session)
+
 @app.route("/delete/<int:id>")
 @admin_required
 @login_required
@@ -229,6 +250,7 @@ def delete(id):
     session["error"]=False
     book = Book.query.filter_by(id=id).first()
     db.session.delete(book)
+    db.session.commit()
     return redirect("/search")
 
 @app.route("/students", methods=["GET", "POST"])
