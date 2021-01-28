@@ -74,8 +74,8 @@
           </div>
     </div>
     <div class="justify-content-center">
-        <form action="/borrow/{{ book['id'] }}" method="post">
             {% if book.borrowed == False %}
+            <form action="/borrow/{{ book['id'] }}" method="post">
             <div class="col-12">
                 <button type="button" class="btn btn-primary mb-3 btn-lg justify-content-center" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Borrow</button>
             </div>
@@ -97,6 +97,31 @@
                 </div>
             </div>
             </div>
+            </form>
+            {% elif book.borrowed == True and book.borrowed_by == session["user_id"] and book.borrow_start > today %}
+            <form action="/cancel/{{ book['id'] }}">
+            <div class="col-12">
+                <button type="button" class="btn btn-danger mb-3 btn-lg justify-content-center" data-bs-toggle="modal" data-bs-target="#Cancel">Cancel order</button>
+            </div>
+            <!-- Cancel modal -->
+            <div class="modal fade" id="Cancel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Cancel order</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Cancel this order?
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Confirm</button>
+                </div>
+                </div>
+            </div>
+            </div>
+            </form>
             {% else %}
             <button type="submit" class="btn btn-secondary mb-3 btn-lg" aria-disabled="true" disabled>Already borrowed</button>
             {%endif%}

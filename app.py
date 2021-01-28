@@ -33,7 +33,7 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-borrow_period = 21
+borrow_period = 21 # days
 Session(app)
 cloudinary.config( 
   cloud_name = "ridna-library", 
@@ -199,6 +199,29 @@ def back(id):
     db.session.commit()
     flash("Return susesful")
     return redirect("/board")
+
+@app.route("/cancel/<int:id>")
+@login_required
+def cancel(id):
+    """Cancel upcoming book"""
+    session["error"]=False
+    book = Book.query.filter_by(id=id).first()
+    if book.borrowed_by == session["user_id"] and book.borrow_start > datetime.date.today():
+        book.borrowed = False
+        book.borrowed_by = None
+        book.borrow_start = None
+        book.borrow_end = None
+        db.session.commit()
+        flash("Order canceled")
+        return redirect("/")
+    elif book.borrowed_by == session["user_id"] and book.borrow_start <= datetime.date.today():
+        session["error"]=True
+        flash("You can cancel only upcoming books")
+        return redirect("/")
+    else:
+        session["error"]=True
+        flash("You didn't borrow this book")
+        return redirect("/")
 
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
 @admin_required

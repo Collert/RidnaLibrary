@@ -42,7 +42,7 @@ def nextSat():
         saturday = today + datetime.timedelta( (5-today.weekday()) % 7 )
         return saturday
 
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 def allowed_file(filename):
     return '.' in filename and \
