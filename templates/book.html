@@ -40,24 +40,24 @@
         <div class="d-flex align-items-lg-start justify-content-center justify-content-lg-start">
         <ul class="nav nav-pills mb-3 justify-content-center " style="margin: 5px;" id="pills-tab" role="tablist">
             <li class="nav-item" style="margin-bottom: 7px;" role="presentation">
-              <a class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="false">Information</a>
+              <a class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="false">Інформація</a>
             </li>
             <li class="nav-item" role="presentation">
-              <a class="nav-link disabled" id="pills-profile-tab" data-bs-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Reviews</a>
+              <a class="nav-link disabled" id="pills-profile-tab" data-bs-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Відгуки</a>
             </li>
             {% if user.role == "admin" %}
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle active bg-danger" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Tools</a>
+                <a class="nav-link dropdown-toggle active bg-danger" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Опції</a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="/edit/{{book.id}}">Edit book</a></li>
+                  <li><a class="dropdown-item" href="/edit/{{book.id}}">Редагувати книгу</a></li>
                   {% if book.borrowed %}
-                  <li><a class="dropdown-item text-success" href="/return/{{book.id}}">Return book</a></li>
+                  <li><a class="dropdown-item text-success" href="/return/{{book.id}}">Повернути книгу</a></li>
                   {% endif %}
                   <li><hr class="dropdown-divider"></li>
                   {% if borrower %}
-                  <li><a class="dropdown-item" href="#">Borrowed by: {{borrower.first}} {{borrower.last}}</a></li>
+                  <li><a class="dropdown-item" href="/profile/{{borrower.school_id}}">Позичено: {{borrower.first}} {{borrower.last}}</a></li>
                   {% else %}
-                  <li><a class="dropdown-item" href="#">Borrowed by: No one</a></li>
+                  <li><a class="dropdown-item" href="#">Позичено: Ніким</a></li>
                   {% endif %}
                 </ul>
               </li>
@@ -66,8 +66,8 @@
           <div class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade show active" style="text-align: left;" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
             <ul>
-                <li><b>Author:</b> {{ book.author }}</li>
-                <li><b>Book ID:</b> {{book.id}}</li>
+                <li><b>Автор:</b> {{ book.author }}</li>
+                <li><b>ID книги:</b> {{book.id}}</li>
             </ul>
             </div>
             <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"><!--TODO--></div>
@@ -77,53 +77,53 @@
             {% if book.borrowed == False %}
             <form action="/borrow/{{ book['id'] }}" method="post">
             <div class="col-12">
-                <button type="button" class="btn btn-primary mb-3 btn-lg justify-content-center" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Borrow</button>
+                <button type="button" class="btn btn-primary mb-3 btn-lg justify-content-center" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Позичити</button>
             </div>
             <!-- Modal -->
             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Confirm borrow</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Позичити книгу</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Borrow this book?
+                    Позичити цю книгу?
                 </div>
                 <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Confirm</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Відмінити</button>
+                    <button type="submit" class="btn btn-primary">Підтвердити</button>
                 </div>
                 </div>
             </div>
             </div>
             </form>
-            {% elif book.borrowed == True and book.borrowed_by == session["user_id"] and book.borrow_start > today %}
+            {% elif book.borrowed == True and book.borrowed_by == session["school_id"] and book.borrow_start > today %}
             <form action="/cancel/{{ book['id'] }}">
             <div class="col-12">
-                <button type="button" class="btn btn-danger mb-3 btn-lg justify-content-center" data-bs-toggle="modal" data-bs-target="#Cancel">Cancel order</button>
+                <button type="button" class="btn btn-danger mb-3 btn-lg justify-content-center" data-bs-toggle="modal" data-bs-target="#Cancel">Відмінити замовлення</button>
             </div>
             <!-- Cancel modal -->
             <div class="modal fade" id="Cancel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Cancel order</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Відмінити замовлення</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Cancel this order?
+                    Відмінити це замовлення?
                 </div>
                 <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Confirm</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Відмінити</button>
+                    <button type="submit" class="btn btn-primary">Підтвердити</button>
                 </div>
                 </div>
             </div>
             </div>
             </form>
             {% else %}
-            <button type="submit" class="btn btn-secondary mb-3 btn-lg" aria-disabled="true" disabled>Already borrowed</button>
+            <button type="submit" class="btn btn-secondary mb-3 btn-lg" aria-disabled="true" disabled>Книга вже позичена</button>
             {%endif%}
         </form>
     </div>

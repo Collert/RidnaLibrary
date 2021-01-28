@@ -10,7 +10,7 @@ Students
         margin: 15px;
     }
 </style>
-    <h5>Look up students and information about them using one of the fields below</h5>
+    <h5>Шукайте клієнтів і їх інформацію за формою нижче</h5>
 
 <!--Search bar-->
 
@@ -18,23 +18,23 @@ Students
 <div class="col-md-4">
     <form method="POST" action="/students" class="row g-3">
         <div class="col-md-12">
-            <input type="number" class="form-control" required name="id" placeholder="Student number">
+            <input type="number" class="form-control" required name="id" placeholder="ID клієнта">
         </div>
         <div class="col-12">
-            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="submit" class="btn btn-primary">Пошук</button>
         </div>
     </form>
 </div>
 <div class="col-md-4">
     <form method="POST" action="/students" class="row g-3">
         <div class="col-md-12">
-            <input type="text" autocomplete="off" class="form-control" required name="first" placeholder="First name">
+            <input type="text" autocomplete="off" class="form-control" required name="first" placeholder="Ім'я">
         </div>
         <div class="col-md-12">
-            <input type="text" autocomplete="off" class="form-control" required name="last" placeholder="Last name">
+            <input type="text" autocomplete="off" class="form-control" required name="last" placeholder="Прізвище">
         </div>
         <div class="col-12">
-            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="submit" class="btn btn-primary">Пошук</button>
         </div>
     </form>
 </div>
@@ -44,7 +44,7 @@ Students
             <input type="text" autocomplete="off" class="form-control" required name="email" placeholder="Email">
         </div>
         <div class="col-12">
-            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="submit" class="btn btn-primary">Пошук</button>
         </div>
     </form>
 </div>
@@ -62,13 +62,13 @@ Students
             <div class="card-body">
               <h5 class="card-title"><b>{{person.first}} {{person.last}}</b></h5>
               <p class="card-text">ID: {{person.school_id}}<br>Email: {{person.email}}</p>
-              <a href="/profile/{{person.school_id}}" class="btn btn-primary">Open</a>
+              <a href="/profile/{{person.school_id}}" class="btn btn-primary">Переглянути</a>
             </div>
           </div>
     </div>
     {% endfor %}
 </div>
 {% else %}
-<h1 style="margin: 20px;">No results</h1>
+<h1 style="margin: 20px;">Нікого не знайдено</h1>
 {% endif %}
 {% endblock %}

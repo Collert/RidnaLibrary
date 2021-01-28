@@ -53,7 +53,7 @@ window.onload = (() => {
     if (currentTheme == "dark") {
         theme.setAttribute("href", "/static/dark-theme.css");
         document.querySelector('meta[name="theme-color"]').setAttribute("content", "#2d2d2d");
-        btn.innerHTML = "<div class='icon'><span class='fas fa-sun'</span></div>Light theme";
+        btn.innerHTML = "<div class='icon'><span class='fas fa-sun'</span></div>Світла тема";
         for (var i=0; i<tables.length; i++) {
             tables[i].classList.add("table-dark");
         }
@@ -61,7 +61,7 @@ window.onload = (() => {
     }
     else {
         theme.setAttribute("href", "/static/light-theme.css");
-        btn.innerHTML = "<div class='icon'><span class='fas fa-moon'</span></div>Dark Theme";
+        btn.innerHTML = "<div class='icon'><span class='fas fa-moon'</span></div>Темна тема";
         document.querySelector('meta[name="theme-color"]').setAttribute("content", "#ffe05f");
         for (var i=0; i<tables.length; i++) {
             tables[i].classList.remove("table-dark");
@@ -87,7 +87,7 @@ btn.addEventListener("click", function() {
     if (theme.getAttribute("href") === "/static/dark-theme.css") {
         // ...then apply the light theme stylesheet to override those styles
         theme.setAttribute("href", "/static/light-theme.css");
-        btn.innerHTML = "<div class='icon'><span class='fas fa-moon'</span></div>Dark Theme";
+        btn.innerHTML = "<div class='icon'><span class='fas fa-moon'</span></div>Темна тема";
         sessionStorage.setItem("theme", "light");
         document.querySelector('meta[name="theme-color"]').setAttribute("content", "#ffe05f");
         for (var i=0; i<tables.length; i++) {
@@ -98,7 +98,7 @@ btn.addEventListener("click", function() {
     else {
         // ...apply the dark theme stylesheet to override the default light styles
         theme.setAttribute("href", "/static/dark-theme.css");
-        btn.innerHTML = "<div class='icon'><span class='fas fa-sun'</span></div>Light theme";
+        btn.innerHTML = "<div class='icon'><span class='fas fa-sun'</span></div>Світла тема";
         sessionStorage.setItem("theme", "dark");
         document.querySelector('meta[name="theme-color"]').setAttribute("content", "#2d2d2d");
         for (var i=0; i<tables.length; i++) {

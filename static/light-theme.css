@@ -1,10 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans&display=swap');
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   user-select: none;
   font-family: 'Poppins', sans-serif;
+  font-family: 'Balsamiq Sans', cursive;
 }
 body{
   background-color: #f5f2f0;
@@ -26,10 +28,10 @@ html {
 nav.menu{
   position: -webkit-sticky;
   position: sticky;
-    top: 10px;
-    left: 50%;
-    transform: translate(-50%, -100%);
-    width: 55px;
+  top: 10px;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  width: 55px;
 }
 nav .drop-btn{
     width: auto;

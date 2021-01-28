@@ -89,7 +89,7 @@ def search(pagenum):
             return redirect(f"/book/{number}")
         if not books:
             session["error"]=True
-            flash("Couldn't find the book")
+            flash("Книги не знайдено")
             qty = 1
             return render_template("search.html", error=session.get("error"), user=session)
         return render_template("search.html", user=session, books=curpage, qty=qty, pagenum=pagenum, error=session.get("error"))
@@ -127,15 +127,15 @@ def borrow(id):
     book = Book.query.filter_by(id=id).first()
     if not book:
         session["error"]=True
-        flash("No such book id")
+        flash("Не існує книги з таким id")
         return render_template("search.html", error=session.get("error"))
     if request.method == "POST":
         if book.borrowed == True:
             session["error"] = True
-            flash("There was an error")
+            flash("Виникла помилка")
             return redirect(f"/book/{id}")
         book.borrowed = True
-        book.borrowed_by = session["user_id"]
+        book.borrowed_by = session["school_id"]
         book.borrow_start = nextSat()
         if session["role"] == "student":
             book.borrow_end = book.borrow_start + datetime.timedelta(days=borrow_period)
@@ -153,7 +153,7 @@ def book(id):
     book = Book.query.filter_by(id=id).first()
     if not book:
         session["error"]=True
-        flash("No such book")
+        flash("Книги не знайдено")
         return render_template("search.html", error=session.get("error"))
     if book.borrowed_by:
         borrower = User.query.filter_by(school_id=Book.borrowed_by).first()
@@ -188,7 +188,7 @@ def back(id):
     """Submit return to database"""
     session["error"]=False
     if not id:
-        flash("No book id found")
+        flash("Не існує книги з таким id")
         session["error"]=True
         return render_template("search.html", error=session.get("error"), user=session)
     book = Book.query.filter_by(id=id).first()
@@ -197,7 +197,7 @@ def back(id):
     book.borrow_start = None
     book.borrow_end = None
     db.session.commit()
-    flash("Return susesful")
+    flash("Книгу повернено")
     return redirect("/board")
 
 @app.route("/cancel/<int:id>")
@@ -206,21 +206,21 @@ def cancel(id):
     """Cancel upcoming book"""
     session["error"]=False
     book = Book.query.filter_by(id=id).first()
-    if book.borrowed_by == session["user_id"] and book.borrow_start > datetime.date.today():
+    if book.borrowed_by == session["school_id"] and book.borrow_start > datetime.date.today():
         book.borrowed = False
         book.borrowed_by = None
         book.borrow_start = None
         book.borrow_end = None
         db.session.commit()
-        flash("Order canceled")
+        flash("Замовлення скасовано")
         return redirect("/")
-    elif book.borrowed_by == session["user_id"] and book.borrow_start <= datetime.date.today():
+    elif book.borrowed_by == session["school_id"] and book.borrow_start <= datetime.date.today():
         session["error"]=True
-        flash("You can cancel only upcoming books")
+        flash("Ви можете скасувати тільки не видані книги")
         return redirect("/")
     else:
         session["error"]=True
-        flash("You didn't borrow this book")
+        flash("Ви не позичали цю книгу")
         return redirect("/")
 
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
@@ -236,7 +236,7 @@ def edit(id):
         book.description = request.form.get("description")
         book.age_group = request.form.get("age_group")
         db.session.commit()
-        flash("Edit susesful")
+        flash("Редагування успішне")
         return redirect(f"/edit/{id}")
     return render_template("edit.html", error=session.get("error"), user=session, book=book)
 
@@ -261,7 +261,7 @@ def add():
         db.session.add(book)
         db.session.commit()
         newid = book.id
-        flash("Book added")
+        flash("Книгу додано")
         return redirect(f"/book/{newid}")
     return render_template("add.html", error=session.get("error"), user=session)
 
@@ -298,7 +298,7 @@ def students():
             return redirect(f"/profile/{id}")
         if not people:
             session["error"]=True
-            flash("Couldn't find the person")
+            flash("Людини не знайдено")
             return render_template("students.html", error=session.get("error"), user=session)
         return render_template("students.html", user=session, people=people, error=session.get("error"))
     else:
@@ -309,7 +309,7 @@ def students():
 @login_required
 def index():
     today = datetime.date.today()
-    inventory = Book.query.filter_by(borrowed_by=session["user_id"]).all()
+    inventory = Book.query.filter_by(borrowed_by=session["school_id"]).all()
     upcoming = []
     borrowed = []
     for book in inventory:
@@ -339,7 +339,7 @@ def login():
             db.session.add(user)
             db.session.commit()
             user = User.query.filter_by(google_id=guserid).first()
-        session["user_id"] = user.school_id
+        session["school_id"] = user.school_id
         session["first"] = user.first
         session["last"] = user.last
         session["email"] = user.email
@@ -352,7 +352,7 @@ def login():
 @login_required
 def logout():
     """Logout user"""
-    flash("Logged out")
+    flash("Сессія завершена")
     session.clear()
     time.sleep(2)
     return redirect("/login")

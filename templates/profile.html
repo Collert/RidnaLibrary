@@ -33,9 +33,9 @@
             <thead>
               <tr>
                 <th scope="col"><!--Image--></th>
-                <th scope="col">Book name</th>
-                <th scope="col">Borrow date</th>
-                <th scope="col">Return date</th>
+                <th scope="col">Назва книги</th>
+                <th scope="col">Дата позичання</th>
+                <th scope="col">Дата повернення</th>
               </tr>
             </thead>
             <tbody>
@@ -61,7 +61,7 @@
           </table>
     {% else %}
     <br>
-    <h6>This profile info was pulled from your Google account. To edit it, go to your user settings on Google.</h6>
-    <a class="btn btn-primary" href="https://myaccount.google.com/personal-info" role="button">Settings</a>
+    <h6>Ця інформація була представлена нам з вашого профілю Google. Її можна редагувати у ваших налаштуваннях Google.</h6>
+    <a class="btn btn-primary" href="https://myaccount.google.com/personal-info" role="button">Налаштування</a>
     {% endif %}
 {% endblock %}

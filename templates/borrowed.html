@@ -28,7 +28,9 @@ Borrowed
 </div>
     <div>
         <div><h1>{{ book['name'] }}</h1></div>
-        Book borrowed!
+        Книгу позичено!<br>
+        Забрати її можна за адресою: <b>502 5th Avenue, New Westminster</b><br>
+        Не скоріше ніж: {{book.borrow_start.strftime("%b %d")}}
     </div><br>
-    <a role="button" class="btn btn-primary btn-lg" href="/">Go home</a>
+    <a role="button" class="btn btn-primary btn-lg" href="/">Зрозуміло</a>
 {% endblock %}
