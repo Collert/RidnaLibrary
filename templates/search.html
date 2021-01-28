@@ -15,17 +15,50 @@ Search
 <!--Search bar-->
 
 <div class="row">
-<div class="col-md-6">
+<div class="col-md-9">
     <form method="POST" action="/search/1" class="row g-3">
         <div class="col-md-12">
-            <input type="text" autocomplete="off" class="form-control" required name="query" placeholder="Назва книги / Автор">
+            <input type="text" autocomplete="off" class="form-control" name="query" placeholder="Назва книги / Автор">
+        </div>
+        <div class="col-2">
+            Вікові категорії:
+        </div>
+        <div class="form-check col-1">
+            <input class="form-check-input" type="checkbox" name="age-group" value="C" id="c-check" checked>
+            <label class="form-check-label" for="c-check">
+              C
+            </label>
+        </div>
+        <div class="form-check col-1">
+            <input class="form-check-input" type="checkbox" name="age-group" value="CT" id="ct-check" checked>
+            <label class="form-check-label" for="ct-check">
+              CT
+            </label>
+        </div>
+        <div class="form-check col-1">
+            <input class="form-check-input" type="checkbox" name="age-group" value="T" id="t-check" checked>
+            <label class="form-check-label" for="t-check">
+              T
+            </label>
+        </div>
+        <div class="form-check col-1">
+            <input class="form-check-input" type="checkbox" name="age-group" value="TA" id="ta-check" checked>
+            <label class="form-check-label" for="ta-check">
+              TA
+            </label>
+        </div>
+        <div class="form-check col-1">
+            <input class="form-check-input" type="checkbox" name="age-group" value="A" id="a-check" checked>
+            <label class="form-check-label" for="a-check">
+              A
+            </label>
         </div>
         <div class="col-12">
             <button type="submit" class="btn btn-primary">Пошук</button>
         </div>
     </form>
 </div>
-<div class="col-md-6">
+<div class="col-md-3">
     <form method="POST" action="/search/1" class="row g-3">
         <div class="col-md-12">
             <input type="number" class="form-control" required name="number" placeholder="ID книги">

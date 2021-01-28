@@ -72,25 +72,29 @@ def search(pagenum):
     """Lookup a book by criteria"""
     session["error"]=False
     if request.method == "POST":
-        if request.form.get("query"):
-            query = request.form.get("query")
-            query = translator.translate(query, dest="uk")
-            query = query.text
-            query = "%{}%".format(query)
-            query.strip()
-            books = Book.query.filter(Book.author.ilike(query)).all()
-            byname = Book.query.filter(Book.name.ilike(query)).all()
-            for book in byname:
-                books.append(book)
-            qty = int(len(books)/15)+1
-            curpage = books[((pagenum-1)*15):((pagenum*15)-1)]
-        else:
+        if request.form.get("number"):
             number = int(request.form.get("number"))
             return redirect(f"/book/{number}")
+        else:
+            query = request.form.get("query")
+            age = request.form.getlist("age-group")
+            if query:
+                query = translator.translate(query, dest="uk")
+                query = query.text
+                query = "%{}%".format(query)
+                query.strip()
+                books = Book.query.filter(Book.author.ilike(query)).all()
+                byname = Book.query.filter(Book.name.ilike(query)).all()
+                for book in byname:
+                    books.append(book)
+            else:
+                books = Book.query.all()
+            books = [book for book in books if book.age_group in age]
+            qty = int(len(books)/15)+1
+            curpage = books[((pagenum-1)*15):((pagenum*15)-1)]
         if not books:
             session["error"]=True
             flash("Книги не знайдено")
-            qty = 1
             return render_template("search.html", error=session.get("error"), user=session)
         return render_template("search.html", user=session, books=curpage, qty=qty, pagenum=pagenum, error=session.get("error"))
     else:
@@ -156,7 +160,7 @@ def book(id):
         flash("Книги не знайдено")
         return render_template("search.html", error=session.get("error"))
     if book.borrowed_by:
-        borrower = User.query.filter_by(school_id=Book.borrowed_by).first()
+        borrower = User.query.filter_by(school_id=book.borrowed_by).first()
     else:
         borrower=None
     return render_template("book.html", user=session, error=session.get("error"), book=book, borrower=borrower)    
