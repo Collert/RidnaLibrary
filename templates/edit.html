@@ -69,9 +69,11 @@ editing {{ book["name"]}}
                         <label for="exampleFormControlInput1" class="form-label"><h3>Вікова категорія</h3></label>
                         <select class="form-select" name="age_group" aria-label="Current age group">
                             <option selected hidden value="{{ book['age_group'] }}">{{ book["age_group"] }}</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                            <option value="C">C (Для наймолодших)</option>
+                            <option value="CT">CT (Для старших дітей)</option>
+                            <option value="T">T (Для підлітків до 16-ти)</option>
+                            <option value="TA">TA (Для підлітків 16+)</option>
+                            <option value="A">A (Для дорослих 19+)</option>
                         </select>
                     </div>
                     <div class="mb-3">
