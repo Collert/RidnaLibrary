@@ -163,7 +163,7 @@ def book(id):
         borrower = User.query.filter_by(school_id=book.borrowed_by).first()
     else:
         borrower=None
-    return render_template("book.html", user=session, error=session.get("error"), book=book, borrower=borrower)    
+    return render_template("book.html", user=session, error=session.get("error"), book=book, borrower=borrower, today=datetime.date.today())    
 
 @app.route("/markout", methods=["GET", "POST"])
 @admin_required
