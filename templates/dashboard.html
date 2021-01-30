@@ -29,7 +29,7 @@ Dashboard
           {% if prep %}
           <a class="nav-link active text-primary" id="nav-prep-tab" data-bs-toggle="tab" href="#nav-prep" role="tab" aria-controls="nav-prep" aria-selected="true">Приготувати до видачі</a>
           <a class="nav-link text-danger" id="nav-over-tab" data-bs-toggle="tab" href="#nav-over" role="tab" aria-controls="nav-over" aria-selected="false">Запізнені</a>
-          <a class="nav-link" style="color: rgb(241, 113, 67);" id="nav-today-tab" data-bs-toggle="tab" href="#nav-today" role="tab" aria-controls="nav-today" aria-selected="true">До здачі сьогодні</a>
+          <a class="nav-link" style="color: #f17143;" id="nav-today-tab" data-bs-toggle="tab" href="#nav-today" role="tab" aria-controls="nav-today" aria-selected="true">До здачі сьогодні</a>
           {% else %}
           <a class="nav-link text-primary" id="nav-prep-tab" data-bs-toggle="tab" href="#nav-prep" role="tab" aria-controls="nav-prep" aria-selected="true">Приготувати до видачі</a>
           <a class="nav-link text-danger" id="nav-over-tab" data-bs-toggle="tab" href="#nav-over" role="tab" aria-controls="nav-over" aria-selected="false">Запізнені</a>
@@ -89,7 +89,7 @@ Dashboard
           <div class="row">
             {% for book in today %}
             <div class="col-lg-4 col-md-6 col-sm-10" style="margin-top: 7px; margin-bottom: 7px;">
-            <div class="card border-success" style="width: 18rem;">
+            <div class="card border-success" style="width: 18rem; border-color: #f17143!important;">
                 <img src="{{ book[0].image }}" class="card-img-top" alt="Cover for {{book[0].name}}">
                 <div class="card-body">
                   <h5 class="card-title">{{book[0].name}}</h5>
@@ -101,8 +101,8 @@ Dashboard
                   <li class="list-group-item"><b>До здачі</b> {% if book[0].borrow_end.strftime("%y/%m/%d") == "69/04/20" %} Unlimited {% else %} {{ book[0].borrow_end.strftime("%b %d") }} {% endif %}</li>
                 </ul>
                 <div class="card-body">
-                  <a href="mailto:{{book[1].email}}" class="card-link text-success">Звязатися</a>
-                  <a href="/book/{{book[0].id}}" class="card-link text-success">Переглянути книгу</a>
+                  <a href="mailto:{{book[1].email}}" class="card-link" style="color: #f17143!important;">Звязатися</a>
+                  <a href="/book/{{book[0].id}}" class="card-link" style="color: #f17143!important;">Переглянути книгу</a>
                 </div>
               </div>
               </div>
