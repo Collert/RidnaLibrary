@@ -117,10 +117,10 @@ def board():
             later.append(book)
         elif book[0].borrow_end < datetime.date.today():
             over.append(book)
-        elif book[0].borrow_start == datetime.date.today():
-            prep.append(book)
         else:
             soon.append(book)
+        if book[0].borrow_start == datetime.date.today():
+            prep.append(book)
     return render_template("dashboard.html", error=session.get("error"), user=session, today=today, later=later, soon=soon, over=over, prep=prep)
 
 @app.route("/borrow/<int:id>", methods=["GET", "POST"])
