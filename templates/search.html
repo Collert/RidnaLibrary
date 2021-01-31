@@ -16,7 +16,7 @@ Search
 
 <div class="row">
 <div class="col-md-9">
-    <form method="POST" action="/search/1" class="row g-3">
+    <form method="POST" action="/search" class="row g-3">
         <div class="col-md-12">
             <input type="text" autocomplete="off" class="form-control" name="query" placeholder="Назва книги / Автор">
         </div>
@@ -74,7 +74,7 @@ Search
 
 {% if books %}
 <div class="row">
-    {% for book in books %}
+    {% for book in books.items %}
     <div class="col-lg-4 col-md-6" style="margin-top: 7px; margin-bottom: 7px;">
         <div class="card h-100" style="width: 18rem;">
             {% if book.image %}
@@ -96,25 +96,29 @@ Search
 {% endif %}
 
 <!--Page selector-->
-{% if books %}
+{% if books.pages != 0 %}
     <nav aria-label="Search result pages">
         <ul class="pagination justify-content-center" style="margin: 10px;">
-        {% if pagenum == 1 %}
-            <li class="page-item disabled"><a class="page-link" href="/search/{{pagenum-1}}">Назад</a></li>
+        {% if books.page == 1 %}
+            <li class="page-item disabled"><a class="page-link" href="{{ url_for('search', page=books.prev_num) }}">Назад</a></li>
         {% else %}
-            <li class="page-item"><a class="page-link" href="/search/{{pagenum-1}}">Назад</a></li>
+            <li class="page-item"><a class="page-link" href="{{ url_for('search', page=books.prev_num) }}">Назад</a></li>
         {%endif%}
-          {% for n in range(qty) %}
-          {% if n+1 == pagenum %}
-          <li class="page-item active"><a class="page-link" href="/search/{{n+1}}">{{n+1}}</a></li>
+          {% for pagenum in books.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+          {% if pagenum %}
+            {% if pagenum == books.page %}
+            <li class="page-item active"><a class="page-link" href="{{ url_for('search', page=pagenum) }}">{{pagenum}}</a></li>
+            {% else %}
+            <li class="page-item"><a class="page-link" href="{{ url_for('search', page=pagenum) }}">{{pagenum}}</a></li>
+            {% endif %}
           {% else %}
-          <li class="page-item"><a class="page-link" href="/search/{{n+1}}">{{n+1}}</a></li>
+            <li class="page-item"><a class="page-link">...</a></li>
           {% endif %}
           {% endfor %}
-        {% if pagenum == qty %}
-            <li class="page-item disabled"><a class="page-link" href="/search/{{pagenum+1}}">Вперед</a></li>
+        {% if books.page == books.pages %}
+            <li class="page-item disabled"><a class="page-link" href="{{ url_for('search', page=books.next_num) }}">Вперед</a></li>
         {% else %}
-            <li class="page-item"><a class="page-link" href="/search/{{pagenum+1}}">Вперед</a></li>
+            <li class="page-item"><a class="page-link" href="{{ url_for('search', page=books.next_num) }}">Вперед</a></li>
         {%endif%}
         </ul>
     </nav>
