@@ -148,7 +148,7 @@ def book(id):
     if not book:
         session["error"]=True
         flash("Книги не знайдено")
-        return render_template("search.html", error=session.get("error"))
+        return render_template("search.html", error=session.get("error"), user=session)
     if book.borrowed_by:
         borrower = User.query.filter_by(school_id=book.borrowed_by).first()
     else:
@@ -181,11 +181,11 @@ def markout():
 def back(id):
     """Submit return to database"""
     session["error"]=False
-    if not id:
+    book = Book.query.filter_by(id=id).first()
+    if not book:
         flash("Не існує книги з таким id")
         session["error"]=True
-        return render_template("search.html", error=session.get("error"), user=session)
-    book = Book.query.filter_by(id=id).first()
+        return render_template("dashboard.html", error=session.get("error"), user=session)
     book.borrowed = False
     book.borrowed_by = None
     book.borrow_start = None
@@ -313,7 +313,6 @@ def index():
             borrowed.append(book)
     return render_template("home.html", user=session, borrowed=borrowed, error=session.get("error"), upcoming=upcoming)
 
-# Login route
 @app.route("/login", methods=["GET", "POST"])
 def login():
     session["error"] = False
