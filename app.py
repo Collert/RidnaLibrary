@@ -80,16 +80,12 @@ def search():
                 query = query.text
                 query = "%{}%".format(query)
                 query.strip()
-                books = Book.query.filter(Book.author.ilike(query), Book.age_group.in_(age)).paginate(page=page, per_page=BOOKS_PER_PAGE)
-                byname = Book.query.filter(Book.name.ilike(query), Book.age_group.in_(age)).paginate(page=page, per_page=BOOKS_PER_PAGE)
-                for book in byname.items:
-                    books.items.append(book)
+                books = Book.query.filter(or_(Book.author.ilike(query), Book.name.ilike(query), Book.description.ilike(query)), Book.age_group.in_(age)).paginate(page=page, per_page=BOOKS_PER_PAGE)
             else:
                 books = Book.query.filter(Book.age_group.in_(age)).paginate(page=page, per_page=BOOKS_PER_PAGE)
-        if not books:
+        if not books.items:
             session["error"]=True
-            flash("Couldn't find the book")
-            qty = 1
+            flash("Нічого не знайдено")
             return render_template("search.html", error=session.get("error"), user=session)
         return render_template("search.html", user=session, books=books, error=session.get("error"))
     else:

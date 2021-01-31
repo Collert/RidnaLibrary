@@ -18,7 +18,7 @@ Search
 <div class="col-md-9">
     <form method="POST" action="/search" class="row g-3">
         <div class="col-md-12">
-            <input type="text" autocomplete="off" class="form-control" name="query" placeholder="Назва книги / Автор">
+            <input type="text" autocomplete="off" class="form-control" name="query" placeholder="Назва книги / Автор / Опис">
         </div>
         <div class="col-2">
             Вікові категорії:
@@ -96,7 +96,7 @@ Search
 {% endif %}
 
 <!--Page selector-->
-{% if books.pages != 0 %}
+{% if books and books.pages != 0 %}
     <nav aria-label="Search result pages">
         <ul class="pagination justify-content-center" style="margin: 10px;">
         {% if books.page == 1 %}
