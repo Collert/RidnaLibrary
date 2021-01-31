@@ -62,20 +62,17 @@ def profile(id):
     books = Book.query.filter_by(borrowed_by=id).all()
     return render_template("profile.html", user=session, person=person, books=books)
 
-@app.route("/search")
-def searchredir():
-    return redirect("/search/1")
-
-@app.route("/search/<int:pagenum>", methods=["GET", "POST"])
-@login_required
-def search(pagenum):
+@app.route("/search", methods=["GET", "POST"])
+def search():
     """Lookup a book by criteria"""
+    BOOKS_PER_PAGE = 15
     session["error"]=False
     if request.method == "POST":
         if request.form.get("number"):
             number = int(request.form.get("number"))
             return redirect(f"/book/{number}")
         else:
+            page = request.args.get('page', 1, type=int)
             query = request.form.get("query")
             age = request.form.getlist("age-group")
             if query:
@@ -83,25 +80,18 @@ def search(pagenum):
                 query = query.text
                 query = "%{}%".format(query)
                 query.strip()
-                books = Book.query.filter(Book.author.ilike(query)).all()
-                byname = Book.query.filter(Book.name.ilike(query)).all()
-                for book in byname:
-                    books.append(book)
+                books = Book.query.filter(or_(Book.author.ilike(query), Book.name.ilike(query), Book.description.ilike(query)), Book.age_group.in_(age)).paginate(page=page, per_page=BOOKS_PER_PAGE)
             else:
-                books = Book.query.all()
-            books = [book for book in books if book.age_group in age]
-            qty = int(len(books)/15)+1
-            curpage = books[((pagenum-1)*15):((pagenum*15)-1)]
-        if not books:
+                books = Book.query.filter(Book.age_group.in_(age)).paginate(page=page, per_page=BOOKS_PER_PAGE)
+        if not books.items:
             session["error"]=True
-            flash("Книги не знайдено")
+            flash("Нічого не знайдено")
             return render_template("search.html", error=session.get("error"), user=session)
-        return render_template("search.html", user=session, books=curpage, qty=qty, pagenum=pagenum, error=session.get("error"))
+        return render_template("search.html", user=session, books=books, error=session.get("error"))
     else:
-        books = Book.query.all()
-        qty = int(len(books)/15)+1
-        curpage = Book.query.offset((pagenum-1) * 15).limit(15)
-    return render_template("search.html", error=session.get("error"), user=session, books=curpage, qty=qty, pagenum=pagenum)
+        page = request.args.get('page', 1, type=int)
+        books = Book.query.paginate(page=page, per_page=BOOKS_PER_PAGE)
+    return render_template("search.html", error=session.get("error"), user=session, books=books)
 
 @app.route("/board")
 @admin_required
