@@ -85,7 +85,7 @@ def search():
                 for book in byname.items:
                     books.items.append(book)
             else:
-                books = Book.query.paginate(page=page, per_page=BOOKS_PER_PAGE)
+                books = Book.query.filter(Book.age_group.in_(age)).paginate(page=page, per_page=BOOKS_PER_PAGE)
         if not books:
             session["error"]=True
             flash("Couldn't find the book")
