@@ -36,7 +36,7 @@ def admin_required(f):
 def nextSat():
     """Calculate next Saturday from today"""
     today = datetime.date.today()
-    if today.weekday() == 5:
+    if today.weekday() == 5 and datetime.datetime.now().time().hour < 16:
         return today
     else:
         saturday = today + datetime.timedelta( (5-today.weekday()) % 7 )
