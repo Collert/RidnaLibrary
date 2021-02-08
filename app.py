@@ -32,12 +32,16 @@ app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
+app.config["SQLALCHEMY_BINDS"] ={
+    "basic_data": os.getenv("DATABASE_URL"),
+    "big_data": os.getenv("HEROKU_POSTGRESQL_GRAY_URL")
+}
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 Session(app)
 cloudinary.config( 
-  cloud_name = "ridna-library", 
-  api_key = "293991876227891", 
-  api_secret = "J-JAEXn7Cnb7pk8E6BBq2XqtbeA" 
+  cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME"), 
+  api_key = os.getenv("CLOUDINARY_API_KEY"), 
+  api_secret = os.getenv("CLOUDINARY_API_SECRET") 
 )
 
 # Configure variables
@@ -192,6 +196,8 @@ def back(id):
     book.borrowed_by = None
     book.borrow_start = None
     book.borrow_end = None
+    record = Record(book_id=book.id, borrowed_by=book.borrowed_by, borrowed_on=book.borrow_start, returned_on=book.borrow_end)
+    db.session.add(record)
     db.session.commit()
     flash("Книгу повернено")
     return redirect("/board")
@@ -334,6 +340,12 @@ def login():
             db.session.add(user)
             db.session.commit()
             user = User.query.filter_by(google_id=guserid).first()
+        else:
+            # Update existing info
+            #user.first = idinfo["given_name"] # Probably will leave name editing up to staff
+            #user.last=idinfo["family_name"]
+            user.picture=idinfo["picture"]
+            db.session.commit()
         session["school_id"] = user.school_id
         session["first"] = user.first
         session["last"] = user.last
@@ -349,13 +361,17 @@ def logout():
     """Logout user"""
     flash("Сессія завершена")
     session.clear()
-    time.sleep(2)
     return redirect("/login")
 
 # Commands
+
+# Push notification reminders (hopefully i'll get to it someday)
 #@app.cli.command("return_reminder")
 #def return_reminder():
 #    books = Book.query.filter_by(borrow_end=(datetime.date.today() + datetime.timedelta(days=1))).all()
+#    borrowers = set()
+#    for book in books:
+#        borrowers.add(book.borrowed_by)
 #    return
 
 # PWA routes

@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 class User(db.Model):
+    __bind_key__="basic_data"
     __tablename__="users"
     school_id = db.Column(db.Integer, primary_key=True)
     first = db.Column(db.String, nullable=False)
@@ -13,6 +14,7 @@ class User(db.Model):
     picture = db.Column(db.String, nullable=False, default="/static/nopic.jpg")
 
 class Book(db.Model):
+    __bind_key__="basic_data"
     __tablename__="inventory"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
@@ -24,3 +26,12 @@ class Book(db.Model):
     borrow_start = db.Column(db.Date, nullable=True, default=None)
     borrow_end = db.Column(db.Date, nullable=True, default=None)
     image = db.Column(db.String, nullable=True)
+
+class Record(db.Model):
+    __bind_key__="big_data"
+    __tablename__="records"
+    id = db.Column(db.Integer, primary_key=True)
+    book_id = db.Column(db.Integer, nullable=False)
+    borrowed_by = db.Column(db.Integer, nullable=False)
+    borrowed_on = db.Column(db.Date, nullable=False)
+    returned_on = db.Column(db.Date, nullable=False)
