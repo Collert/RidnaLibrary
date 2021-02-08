@@ -33,13 +33,15 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-borrow_period = 21 # days
 Session(app)
 cloudinary.config( 
   cloud_name = "ridna-library", 
   api_key = "293991876227891", 
   api_secret = "J-JAEXn7Cnb7pk8E6BBq2XqtbeA" 
 )
+
+# Configure variables
+BORROW_PERIOD = 21 # borrow period in days
 
 # Initialise database
 db.init_app(app)
@@ -132,7 +134,7 @@ def borrow(id):
         book.borrowed_by = session["school_id"]
         book.borrow_start = nextSat()
         if session["role"] == "student":
-            book.borrow_end = book.borrow_start + datetime.timedelta(days=borrow_period)
+            book.borrow_end = book.borrow_start + datetime.timedelta(days=BORROW_PERIOD)
         else:
             book.borrow_end = "2069-04-20"
         db.session.commit()
@@ -162,13 +164,13 @@ def markout():
     """Mark out a book under someone's name"""
     session["error"]=False
     if request.method == "POST":
-        person = request.form.get("person")
+        person = User.query.filter_by(school_id=request.form.get("person")).first()
         book = Book.query.filter_by(id=(request.form.get("book"))).first()
         book.borrowed = True
-        book.borrowed_by = person
+        book.borrowed_by = person.school_id
         book.borrow_start = request.form.get("start")
-        if session["role"] == "student":
-            book.borrow_end = book.borrow_start + 14
+        if person.role == "student":
+            book.borrow_end = book.borrow_start + BORROW_PERIOD
         else:
             book.borrow_end = "2069-04-20"
         db.session.commit()
@@ -349,6 +351,12 @@ def logout():
     session.clear()
     time.sleep(2)
     return redirect("/login")
+
+# Commands
+#@app.cli.command("return_reminder")
+#def return_reminder():
+#    books = Book.query.filter_by(borrow_end=(datetime.date.today() + datetime.timedelta(days=1))).all()
+#    return
 
 # PWA routes
 
