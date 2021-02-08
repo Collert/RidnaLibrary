@@ -170,7 +170,7 @@ def markout():
         book.borrowed_by = person.school_id
         book.borrow_start = request.form.get("start")
         if person.role == "student":
-            book.borrow_end = book.borrow_start + BORROW_PERIOD
+            book.borrow_end = book.borrow_start + datetime.timedelta(days=BORROW_PERIOD)
         else:
             book.borrow_end = "2069-04-20"
         db.session.commit()
