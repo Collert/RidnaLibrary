@@ -16,23 +16,23 @@ if ('serviceWorker' in navigator) {
 
 // Notifications
 document.addEventListener("DOMContentLoaded", () =>{
+    var askedNotifications = sessionStorage.getItem("asked-notifications");
     const pushButton = document.getElementById('push-btn');
 
     if (Notification.permission == 'granted') {
         pushButton.hidden = true;
-    }
-    else {
-        askPermission();
+    } else {
+        pushButton.hidden = false;
+        if (askedNotifications == null) {
+            sessionStorage.setItem("asked-notifications", "true");
+            askPermission();
+        }
     }
 
-    if (!("Notification" in window)) {
-        pushButton.hidden = true;
-    }
 
     pushButton.addEventListener('click', askPermission);
 
     function askPermission(evt) {
-        pushButton.hidden = true;
     Notification.requestPermission().then(function(permission) {
         notificationButtonUpdate();
     });
