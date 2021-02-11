@@ -1,8 +1,8 @@
-const CACHE_NAME = 'static-cache v5';
+const CACHE_NAME = 'static-cache v6';
 
 const FILES_TO_CACHE = [
   "/static/pwa/offline.html",
-  "https://kit.fontawesome.com/a076d05399.js"
+  "https://kit.fontawesome.com/4af6e8ee2e.js"
 ];
 
 // Installation
