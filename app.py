@@ -188,6 +188,7 @@ def back(id):
     """Submit return to database"""
     session["error"]=False
     book = Book.query.filter_by(id=id).first()
+    record = Record(book_id=book.id, borrowed_by=book.borrowed_by, borrowed_on=book.borrow_start, returned_on=book.borrow_end)
     if not book:
         flash("Не існує книги з таким id")
         session["error"]=True
@@ -196,7 +197,6 @@ def back(id):
     book.borrowed_by = None
     book.borrow_start = None
     book.borrow_end = None
-    record = Record(book_id=book.id, borrowed_by=book.borrowed_by, borrowed_on=book.borrow_start, returned_on=book.borrow_end)
     db.session.add(record)
     db.session.commit()
     flash("Книгу повернено")
