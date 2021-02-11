@@ -21,6 +21,9 @@ document.addEventListener("DOMContentLoaded", () =>{
     if (Notification.permission == 'granted') {
         pushButton.hidden = true;
     }
+    else {
+        askPermission();
+    }
 
     if (!("Notification" in window)) {
         pushButton.hidden = true;
