@@ -5,12 +5,12 @@
   padding: 0;
   box-sizing: border-box;
   user-select: none;
-  font-family: 'Poppins', sans-serif;
-  font-family: 'Balsamiq Sans', cursive;
 }
 body{
   background-color: #2d2d2d;
   color: #b0b3b8;
+  font-family: 'Poppins', sans-serif;
+  font-family: 'Balsamiq Sans', cursive;
 }
 main {
   text-align: center;

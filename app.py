@@ -9,6 +9,7 @@ from sqlalchemy import create_engine, or_, and_, func
 from sqlalchemy.orm import scoped_session, sessionmaker
 from flask import Flask, flash, redirect, render_template, request, session, jsonify, make_response, send_from_directory, url_for
 from flask_session import Session
+from sqlalchemy.sql.functions import user
 from werkzeug.utils import secure_filename
 from google.oauth2 import id_token
 from google.auth.transport import requests
@@ -34,7 +35,8 @@ app.config["SESSION_TYPE"] = "filesystem"
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 app.config["SQLALCHEMY_BINDS"] ={
     "basic_data": os.getenv("DATABASE_URL"),
-    "big_data": os.getenv("HEROKU_POSTGRESQL_GRAY_URL")
+    "big_data": os.getenv("HEROKU_POSTGRESQL_GRAY_URL"),
+    "reviews": os.getenv("HEROKU_POSTGRESQL_AMBER_URL")
 }
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 Session(app)
@@ -45,7 +47,8 @@ cloudinary.config(
 )
 
 # Configure variables
-BORROW_PERIOD = 21 # borrow period in days
+BORROW_PERIOD = 21 # Borrow period in days
+BOOKS_PER_PAGE = 15 # Books per page in pagination
 
 # Initialise database
 db.init_app(app)
@@ -64,6 +67,7 @@ def profileown():
 @login_required
 def profile(id):
     """Display other's profile"""
+    session["error"]=False
     person = User.query.filter_by(school_id=id).first()
     books = Book.query.filter_by(borrowed_by=id).all()
     return render_template("profile.html", user=session, person=person, books=books)
@@ -87,7 +91,6 @@ def person_edit(id):
 @app.route("/search", methods=["GET", "POST"])
 def search():
     """Lookup a book by criteria"""
-    BOOKS_PER_PAGE = 15
     session["error"]=False
     if request.method == "POST":
         if request.form.get("number"):
@@ -175,7 +178,37 @@ def book(id):
         borrower = User.query.filter_by(school_id=book.borrowed_by).first()
     else:
         borrower=None
-    return render_template("book.html", user=session, error=session.get("error"), book=book, borrower=borrower, today=datetime.date.today())    
+    return render_template("book.html", user=session, error=session.get("error"), book=book, borrower=borrower, today=datetime.date.today())
+
+@app.route("/book/<int:id>/review", methods=["GET", "POST"])
+@login_required
+def review(id):
+    """write a book review"""
+    session["error"]=False
+    book = Book.query.filter_by(id=id).first()
+    review = Review.query.filter_by(book_id=id, by=session["school_id"]).first()
+    if request.method == "POST":
+        if not review:
+            review = Review()
+            db.session.add(review)
+        if request.form.get("anon"):
+            review.by = None
+        else:
+            review.by = session["school_id"]
+        review.book_id = id
+        review.date = datetime.date.today()
+        review.title = request.form.get("title")
+        review.rating = request.form.get("rating")
+        review.body = request.form.get("body")
+        record = Record.query.filter((Record.borrowed_by == session["school_id"]), (Record.book_id == id)).order_by(Record.returned_on.desc()).first()
+        if record:
+            if request.form.get("finished") == "True":
+                record.finished = True
+            else:
+                record.finished = False
+        db.session.commit()
+        return redirect(f"/book/{id}")
+    return render_template("review.html", user=session, error=session.get("error"), book=book, review=review)
 
 @app.route("/markout", methods=["GET", "POST"])
 @admin_required
@@ -188,7 +221,7 @@ def markout():
         book = Book.query.filter_by(id=(request.form.get("book"))).first()
         book.borrowed = True
         book.borrowed_by = person.school_id
-        book.borrow_start = request.form.get("start")
+        book.borrow_start = datetime.datetime.fromisoformat(request.form.get("start"))
         if person.role == "student":
             book.borrow_end = book.borrow_start + datetime.timedelta(days=BORROW_PERIOD)
         else:
@@ -204,7 +237,7 @@ def back(id):
     """Submit return to database"""
     session["error"]=False
     book = Book.query.filter_by(id=id).first()
-    record = Record(book_id=book.id, borrowed_by=book.borrowed_by, borrowed_on=book.borrow_start, returned_on=book.borrow_end)
+    record = Record(book_id=book.id, borrowed_by=book.borrowed_by, borrowed_on=book.borrow_start, returned_on=datetime.date.today())
     if not book:
         flash("Не існує книги з таким id")
         session["error"]=True

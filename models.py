@@ -35,3 +35,15 @@ class Record(db.Model):
     borrowed_by = db.Column(db.Integer, nullable=False)
     borrowed_on = db.Column(db.Date, nullable=False)
     returned_on = db.Column(db.Date, nullable=False)
+    finished = db.Column(db.Boolean, nullable=False, default=True)
+
+class Review(db.Model):
+    __bind_key__="reviews"
+    __tablename__="reviews"
+    id = db.Column(db.Integer, primary_key=True)
+    book_id = db.Column(db.Integer, nullable=False)
+    by = db.Column(db.Integer, nullable=True)
+    date = db.Column(db.Date, nullable=False)
+    title = db.Column(db.String, nullable=True)
+    rating = db.Column(db.Integer, nullable=False)
+    body = db.Column(db.String, nullable=True)
