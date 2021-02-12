@@ -40,6 +40,13 @@ help_btn.onclick = (()=>{
     menu_bar.style.height = "fit-content";
 });
 
+document.addEventListener('mouseup', function(e) {
+    var container = document.getElementById('navbar');
+    if (!container.contains(e.target) && container.classList.contains("show") && !drop_btn.contains(e.target)) {
+      menu_wrapper.classList.toggle("show");
+    }
+  });
+
 // Auto theme selector
 
 const btn = document.querySelector("#theme-toggle");
