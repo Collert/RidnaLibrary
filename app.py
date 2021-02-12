@@ -68,6 +68,22 @@ def profile(id):
     books = Book.query.filter_by(borrowed_by=id).all()
     return render_template("profile.html", user=session, person=person, books=books)
 
+@app.route("/profile/<int:id>/edit", methods=["GET", "POST"])
+@admin_required
+@login_required
+def person_edit(id):
+    """Edit some information about profile in the database"""
+    session["error"]=False
+    person = User.query.filter_by(school_id=id).first()
+    if request.method == "POST":
+        person.first = request.form.get("first")
+        person.last = request.form.get("last")
+        person.role = request.form.get("role")
+        db.session.commit()
+        flash("Редагування успішне")
+        return redirect(f"/profile/{id}")
+    return render_template("edit_person.html", error=session.get("error"), user=session, person=person)
+
 @app.route("/search", methods=["GET", "POST"])
 def search():
     """Lookup a book by criteria"""
