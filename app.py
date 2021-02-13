@@ -174,11 +174,20 @@ def book(id):
         session["error"]=True
         flash("Книги не знайдено")
         return render_template("search.html", error=session.get("error"), user=session)
+    reviews = Review.query.filter_by(book_id=id).all()
+    reviewed = False
+    for review in reviews:
+        if review.by_id == session["school_id"]:
+            reviewed = review
+    if reviews:
+        avg_score = (sum(review.rating for review in reviews) / len(reviews))
+    else:
+        avg_score = None
     if book.borrowed_by:
         borrower = User.query.filter_by(school_id=book.borrowed_by).first()
     else:
         borrower=None
-    return render_template("book.html", user=session, error=session.get("error"), book=book, borrower=borrower, today=datetime.date.today())
+    return render_template("book.html", user=session, error=session.get("error"), book=book, borrower=borrower, today=datetime.date.today(), score=avg_score, reviews=reviews, reviewed=reviewed)
 
 @app.route("/book/<int:id>/review", methods=["GET", "POST"])
 @login_required
