@@ -139,3 +139,4 @@ cython_debug/
 
 app_test.py
 ridneslovo-websitefinal2-01.psd
+.vscode/settings.json

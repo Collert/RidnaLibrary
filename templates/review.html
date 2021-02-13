@@ -76,9 +76,9 @@ reviewing {{ book["name"]}}
             {% endif %}
         </div>
         <div class="col-md">
-            <form action="/book/{{ book['id'] }}/review" method="POST">
+            <form action="/book/{{ book['id'] }}/review" method="POST" autocomplete="off">
                 <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label"><h3>Заголовок</h3></label>
+                    <label for="exampleFormControlInput1" autocomplete="off" autocapitalize="on" class="form-label"><h3>Заголовок</h3></label>
                     <input class="form-control" id="exampleFormControlInput1" name="title" value="{{ review['title'] }}">
                 </div>
                 <div class="mb-3">

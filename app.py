@@ -105,9 +105,9 @@ def search():
                 query = query.text
                 query = "%{}%".format(query)
                 query.strip()
-                books = Book.query.filter(or_(Book.author.ilike(query), Book.name.ilike(query), Book.description.ilike(query)), Book.age_group.in_(age)).paginate(page=page, per_page=BOOKS_PER_PAGE)
+                books = Book.query.filter(or_(Book.author.ilike(query), Book.name.ilike(query), Book.description.ilike(query)), Book.age_group.in_(age)).order_by(Book.borrowed).paginate(page=page, per_page=BOOKS_PER_PAGE)
             else:
-                books = Book.query.filter(Book.age_group.in_(age)).paginate(page=page, per_page=BOOKS_PER_PAGE)
+                books = Book.query.filter(Book.age_group.in_(age)).order_by(Book.borrowed).paginate(page=page, per_page=BOOKS_PER_PAGE)
         if not books.items:
             session["error"]=True
             flash("Нічого не знайдено")
@@ -115,7 +115,7 @@ def search():
         return render_template("search.html", user=session, books=books, error=session.get("error"))
     else:
         page = request.args.get('page', 1, type=int)
-        books = Book.query.paginate(page=page, per_page=BOOKS_PER_PAGE)
+        books = Book.query.order_by(Book.borrowed).paginate(page=page, per_page=BOOKS_PER_PAGE)
     return render_template("search.html", error=session.get("error"), user=session, books=books)
 
 @app.route("/board")
@@ -186,15 +186,19 @@ def review(id):
     """write a book review"""
     session["error"]=False
     book = Book.query.filter_by(id=id).first()
-    review = Review.query.filter_by(book_id=id, by=session["school_id"]).first()
+    review = Review.query.filter_by(book_id=id, by_id=session["school_id"]).first()
     if request.method == "POST":
         if not review:
             review = Review()
             db.session.add(review)
         if request.form.get("anon"):
-            review.by = None
+            review.by_id = None
+            review.by_name = None
+            review.by_pic = None
         else:
-            review.by = session["school_id"]
+            review.by_id = session["school_id"]
+            review.by_name = session["first"] + " " + session["last"]
+            review.by_pic = session["picture"]
         review.book_id = id
         review.date = datetime.date.today()
         review.title = request.form.get("title")
@@ -209,6 +213,66 @@ def review(id):
         db.session.commit()
         return redirect(f"/book/{id}")
     return render_template("review.html", user=session, error=session.get("error"), book=book, review=review)
+
+@app.route("/report/<int:id>")
+@login_required
+def report(id):
+    """Report a review"""
+    session["error"]=False
+    review = Review.query.get(id)
+    report = Report(review_id=id, by=session["school_id"])
+    db.session.add(report)
+    db.session.commit()
+    flash("Дякуємо за ваше повідомлення!")
+    return redirect(f"/book/{review.book_id}")
+
+@app.route("/deletereview/<int:id>")
+@admin_required
+@login_required
+def del_rev(id):
+    """Delete a problematic review"""
+    session["error"]=False
+    reports = Report.query.filter_by(review_id=id).all()
+    for report in reports:
+        db.session.delete(report)
+    review = Review.query.get(id)
+    review.title = None
+    review.body = None
+    db.session.commit()
+    flash("Відгук видалено")
+    return redirect("/mod")
+
+@app.route("/deletereport/<int:id>")
+@admin_required
+@login_required
+def del_rep(id):
+    """Delete a report"""
+    session["error"]=False
+    report = Report.query.get(id)
+    db.session.delete(report)
+    db.session.commit()
+    flash("Скаргу видалено")
+    return redirect("/mod")
+
+@app.route("/mod")
+@admin_required
+@login_required
+def mod():
+    """Moderation page"""
+    reports = db.session.query(Report, Review).join(Review, Review.id == Report.review_id).all()
+    return render_template("moderation.html", reports=reports, user=session)
+
+@app.route("/report/<int:id>")
+@login_required
+def report(id):
+    """Report a review"""
+    session["error"]=False
+    review = Review.query.get(id)
+    report = Report(review_id=id, by=session["school_id"])
+    db.session.add(report)
+    db.session.commit()
+    flash("Дякуємо за ваше повідомлення!")
+    return redirect(f"/book/{review.book_id}")
 
 @app.route("/markout", methods=["GET", "POST"])
 @admin_required

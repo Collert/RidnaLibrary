@@ -42,8 +42,17 @@ class Review(db.Model):
     __tablename__="reviews"
     id = db.Column(db.Integer, primary_key=True)
     book_id = db.Column(db.Integer, nullable=False)
-    by = db.Column(db.Integer, nullable=True)
+    by_id = db.Column(db.Integer, nullable=True)
     date = db.Column(db.Date, nullable=False)
     title = db.Column(db.String, nullable=True)
     rating = db.Column(db.Integer, nullable=False)
     body = db.Column(db.String, nullable=True)
+    by_name = db.Column(db.String, nullable=True)
+    by_pic = db.Column(db.String, nullable=True)
+
+class Report(db.Model):
+    __bind_key__="reviews"
+    __tablename__="reports"
+    id = db.Column(db.Integer, primary_key=True)
+    review_id = db.Column(db.Integer, nullable=False)
+    by = db.Column(db.Integer, nullable=False)

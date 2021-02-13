@@ -13,13 +13,33 @@
         margin-top: 10px;
         margin-bottom: 10px;
     }
-        main div img {
-        max-width: 100%;
-        height: auto;
-        margin-bottom: 20px;
-        }
-    
-    
+    main div img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+    }
+    .star-rating {
+    font-family: "Font Awesome 5 Free" !important;
+    }
+    .star-rating > fieldset {
+    border: none;
+    display: inline-block;
+    }
+    .star-rating > fieldset > span {
+    float: right;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 200%;
+    color: #e89c00;
+    }
+    .star-rating > fieldset > span:before {
+    content: "\f005";
+    font-weight: 200;
+    }
+    .star-rating > fieldset > span.filled::before {
+    content: "\f005";
+    font-weight: 900;
+    }
 </style>
     <div class="container">
         <div class="row">
@@ -35,43 +55,6 @@
                 <span>{{ book['description'] }}</span>
             </div>
         </div>
-    </div>
-    <div>
-        <div class="d-flex align-items-lg-start justify-content-center justify-content-lg-start">
-        <ul class="nav nav-pills mb-3 justify-content-center " style="margin: 5px;" id="pills-tab" role="tablist">
-            <li class="nav-item" style="margin-bottom: 7px;" role="presentation">
-              <a class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="false">Інформація</a>
-            </li>
-            <li class="nav-item" role="presentation">
-              <a class="nav-link disabled" id="pills-profile-tab" data-bs-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Відгуки</a>
-            </li>
-            {% if user.role == "admin" %}
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle active bg-danger" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Опції</a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="/edit/{{book.id}}">Редагувати книгу</a></li>
-                  {% if book.borrowed %}
-                  <li><a class="dropdown-item text-success" href="/return/{{book.id}}">Повернути книгу</a></li>
-                  {% endif %}
-                  <li><hr class="dropdown-divider"></li>
-                  {% if borrower %}
-                  <li><a class="dropdown-item" href="/profile/{{borrower.school_id}}">Позичено: {{borrower.first}} {{borrower.last}}</a></li>
-                  {% else %}
-                  <li><a class="dropdown-item" href="#">Позичено: Ніким</a></li>
-                  {% endif %}
-                </ul>
-              </li>
-            {%endif%}
-        </ul></div>
-          <div class="tab-content" id="pills-tabContent">
-            <div class="tab-pane fade show active" style="text-align: left;" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-            <ul>
-                <li><b>Автор:</b> {{ book.author }}</li>
-                <li><b>ID книги:</b> {{book.id}}</li>
-            </ul>
-            </div>
-            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"><!--TODO--></div>
-          </div>
     </div>
     <div class="justify-content-center">
             {% if book.borrowed == False %}
@@ -126,5 +109,152 @@
             <button type="submit" class="btn btn-secondary mb-3 btn-lg" aria-disabled="true" disabled>Книга вже позичена</button>
             {%endif%}
         </form>
+    </div>
+    <div>
+        <div class="d-flex align-items-lg-start justify-content-center justify-content-lg-start">
+        <ul class="nav nav-pills mb-3 justify-content-center " style="margin: 5px;" id="pills-tab" role="tablist">
+            <li class="nav-item" style="margin-bottom: 7px;" role="presentation">
+              <a class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="false">Інформація</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" id="pills-reviews-tab" data-bs-toggle="pill" href="#pills-reviews" role="tab" aria-controls="pills-reviews" aria-selected="false">Відгуки</a>
+            </li>
+            {% if user.role == "admin" %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle active bg-danger" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Опції</a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="/edit/{{book.id}}">Редагувати книгу</a></li>
+                  {% if book.borrowed %}
+                  <li><a class="dropdown-item text-success" href="/return/{{book.id}}">Повернути книгу</a></li>
+                  {% endif %}
+                  <li><hr class="dropdown-divider"></li>
+                  {% if borrower %}
+                  <li><a class="dropdown-item" href="/profile/{{borrower.school_id}}">Позичено: {{borrower.first}} {{borrower.last}}</a></li>
+                  {% else %}
+                  <li><a class="dropdown-item" href="#">Позичено: Ніким</a></li>
+                  {% endif %}
+                </ul>
+              </li>
+            {%endif%}
+        </ul>
+        </div>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" style="text-align: left;" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                <ul>
+                    <li><b>Автор:</b> {{ book.author }}</li>
+                    <li><b>ID книги:</b> {{book.id}}</li>
+                </ul>
+            </div>
+            <!--Reviews-->
+            <div class="tab-pane fade" id="pills-reviews" role="tabpanel" aria-labelledby="pills-profile-tab">
+                {% if score %}
+                <h2>Загальна оцінка:</h2>
+                <div id="rating" style="font-family: 'Font Awesome 5 Free';" class="star-rating">
+                    <fieldset>
+                        {% for empty in range(5 - score|round(1)|int) %}
+                        <span></span>
+                        {% endfor %}
+                        {% for star in range(score|round(1)|int) %}
+                        <span class="filled"></span>
+                        {% endfor %}
+                    </fieldset>
+                </div>
+                <h3>{{score}}/5</h3>
+                {% if reviewed %}
+                    <a class="btn btn-primary" href="/book/{{ book.id }}/review" role="button">Редагувати відгук</a>
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-2">
+                                <img style="border-radius: 50%; padding: 1rem 1rem; margin-bottom: 0;" class="justify-content-center" src="{{user.picture}}" alt="Ваше фото профілю">
+                                <h5>{{user.first}} {{user.last}}</h5>
+                                <div id="rating" style="font-family: 'Font Awesome 5 Free'; font-size: 50%;" class="star-rating">
+                                    <fieldset>
+                                        {% for empty in range(5 - reviewed.rating) %}
+                                        <span></span>
+                                        {% endfor %}
+                                        {% for star in range(reviewed.rating) %}
+                                        <span class="filled"></span>
+                                        {% endfor %}
+                                    </fieldset>
+                                </div>
+                            </div>
+                          <div class="col-md-10">
+                            <div class="card-body">
+                              <h4 class="card-title">{{reviewed.title}}</h5>
+                              <p class="card-text">{{reviewed.body}}</p>
+                              <p class="card-text"><small class="text-muted">{{reviewed.date.strftime("%d %b %Y")}}</small></p>
+                              {% if not reviewed.name %}
+                              <p class="card-text"><small class="text-muted">Ви залишили анонімний відгук. Ваше ім'я та фотографія будуть відображатися тільки вам.</small></p>
+                              {% endif %}
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <a class="btn btn-primary" href="/book/{{ book.id }}/review" role="button">Залишити відгук</a>
+                {% endif %}
+                {% for review in reviews %}
+                {% if review.body and review.by_id != user.school_id %}
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-2">
+                            {% if review.by_name %}
+                            <img style="border-radius: 50%; padding: 1rem 1rem; margin-bottom: 0;" class="justify-content-center" src="{{review.by_pic}}" alt="Фотографія {{review.by_name}}">
+                            <h5>{{review.by_name}}</h5>
+                            {% else %}
+                            <img style="border-radius: 50%; padding: 1rem 1rem; margin-bottom: 0; max-width: 128px;" class="justify-content-center" src="/static/images/logo.png" alt="Анонімна фотографія">
+                            <h5>Анонімно</h5>
+                            {% endif %}
+                            <div id="rating" style="font-family: 'Font Awesome 5 Free'; font-size: 50%;" class="star-rating">
+                                <fieldset>
+                                    {% for empty in range(5 - review.rating) %}
+                                    <span></span>
+                                    {% endfor %}
+                                    {% for star in range(review.rating) %}
+                                    <span class="filled"></span>
+                                    {% endfor %}
+                                </fieldset>
+                            </div>
+                            <a href="/report/{{review.id}}" title="Поскаржитися на відгук" class="btn btn-warning"><i class="fas fa-flag"></i></a>
+                            {% if user.role == "admin" %}
+                            <a data-bs-toggle="modal" data-bs-target="#deleteReviewModal" title="Видалити відгук" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                            {% endif %}
+                        </div>
+                      <div class="col-md-10">
+                        <div class="card-body">
+                          <h5 class="card-title">{{reviewed.title}}</h5>
+                          <p class="card-text">{{reviewed.body}}</p>
+                          <p class="card-text"><small class="text-muted">{{reviewed.date.strftime("%d %b %Y")}}</small></p>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <!--Delete review modal-->
+                <div class="modal fade" id="deleteReviewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="deleteReviewModalLabel">Видалити відгук?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Оскільки ви вважаєте цей відгук проблематичним, буде видалено його заголовок та текст. 
+                            Для прозорості та чесності, рейтинг залишений відгуком залишиться записаним і буде рахуватися до загальної оцінки.
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Відмінити</button>
+                        <a href="/deletereview/{{review.id}}" class="btn btn-danger">Підтвердити</a>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% else %}
+                <h2>Немає відгуків. <br> Будьте першою людиною яка висловить свою думку про цю книгу!</h2>
+                <a class="btn btn-primary" href="/book/{{ book.id }}/review" role="button">Залишити відгук</a>
+                {% endif %}
+            </div>
+        </div>
     </div>
 {% endblock %}
