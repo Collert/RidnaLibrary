@@ -214,18 +214,6 @@ def review(id):
         return redirect(f"/book/{id}")
     return render_template("review.html", user=session, error=session.get("error"), book=book, review=review)
 
-@app.route("/report/<int:id>")
-@login_required
-def report(id):
-    """Report a review"""
-    session["error"]=False
-    review = Review.query.get(id)
-    report = Report(review_id=id, by=session["school_id"])
-    db.session.add(report)
-    db.session.commit()
-    flash("Дякуємо за ваше повідомлення!")
-    return redirect(f"/book/{review.book_id}")
-
 @app.route("/deletereview/<int:id>")
 @admin_required
 @login_required
