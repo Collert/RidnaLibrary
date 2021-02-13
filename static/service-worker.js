@@ -1,14 +1,15 @@
-const CACHE_NAME = 'static-cache v8';
+//const CACHE_NAME = 'static-cache v8';
 
-const FILES_TO_CACHE = [
-  "/static/pwa/offline.html",
-  "https://kit.fontawesome.com/4af6e8ee2e.js"
-];
+//const FILES_TO_CACHE = [
+//  "/static/pwa/offline.html",
+//  "https://kit.fontawesome.com/4af6e8ee2e.js"
+//];
 
 // Installation
-self.addEventListener('install', (evt) => {
-    console.log('[ServiceWorker] Install');
-    evt.waitUntil(
+//self.addEventListener('install', (evt) => {
+//    console.log('[ServiceWorker] Install');
+/* 
+evt.waitUntil(
       caches.open(CACHE_NAME).then((cache) => {
         console.log('[ServiceWorker] Pre-caching offline page');
         return cache.addAll(FILES_TO_CACHE);
@@ -67,3 +68,4 @@ self.addEventListener('push', function(event) {
 //      );
 //    }
 //  });
+*/
