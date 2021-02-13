@@ -9,7 +9,7 @@ function onSignIn(googleUser){
     };
     console.log(id_token);
     xhr.send('idtoken=' + id_token);
-    //setTimeout(function(){window.location.href = "/";}, 1000);
+    setTimeout(function(){window.location.href = "/";}, 1000);
 }
 
 // Logout function
