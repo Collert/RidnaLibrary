@@ -298,6 +298,10 @@ def back(id):
     """Submit return to database"""
     session["error"]=False
     book = Book.query.filter_by(id=id).first()
+    if not book.borrowed:
+        flash("Книга не позичина")
+        session["error"]=True
+        return render_template("dashboard.html", error=session.get("error"), user=session)
     record = Record(book_id=book.id, borrowed_by=book.borrowed_by, borrowed_on=book.borrow_start, returned_on=datetime.date.today())
     if not book:
         flash("Не існує книги з таким id")
