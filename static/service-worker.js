@@ -1,8 +1,9 @@
-const CACHE_NAME = 'static-cache v10';
+const CACHE_NAME = 'static-cache v11';
 
 const FILES_TO_CACHE = [
   "/static/pwa/offline.html",
-  "/static/fontawesome-free-5.15.2-web/css/all.css"
+  "/static/fontawesome-free-5.15.2-web/css/all.css",
+  "/static/login-out.js"
 ];
 
 // Installation
