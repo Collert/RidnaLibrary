@@ -437,8 +437,6 @@ def index():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    if session:
-        return redirect("/")
     session["error"] = False
     if request.method == "POST":
         token = request.form["idtoken"]
