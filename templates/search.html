@@ -9,6 +9,16 @@ Search
     form {
         margin: 15px;
     }
+    @media (min-width: 430px){
+        #card{
+            width: 18rem;
+        }
+    }
+    @media (max-width: 430px){
+        #container{
+            width: 20rem;
+        }
+    }
 </style>
     <h5>Шукайте книги за допомогою цієї форми</h5>
 
@@ -23,31 +33,31 @@ Search
         <div class="col-2">
             Вікові категорії:
         </div>
-        <div class="form-check col-1">
+        <div class="form-check col-md-1 col-2">
             <input class="form-check-input" type="checkbox" name="age-group" value="C" id="c-check" checked>
             <label class="form-check-label" for="c-check">
               C
             </label>
         </div>
-        <div class="form-check col-1">
+        <div class="form-check col-md-1 col-2">
             <input class="form-check-input" type="checkbox" name="age-group" value="CT" id="ct-check" checked>
             <label class="form-check-label" for="ct-check">
               CT
             </label>
         </div>
-        <div class="form-check col-1">
+        <div class="form-check col-md-1 col-2">
             <input class="form-check-input" type="checkbox" name="age-group" value="T" id="t-check" checked>
             <label class="form-check-label" for="t-check">
               T
             </label>
         </div>
-        <div class="form-check col-1">
+        <div class="form-check col-md-1 col-2">
             <input class="form-check-input" type="checkbox" name="age-group" value="TA" id="ta-check" checked>
             <label class="form-check-label" for="ta-check">
               TA
             </label>
         </div>
-        <div class="form-check col-1">
+        <div class="form-check col-md-1 col-2">
             <input class="form-check-input" type="checkbox" name="age-group" value="A" id="a-check" checked>
             <label class="form-check-label" for="a-check">
               A
@@ -73,10 +83,10 @@ Search
 <!--Search results-->
 
 {% if books %}
-<div class="row">
+<div class="row justify-content-center">
     {% for book in books.items %}
-    <div class="col-lg-4 col-md-6" style="margin-top: 7px; margin-bottom: 7px;">
-        <div class="card h-100" style="width: 18rem;">
+    <div class="col-lg-4 col-md-6" id="container" style="margin-top: 7px; margin-bottom: 7px;">
+        <div class="card h-100" id="card">
             {% if book.image %}
                 <img src="{{ book.image }}" class="card-img-top" alt="Cover for {{book.name}}">
             {% else %}
@@ -85,8 +95,10 @@ Search
             <div class="card-body">
               <h5 class="card-title"><b>{{book.name}}</b></h5>
               <p class="card-text">{{book.description|truncate(200, end=" ...")}}</p>
-              <a href="/book/{{book.id}}" class="btn btn-primary">Переглянути</a>
             </div>
+            <div style="margin-bottom: 20px;">
+                <a href="/book/{{book.id}}" class="btn btn-primary">Переглянути</a>
+              </div>
           </div>
     </div>
     {% endfor %}

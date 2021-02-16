@@ -21,6 +21,16 @@ Dashboard
   position: absolute;
   right: 1px;
 }
+@media (min-width: 430px){
+    #card{
+        width: 18rem;
+    }
+}
+@media (max-width: 430px){
+    #container{
+        width: 20rem;
+    }
+}
 </style>
     <h1>Позичені книги:</h1>
     <!--Navigation-->
@@ -48,10 +58,10 @@ Dashboard
         <div class="tab-pane fade" id="nav-prep" role="tabpanel" aria-labelledby="nav-prep-tab">
         {% endif %}
           {% if prep %}
-          <div class="row">
+          <div class="row justify-content-center">
             {% for book in prep %}
-            <div class="col-lg-4 col-md-6 col-sm-10" style="margin-top: 7px; margin-bottom: 7px;">
-            <div class="card border-primary" style="width: 18rem;">
+            <div class="col-lg-4 col-md-6" id="container" style="margin-top: 7px; margin-bottom: 7px;">
+            <div class="card border-primary" id="card">
                 {% if book[0].image %}
                   <img src="{{ book[0].image }}" class="card-img-top" alt="Cover for {{book[0].name}}">
                 {% else %}
@@ -86,10 +96,10 @@ Dashboard
         <div class="tab-pane fade" id="nav-today" role="tabpanel" aria-labelledby="nav-today-tab">
         {% endif %}
             {% if today %}
-          <div class="row">
+          <div class="row justify-content-center">
             {% for book in today %}
-            <div class="col-lg-4 col-md-6 col-sm-10" style="margin-top: 7px; margin-bottom: 7px;">
-            <div class="card border-success" style="width: 18rem; border-color: #f17143!important;">
+            <div class="col-lg-4 col-md-6" id="container" style="margin-top: 7px; margin-bottom: 7px;">
+            <div class="card border-success" id="card" style="border-color: #f17143!important;">
                 <img src="{{ book[0].image }}" class="card-img-top" alt="Cover for {{book[0].name}}">
                 <div class="card-body">
                   <h5 class="card-title">{{book[0].name}}</h5>
@@ -116,10 +126,10 @@ Dashboard
         <!--Due soon tab-->
         <div class="tab-pane fade" id="nav-soon" role="tabpanel" aria-labelledby="nav-soon-tab">
           {% if soon %}
-          <div class="row">
+          <div class="row justify-content-center">
             {% for book in soon %}
-            <div class="col-lg-4 col-md-6 col-sm-10" style="margin-top: 7px; margin-bottom: 7px;">
-            <div class="card border-warning" style="width: 18rem;">
+            <div class="col-lg-4 col-md-6" id="container" style="margin-top: 7px; margin-bottom: 7px;">
+            <div class="card border-warning" id="card">
                 <img src="{{ book[0].image }}" class="card-img-top" alt="Cover for {{book[0].name}}">
                 <div class="card-body">
                   <h5 class="card-title">{{book[0].name}}</h5>
@@ -146,10 +156,10 @@ Dashboard
         <!--Overdue tab-->
         <div class="tab-pane fade" id="nav-over" role="tabpanel" aria-labelledby="nav-over-tab">
           {% if over %}
-          <div class="row">
+          <div class="row justify-content-center">
             {% for book in over %}
-            <div class="col-lg-4 col-md-6 col-sm-10" style="margin-top: 7px; margin-bottom: 7px;">
-            <div class="card border-danger" style="width: 18rem;">
+            <div class="col-lg-4 col-md-6" id="container" style="margin-top: 7px; margin-bottom: 7px;">
+            <div class="card border-danger" id="card">
                 <img src="{{ book.image }}" class="card-img-top" alt="Cover for {{book[0].name}}">
                 <div class="card-body">
                   <h5 class="card-title">{{book[0].name}}</h5>
@@ -176,10 +186,10 @@ Dashboard
         <!--Due later tab-->
         <div class="tab-pane fade" id="nav-later" role="tabpanel" aria-labelledby="nav-later-tab">
           {% if later %}
-          <div class="row">
+          <div class="row justify-content-center">
             {% for book in later %}
-            <div class="col-lg-4 col-md-6 col-sm-10" style="margin-top: 7px; margin-bottom: 7px;">
-            <div class="card border-success" style="width: 18rem;">
+            <div class="col-lg-4 col-md-6" id="container" style="margin-top: 7px; margin-bottom: 7px;">
+            <div class="card border-success" id="card">
                 <img src="{{ book[0].image }}" class="card-img-top" alt="Cover for {{book[0].name}}">
                 <div class="card-body">
                   <h5 class="card-title">{{book[0].name}}</h5>
