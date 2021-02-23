@@ -161,6 +161,19 @@ def borrow(id):
         else:
             book.borrow_end = "2069-04-20"
         db.session.commit()
+        message = Mail(
+            from_email='library@ridneslovo.ca',
+            to_emails='mytyber@gmail.com',
+            subject='Sending with Twilio SendGrid is Fun',
+            html_content=render_template("emails/test.html"))
+        try:
+            sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+            response = sg.send(message)
+            print(response.status_code)
+            print(response.body)
+            print(response.headers)
+        except Exception as e:
+            print(e.message)
         return render_template("borrowed.html", user=session, book=book)
     return render_template("borrowed.html", user=session, error=session.get("error"), book=book)
 
