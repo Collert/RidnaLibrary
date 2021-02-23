@@ -1,4 +1,4 @@
-const CACHE_NAME = 'static-cache v12';
+const CACHE_NAME = 'static-cache v13';
 
 const FILES_TO_CACHE = [
   "/static/pwa/offline.html",
