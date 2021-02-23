@@ -47,6 +47,8 @@ cloudinary.config(
 )
 
 # Configure variables
+FROM_EMAIL = 'library@ridneslovo.ca'
+SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY') #SendGrid API key
 BORROW_PERIOD = 21 # Borrow period in days
 BOOKS_PER_PAGE = 15 # Books per page in pagination
 
@@ -161,6 +163,19 @@ def borrow(id):
         else:
             book.borrow_end = "2069-04-20"
         db.session.commit()
+        message = Mail(
+            from_email=FROM_EMAIL,
+            to_emails=session["email"],
+            subject='Ми готуємо ваші книги!',
+            html_content=render_template("emails_borrow.html", book=book))
+        try:
+            sg = SendGridAPIClient(SENDGRID_API_KEY)
+            response = sg.send(message)
+            print(response.status_code)
+            print(response.body)
+            print(response.headers)
+        except Exception as e:
+            print(e.message)
         return render_template("borrowed.html", user=session, book=book)
     return render_template("borrowed.html", user=session, error=session.get("error"), book=book)
 
@@ -288,6 +303,19 @@ def markout():
         else:
             book.borrow_end = "2069-04-20"
         db.session.commit()
+        message = Mail(
+            from_email=FROM_EMAIL,
+            to_emails=person.email,
+            subject='Ви позичили книгу',
+            html_content=render_template("emails_markout.html", book=book, admin=session["first"]))
+        try:
+            sg = SendGridAPIClient(SENDGRID_API_KEY)
+            response = sg.send(message)
+            print(response.status_code)
+            print(response.body)
+            print(response.headers)
+        except Exception as e:
+            print(e.message)
         return render_template("borrowed.html", book=book, user=session, error=session.get("error"), origin="markout")
     return render_template("markout.html", user=session, error=session.get("error"))
 
@@ -307,12 +335,25 @@ def back(id):
         flash("Не існує книги з таким id")
         session["error"]=True
         return render_template("dashboard.html", error=session.get("error"), user=session)
+    message = Mail(
+        from_email=FROM_EMAIL,
+        to_emails=session["email"],
+        subject='Книгу повернено',
+        html_content=render_template("emails_return.html", book=book))
     book.borrowed = False
     book.borrowed_by = None
     book.borrow_start = None
     book.borrow_end = None
     db.session.add(record)
     db.session.commit()
+    try:
+        sg = SendGridAPIClient(SENDGRID_API_KEY)
+        response = sg.send(message)
+        print(response.status_code)
+        print(response.body)
+        print(response.headers)
+    except Exception as e:
+        print(e.message)
     flash("Книгу повернено")
     return redirect("/board")
 
