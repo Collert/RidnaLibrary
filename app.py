@@ -305,7 +305,7 @@ def markout():
             return render_template("markout.html", user=session, error=session.get("error"))
         if book.borrowed:
             session["error"] = True
-            flash("Книга не позичина")
+            flash("Книга вже позичина")
             return render_template("markout.html", user=session, error=session.get("error"))
         book.borrowed = True
         book.borrowed_by = person.school_id
