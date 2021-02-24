@@ -294,10 +294,18 @@ def markout():
     session["error"]=False
     if request.method == "POST":
         person = User.query.filter_by(school_id=request.form.get("person")).first()
+        if not person:
+            session["error"] = True
+            flash("Не дійсний ID клієнта")
+            return render_template("markout.html", user=session, error=session.get("error"))
         book = Book.query.filter_by(id=(request.form.get("book"))).first()
+        if not book:
+            session["error"] = True
+            flash("Не дійсний ID книги")
+            return render_template("markout.html", user=session, error=session.get("error"))
         book.borrowed = True
         book.borrowed_by = person.school_id
-        book.borrow_start = datetime.datetime.fromisoformat(request.form.get("start"))
+        book.borrow_start = datetime.date.fromisoformat(request.form.get("start"))
         if person.role == "student":
             book.borrow_end = book.borrow_start + datetime.timedelta(days=BORROW_PERIOD)
         else:

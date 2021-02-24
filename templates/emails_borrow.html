@@ -7,69 +7,77 @@
     <body>
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans&display=swap');
-            body {
-                font-family: 'Balsamiq Sans', cursive;
+            div.body {
                 background-color: #f5f2f0;
                 padding: 30px;
                 padding-top: 10px;
+            }
+            div.body div p,
+            div.body div h1,
+            div.body div h3{
+                font-family: 'Balsamiq Sans', cursive;
             }
             hr.rounded {
                 border-top: 2px solid #bbb;
                 border-radius: 5px;
             }
+            span.im {
+                color: black;
+                font-family: 'Balsamiq Sans', cursive;
+            }
         </style>
-        <div style="color: black;">
-            <div style="text-align: center;">
-                <img style="width: 100px;" src="https://res.cloudinary.com/ridna-library/image/upload/v1614067307/emails/name_jwf0fn.png">
-            </div>
-            <div style="text-align: center;">
-                <img src="https://res.cloudinary.com/ridna-library/image/upload/v1614067307/emails/prep_yjpz6r.png">
-            </div>
-            <div>
-                <h1>
-                    Ми готуємо ваші книги!
-                </h1>
-            </div>
-            <div>
-                <p>
-                    Дякуємо за ваше замовлення! Ваші книги будуть готові наступонї суботи. Не забудьте забрати їх за адресою: <a href="https://goo.gl/maps/Z9D1LULKvCYmegES7"><b>502 5th Avenue, New Westminster</b></a>.
-                    Нижче знаходиться інформація про ваше замовлення. Якщо ви передумаєте та вирішите скасувати вале замовлення, це можна зробити на <a href="https://library.ridneslovo.ca/book/{{book.id}}">сторінці книги</a> до початку вашого позичального періоду.
-                </p>
-            </div>
-            <div>
-                <h3>
-                    Деталі замовлення
-                </h3>
-            </div>
-            <div>
-                <p>
-                    1x {{book.name}}<br>
-                    Очікувана дата повернення: {{book.borrow_end}}
-                </p>
-            </div>
-            <hr class="rounded">
-            <div>
-                <p style="text-align: center;">
-                    З любими запитаннями, просимо <a href="mailto:library@ridneslovo.ca">звертатися до нас</a>.
-                </p>
-            </div>
-            <div style="display: block; text-align: center; margin-left: auto; margin-top: 30px; margin-right: auto;">
-                <a href="https://www.ridneslovo.ca/" style="text-decoration: none;">
-                    <img style="width: 30px; margin-left: 10px; margin-right: 10px;" src="https://res.cloudinary.com/ridna-library/image/upload/v1614067307/emails/socials/website_umoxth.png">
-                </a>
-                <a href="https://www.instagram.com/ridneslovobc/" style="text-decoration: none;">
-                    <img  style="width: 30px; margin-left: 10px; margin-right: 10px;" src="https://res.cloudinary.com/ridna-library/image/upload/v1614067307/emails/socials/insta_etqzze.png">
-                </a>
-                <a href="https://www.youtube.com/channel/UCkq7VpR2WwzasdMt6WSY5bw" style="text-decoration: none;">
-                    <img  style="width: 30px; margin-left: 10px; margin-right: 10px;" src="https://res.cloudinary.com/ridna-library/image/upload/v1614067307/emails/socials/youtube_o3xpno.png">
-                </a>
-                <a href="https://www.facebook.com/ridslovo" style="text-decoration: none;">
-                    <img  style="width: 30px; margin-left: 10px; margin-right: 10px;" src="https://res.cloudinary.com/ridna-library/image/upload/v1614067307/emails/socials/facebook_rd1zwi.png">
-                </a>
-            </div>
-            <div style="text-align: center; margin: 30px;">
-                <small>Рідне Слово</small>
-            </div>
+    <div class="body">
+        <div style="text-align: center;">
+            <img style="width: 100px;" src="https://res.cloudinary.com/ridna-library/image/upload/v1614067307/emails/name_jwf0fn.png">
         </div>
+        <div style="text-align: center;">
+            <img src="https://res.cloudinary.com/ridna-library/image/upload/v1614067307/emails/prep_yjpz6r.png">
+        </div>
+        <div>
+            <h1>
+                Ми готуємо ваші книги!
+            </h1>
+        </div>
+        <div>
+            <p>
+                Дякуємо за ваше замовлення! Ваші книги будуть готові наступонї суботи. Не забудьте забрати їх за адресою: <a href="https://goo.gl/maps/Z9D1LULKvCYmegES7"><b>502 5th Avenue, New Westminster</b></a>.
+                Нижче знаходиться інформація про ваше замовлення. Якщо ви передумаєте та вирішите скасувати вале замовлення, це можна зробити на <a href="https://library.ridneslovo.ca/book/{{book.id}}">сторінці книги</a> до початку вашого позичального періоду.
+            </p>
+        </div>
+        <div>
+            <h3>
+                Деталі замовлення
+            </h3>
+        </div>
+        <div>
+            <p>
+                1x {{book.name}}<br>
+                Очікувана дата повернення: {{book.borrow_end}}
+            </p>
+        </div>
+        <hr class="rounded">
+        <div>
+            <p style="text-align: center;">
+                З любими запитаннями, просимо <a href="mailto:library@ridneslovo.ca">звертатися до нас</a>.
+            </p>
+        </div>
+        <div style="display: block; text-align: center; margin-left: auto; margin-top: 30px; margin-right: auto;">
+            <a href="https://www.ridneslovo.ca/" style="text-decoration: none;">
+                <img style="width: 30px; margin-left: 10px; margin-right: 10px;" src="https://res.cloudinary.com/ridna-library/image/upload/v1614067307/emails/socials/website_umoxth.png">
+            </a>
+            <a href="https://www.instagram.com/ridneslovobc/" style="text-decoration: none;">
+                <img  style="width: 30px; margin-left: 10px; margin-right: 10px;" src="https://res.cloudinary.com/ridna-library/image/upload/v1614067307/emails/socials/insta_etqzze.png">
+            </a>
+            <a href="https://www.youtube.com/channel/UCkq7VpR2WwzasdMt6WSY5bw" style="text-decoration: none;">
+                <img  style="width: 30px; margin-left: 10px; margin-right: 10px;" src="https://res.cloudinary.com/ridna-library/image/upload/v1614067307/emails/socials/youtube_o3xpno.png">
+            </a>
+            <a href="https://www.facebook.com/ridslovo" style="text-decoration: none;">
+                <img  style="width: 30px; margin-left: 10px; margin-right: 10px;" src="https://res.cloudinary.com/ridna-library/image/upload/v1614067307/emails/socials/facebook_rd1zwi.png">
+            </a>
+        </div>
+        <div style="text-align: center; margin: 30px;">
+            <small>Рідне Слово</small>
+        </div>
+    </div>
     </body>
 </html>
