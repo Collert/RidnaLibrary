@@ -303,6 +303,10 @@ def markout():
             session["error"] = True
             flash("Не дійсний ID книги")
             return render_template("markout.html", user=session, error=session.get("error"))
+        if book.borrowed:
+            session["error"] = True
+            flash("Книга не позичина")
+            return render_template("markout.html", user=session, error=session.get("error"))
         book.borrowed = True
         book.borrowed_by = person.school_id
         book.borrow_start = datetime.date.fromisoformat(request.form.get("start"))
