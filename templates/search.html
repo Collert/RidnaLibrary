@@ -19,11 +19,25 @@ Search
             width: 20rem;
         }
     }
+    .star > span::before {
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 100%;
+    color: #e89c00;
+    content: "\f005";
+    font-weight: 900;
+    font-family: "Font Awesome 5 Free" !important;
+    }
 </style>
+
+<div class="spinner-border text-warning" id="spinner" style="visibility: hidden; transition: all 0.5s ease; margin-top: 50px;" role="status">
+    <span class="visually-hidden">Loading...</span>
+</div>
+
+<div id="page" style="transition: all 0.5s ease;">
     <h5>Шукайте книги за допомогою цієї форми</h5>
 
 <!--Search bar-->
-
 <div class="row">
 <div class="col-md-9">
     <form method="POST" action="/search" class="row g-3">
@@ -64,7 +78,7 @@ Search
             </label>
         </div>
         <div class="col-12">
-            <button type="submit" class="btn btn-primary">Пошук</button>
+            <button type="submit" class="btn btn-primary" onclick="get_spinner()">Пошук</button>
         </div>
     </form>
 </div>
@@ -97,6 +111,12 @@ Search
               <p class="card-text">{{book.description|truncate(200, end=" ...")}}</p>
             </div>
             <div style="margin-bottom: 20px;">
+                {% if scores[book.id][0] %}
+                <div class="star" style="padding-bottom: 10px;">
+                    Рейтинг: <span>  {{ "%.1f"|format(scores[book.id][0]) }}</span>
+                    
+                </div>
+                {% endif %}
                 <a href="/book/{{book.id}}" class="btn btn-primary">Переглянути</a>
               </div>
           </div>
@@ -112,27 +132,40 @@ Search
     <nav aria-label="Search result pages">
         <ul class="pagination justify-content-center" style="margin: 10px;">
         {% if books.page == 1 %}
-            <li class="page-item disabled"><a class="page-link" href="{{ url_for('search', page=books.prev_num) }}">Назад</a></li>
+            <li class="page-item disabled"><a class="page-link" onclick="get_spinner()" href="{{ url_for('search', q=query, age=age, page=books.prev_num) }}">Назад</a></li>
         {% else %}
-            <li class="page-item"><a class="page-link" href="{{ url_for('search', page=books.prev_num) }}">Назад</a></li>
+            <li class="page-item"><a class="page-link" onclick="get_spinner()" href="{{ url_for('search', q=query, age=age, page=books.prev_num) }}">Назад</a></li>
         {%endif%}
           {% for pagenum in books.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
           {% if pagenum %}
             {% if pagenum == books.page %}
-            <li class="page-item active"><a class="page-link" href="{{ url_for('search', page=pagenum) }}">{{pagenum}}</a></li>
+            <li class="page-item active"><a class="page-link" onclick="get_spinner()" href="{{ url_for('search', q=query, age=age, page=pagenum) }}">{{pagenum}}</a></li>
             {% else %}
-            <li class="page-item"><a class="page-link" href="{{ url_for('search', page=pagenum) }}">{{pagenum}}</a></li>
+            <li class="page-item"><a class="page-link" onclick="get_spinner()" href="{{ url_for('search', q=query, age=age, page=pagenum) }}">{{pagenum}}</a></li>
             {% endif %}
           {% else %}
             <li class="page-item"><a class="page-link">...</a></li>
           {% endif %}
           {% endfor %}
         {% if books.page == books.pages %}
-            <li class="page-item disabled"><a class="page-link" href="{{ url_for('search', page=books.next_num) }}">Вперед</a></li>
+            <li class="page-item disabled"><a class="page-link" onclick="get_spinner()" href="{{ url_for('search', q=query, age=age, page=books.next_num) }}">Вперед</a></li>
         {% else %}
-            <li class="page-item"><a class="page-link" href="{{ url_for('search', page=books.next_num) }}">Вперед</a></li>
+            <li class="page-item"><a class="page-link" onclick="get_spinner()" href="{{ url_for('search', q=query, age=age, page=books.next_num) }}">Вперед</a></li>
         {%endif%}
         </ul>
     </nav>
 {% endif %}
+</div>
+<script>
+    const spinner = document.querySelector("#spinner");
+    const doc = document.querySelector("#page");
+
+    function get_spinner() {
+        doc.style.visibility = "hidden";
+        doc.style.opacity = "0";
+        spinner.style.visibility = "visible";
+        spinner.style.opacity = "1";
+        window.scrollTo(0, 0);
+    };
+</script>
 {% endblock %}

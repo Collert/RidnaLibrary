@@ -5,7 +5,7 @@ import datetime
 import time
 
 # Downloaded libraries
-from sqlalchemy import create_engine, or_, and_, func
+from sqlalchemy import create_engine, or_, and_, sql
 from sqlalchemy.orm import scoped_session, sessionmaker
 from flask import Flask, flash, redirect, render_template, request, session, jsonify, make_response, send_from_directory, url_for
 from flask_session import Session
@@ -91,6 +91,7 @@ def person_edit(id):
     return render_template("edit_person.html", error=session.get("error"), user=session, person=person)
 
 @app.route("/search", methods=["GET", "POST"])
+@login_required
 def search():
     """Lookup a book by criteria"""
     session["error"]=False
@@ -99,7 +100,6 @@ def search():
             number = int(request.form.get("number"))
             return redirect(f"/book/{number}")
         else:
-            page = request.args.get('page', 1, type=int)
             query = request.form.get("query")
             age = request.form.getlist("age-group")
             if query:
@@ -107,18 +107,30 @@ def search():
                 query = query.text
                 query = "%{}%".format(query)
                 query.strip()
-                books = Book.query.filter(or_(Book.author.ilike(query), Book.name.ilike(query), Book.description.ilike(query)), Book.age_group.in_(age)).order_by(Book.borrowed).paginate(page=page, per_page=BOOKS_PER_PAGE)
-            else:
-                books = Book.query.filter(Book.age_group.in_(age)).order_by(Book.borrowed).paginate(page=page, per_page=BOOKS_PER_PAGE)
+            return redirect(f"/search?q={query}&age={age}")
+    else:
+        page = request.args.get('page', 1, type=int)
+        query = request.args.get("q")
+        age = request.args.get("age")
+        if query and age:
+            books = db.session.query(Book).filter(or_(Book.author.ilike(query), Book.name.ilike(query), Book.description.ilike(query)), Book.age_group.in_(age)).order_by(Book.borrowed).paginate(page=page, per_page=BOOKS_PER_PAGE)
+        elif age:
+            books = db.session.query(Book).filter(Book.age_group.in_(age)).order_by(Book.borrowed).paginate(page=page, per_page=BOOKS_PER_PAGE)
+        else:
+            books = db.session.query(Book).order_by(Book.borrowed).paginate(page=page, per_page=BOOKS_PER_PAGE)
         if not books.items:
             session["error"]=True
             flash("Нічого не знайдено")
             return render_template("search.html", error=session.get("error"), user=session)
-        return render_template("search.html", user=session, books=books, error=session.get("error"))
-    else:
-        page = request.args.get('page', 1, type=int)
-        books = Book.query.order_by(Book.borrowed).paginate(page=page, per_page=BOOKS_PER_PAGE)
-    return render_template("search.html", error=session.get("error"), user=session, books=books)
+        book_ids = []
+        for book in books.items:
+            book_ids.append(book.id)
+        scores = {}
+        for book in books.items:
+            avg_score = db.session.query(sql.func.avg(Review.rating)).filter(Review.book_id == book.id).first()
+            print(avg_score)
+            scores[book.id] = avg_score
+        return render_template("search.html", user=session, books=books, error=session.get("error"), query=query, age=age, scores=scores)
 
 @app.route("/board")
 @admin_required
