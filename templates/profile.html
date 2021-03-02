@@ -23,15 +23,15 @@
         width:100%;
     }
 </style>
-    <img src="{{person.picture}}" style="width: 25%; border-radius: 50%;" alt="{{person.first}}'s profile picture">
+    <img src="{{person.picture}}" style="width: 10%; border-radius: 50%;" alt="{{person.first}}'s profile picture">
     <h1>{{person.first}} {{person.last}}</h1>
     <h5 style="text-align: left;"><b>Email:</b> <a href="mailto:{{person.email}}">{{person.email}}</a></h5>
-    <h5 style="text-align: left;"><b>School ID:</b> #{{person.school_id}}</h5>
+    <h5 style="text-align: left;"><b>Шкільний ID:</b> #{{person.school_id}}</h5>
     {% if user.role == "admin" %}
     <a class="btn btn-primary" href="/profile/{{ person.school_id }}/edit" role="button">Редагувати інформацію</a><br><br>
     {% endif %}
     {% if books and user.role == "admin" %}
-        <h3>Borrowed books:</h3>
+        <h3>Позичені книги:</h3>
         <table class="table table-striped table-hover" name="table">
             <thead>
               <tr>
