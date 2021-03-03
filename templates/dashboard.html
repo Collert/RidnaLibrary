@@ -160,7 +160,7 @@ Dashboard
             {% for book in over %}
             <div class="col-lg-4 col-md-6" id="container" style="margin-top: 7px; margin-bottom: 7px;">
             <div class="card border-danger" id="card">
-                <img src="{{ book.image }}" class="card-img-top" alt="Cover for {{book[0].name}}">
+                <img src="{{ book[0].image }}" class="card-img-top" alt="Cover for {{book[0].name}}">
                 <div class="card-body">
                   <h5 class="card-title">{{book[0].name}}</h5>
                   <p class="card-text">{{book[0].description|truncate(100, end=" ...")}}</p>
