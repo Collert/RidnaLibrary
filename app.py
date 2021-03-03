@@ -179,7 +179,7 @@ def borrow(id):
             from_email=FROM_EMAIL,
             to_emails=session["email"],
             subject='Ми готуємо ваші книги!',
-            html_content=render_template("emails_borrow.html", book=book))
+            html_content=render_template("emails_borrow.html", book=book, person=session))
         try:
             sg = SendGridAPIClient(SENDGRID_API_KEY)
             response = sg.send(message)
@@ -331,7 +331,7 @@ def markout():
             from_email=FROM_EMAIL,
             to_emails=person.email,
             subject='Ви позичили книгу',
-            html_content=render_template("emails_markout.html", book=book, admin=session["first"]))
+            html_content=render_template("emails_markout.html", book=book, admin=session["first"], person=person))
         try:
             sg = SendGridAPIClient(SENDGRID_API_KEY)
             response = sg.send(message)
@@ -359,11 +359,12 @@ def back(id):
         flash("Не існує книги з таким id")
         session["error"]=True
         return render_template("dashboard.html", error=session.get("error"), user=session)
+    person = User.query.get(book.borrowed_by)
     message = Mail(
         from_email=FROM_EMAIL,
-        to_emails=session["email"],
+        to_emails=person.email,
         subject='Книгу повернено',
-        html_content=render_template("emails_return.html", book=book))
+        html_content=render_template("emails_return.html", book=book, person=person))
     book.borrowed = False
     book.borrowed_by = None
     book.borrow_start = None
@@ -561,7 +562,7 @@ def return_reminder():
                 from_email=FROM_EMAIL,
                 to_emails=person.email,
                 subject='В вас наші книги',
-                html_content=render_template("emails_late.html"), owing=owing)
+                html_content=render_template("emails_late.html"), owing=owing, person=person)
             try:
                 sg = SendGridAPIClient(SENDGRID_API_KEY)
                 response = sg.send(message)
