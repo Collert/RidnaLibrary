@@ -544,14 +544,29 @@ def logout():
 
 # Commands
 
-# Push notification reminders (hopefully i'll get to it someday)
-#@app.cli.command("return_reminder")
-#def return_reminder():
-#    books = Book.query.filter_by(borrow_end=(datetime.date.today() + datetime.timedelta(days=1))).all()
-#    borrowers = set()
-#    for book in books:
-#        borrowers.add(book.borrowed_by)
-#    return
+@app.cli.command("return_reminder")
+def return_reminder():
+    if datetime.datetime.today().weekday() == 5:
+        books = Book.query.filter(Book.borrow_end <= datetime.date.today())
+        borrowers = set()
+        for book in books:
+            borrowers.add(book.borrowed_by)
+        violators = User.query.filter(User.school_id.in_(borrowers))
+        for person in violators:
+            message = Mail(
+                from_email=FROM_EMAIL,
+                to_emails=person.email,
+                subject='В вас наші книги',
+                html_content=render_template("emails_late.html"))
+            try:
+                sg = SendGridAPIClient(SENDGRID_API_KEY)
+                response = sg.send(message)
+                print(response.status_code)
+                print(response.body)
+                print(response.headers)
+            except Exception as e:
+                print(e.message)
+    return
 
 # PWA routes
 
