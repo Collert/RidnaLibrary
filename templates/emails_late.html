@@ -43,6 +43,18 @@
                     Дякуємо шо користуєтеся нашими послугами. На даний момент у вас є певні книги які ви мали повернути раніше. Будь ласка перейдіть у вашу панель книг та поверніть їх якомога швидше. Дякуємо за ваше розуміння!
                 </p>
             </div>
+            <div>
+                <h3>
+                    Книги які ви затримали:
+                </h3>
+            </div>
+            <div>
+                {% for book in owing %}
+                <p>
+                    1x {{book.name}}. Очікувана дата повернення: {{book.borrow_end}}
+                </p>
+                {% endfor %}
+            </div>
             <div style="text-align: center;">
                 <a href="https://library.ridneslovo.ca/" style="background-color: #ffe05f; border-radius: 10px; color: #e89c00; padding: 14px 25px; text-align: center; text-decoration: none; display: inline-block;">Переглянути мої книги</a>
             </div>

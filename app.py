@@ -553,11 +553,15 @@ def return_reminder():
             borrowers.add(book.borrowed_by)
         violators = User.query.filter(User.school_id.in_(borrowers))
         for person in violators:
+            owing = []
+            for book in books:
+                if book.borrowed_by == person.school_id:
+                    owing.append(book)
             message = Mail(
                 from_email=FROM_EMAIL,
                 to_emails=person.email,
                 subject='В вас наші книги',
-                html_content=render_template("emails_late.html"))
+                html_content=render_template("emails_late.html"), owing=owing)
             try:
                 sg = SendGridAPIClient(SENDGRID_API_KEY)
                 response = sg.send(message)
