@@ -58,6 +58,13 @@ db.init_app(app)
 # Get Google client ID for sign in button
 gclient_id = os.environ.get("GOOGLE_CLIENT_ID")
 
+@app.before_request
+def before_request():
+    if request.url.startswith('http://'):
+        url = request.url.replace('http://', 'https://', 1)
+        code = 301
+        return redirect(url, code=code)
+
 @app.route("/profile")
 @login_required
 def profileown():
