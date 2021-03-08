@@ -37,7 +37,7 @@ var initClient = function() {
  */
 var onSuccess = function() {
     const user = sessionStorage.getItem('user');
-    onSignIn();
+    onSignIn(user);
  };
 
 /**
