@@ -532,6 +532,7 @@ def login():
 
                 # ID token is valid. Get the user's Google Account ID from the decoded token.
                 session["googleid"] = idinfo['sub']
+                guserid = session["googleid"]
             except ValueError:
                 # Invalid token
                 pass
