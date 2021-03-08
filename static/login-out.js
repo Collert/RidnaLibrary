@@ -11,7 +11,7 @@ function onSignIn(googleUser){
     };
     console.log(id_token);
     xhr.send('idtoken=' + id_token);
-    setTimeout(function(){window.location.href = "/";}, 1000);
+    //setTimeout(function(){window.location.href = "/";}, 1000);
 }
 
 /**
@@ -35,9 +35,8 @@ var initClient = function() {
 /**
  * Handle successful sign-ins.
  */
-var onSuccess = function() {
-    const user = sessionStorage.getItem('user');
-    onSignIn(user);
+ var onSuccess = function(user) {
+    console.log('Signed in as ' + user.getBasicProfile().getName());
  };
 
 /**
