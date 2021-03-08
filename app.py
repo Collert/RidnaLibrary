@@ -524,21 +524,21 @@ def login():
     session["error"] = False
     if request.method == "POST":
         try:
-            guserid = session["googleid"]
+            guserid = session["googleinfo"]["sub"]
         except KeyError:
             token = request.form["idtoken"]
             try:
                 idinfo = id_token.verify_oauth2_token(token, requests.Request(), gclient_id)
 
                 # ID token is valid. Get the user's Google Account ID from the decoded token.
-                session["googleid"] = idinfo['sub']
-                guserid = session["googleid"]
+                session["googleinfo"] = idinfo
+                guserid = session["googleinfo"]["sub"]
             except ValueError:
                 # Invalid token
                 pass
         user = User.query.filter_by(google_id=guserid).first()
         if not user:
-            user = User(first=idinfo["given_name"], last=idinfo["family_name"], email=idinfo["email"], google_id=guserid, picture=idinfo["picture"])
+            user = User(first=session["googleinfo"]["given_name"], last=session["googleinfo"]["family_name"], email=session["googleinfo"]["email"], google_id=guserid, picture=session["googleinfo"]["picture"])
             db.session.add(user)
             db.session.commit()
             user = User.query.filter_by(google_id=guserid).first()
@@ -546,7 +546,7 @@ def login():
             # Update existing info
             #user.first = idinfo["given_name"] # Probably will leave name editing up to staff
             #user.last=idinfo["family_name"]
-            user.picture=idinfo["picture"]
+            user.picture=session["googleinfo"]["picture"]
             db.session.commit()
         kids = User.query.filter_by(google_id=f"child_of:{user.school_id}").all()
         if not kids:
