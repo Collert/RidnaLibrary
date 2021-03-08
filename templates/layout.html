@@ -51,10 +51,12 @@
                 <img src="/static/images/banner-large.png" style="max-width: 100%; margin: auto; max-height: 200px; display: block;">
             </picture>
             <!--Dropdown menu-->
-            {% if user["role"] == "admin" %}
-                {% include "navbar_admin.html" %}
-            {% else %}
-                {% include "navbar_user.html" %}
+            {% if user %}
+                {% if user["role"] == "admin" %}
+                    {% include "navbar_admin.html" %}
+                {% else %}
+                    {% include "navbar_user.html" %}
+                {% endif %}
             {% endif %}
             <!-- Notification banner -->
             {% if get_flashed_messages(with_categories = true) %}
@@ -82,7 +84,9 @@
         </main>
         </div>
         <footer>
-                <div>Disclaimer: Project in testing phase. For any errors, please use "Report problem" function in the menu. Love, Andriy.</div>
+                <div>
+                    <a href="/terms">Умови користування</a>     <a href="/privacy">Політика конфіденційності</a>
+                </div>
         </footer>
     </div>
     </body>

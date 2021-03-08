@@ -65,6 +65,16 @@ def before_request():
         code = 301
         return redirect(url, code=code)
 
+@app.route("/privacy")
+def privacy():
+    """Show privacy policy"""
+    return render_template("privacy.html", user=session)
+
+@app.route("/terms")
+def terms():
+    """Show terms of service"""
+    return render_template("terms.html", user=session)
+
 @app.route("/profile")
 @login_required
 def profileown():
@@ -510,6 +520,7 @@ def index():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    """Log user in using Google sign-in"""
     session["error"] = False
     if request.method == "POST":
         token = request.form["idtoken"]
