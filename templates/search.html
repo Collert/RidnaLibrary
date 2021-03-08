@@ -9,14 +9,9 @@ Search
     form {
         margin: 15px;
     }
-    @media (min-width: 430px){
-        #card{
-            width: 18rem;
-        }
-    }
-    @media (max-width: 430px){
+    @media (max-width: 768px){
         #container{
-            width: 20rem;
+            width: 30rem;
         }
     }
     .star > span::before {
@@ -30,7 +25,7 @@ Search
     }
 </style>
 
-<div class="spinner-border text-warning" id="spinner" style="visibility: hidden; transition: all 0.5s ease; margin-top: 50px;" role="status">
+<div class="spinner-border text-warning" id="spinner" hidden style="visibility: hidden; transition: all 0.5s ease; margin-top: 50px;" role="status">
     <span class="visually-hidden">Loading...</span>
 </div>
 
@@ -47,31 +42,31 @@ Search
         <div class="col-2">
             Вікові категорії:
         </div>
-        <div class="form-check col-md-1 col-2">
+        <div class="form-check col-lg-1 col-2">
             <input class="form-check-input" type="checkbox" name="age-group" value="C" id="c-check" checked>
             <label class="form-check-label" for="c-check">
               C
             </label>
         </div>
-        <div class="form-check col-md-1 col-2">
+        <div class="form-check col-lg-1 col-2">
             <input class="form-check-input" type="checkbox" name="age-group" value="CT" id="ct-check" checked>
             <label class="form-check-label" for="ct-check">
               CT
             </label>
         </div>
-        <div class="form-check col-md-1 col-2">
+        <div class="form-check col-lg-1 col-2">
             <input class="form-check-input" type="checkbox" name="age-group" value="T" id="t-check" checked>
             <label class="form-check-label" for="t-check">
               T
             </label>
         </div>
-        <div class="form-check col-md-1 col-2">
+        <div class="form-check col-lg-1 col-2">
             <input class="form-check-input" type="checkbox" name="age-group" value="TA" id="ta-check" checked>
             <label class="form-check-label" for="ta-check">
               TA
             </label>
         </div>
-        <div class="form-check col-md-1 col-2">
+        <div class="form-check col-lg-1 col-2">
             <input class="form-check-input" type="checkbox" name="age-group" value="A" id="a-check" checked>
             <label class="form-check-label" for="a-check">
               A
@@ -99,7 +94,7 @@ Search
 {% if books %}
 <div class="row justify-content-center">
     {% for book in books.items %}
-    <div class="col-lg-4 col-md-6" id="container" style="margin-top: 7px; margin-bottom: 7px;">
+    <div class="col-lg-4 col-xl-3 col-md-6" id="container" style="margin-top: 7px; margin-bottom: 7px;">
         <div class="card h-100" id="card">
             {% if book.image %}
                 <img src="{{ book.image }}" class="card-img-top" alt="Cover for {{book.name}}">
@@ -163,6 +158,7 @@ Search
     function get_spinner() {
         doc.style.visibility = "hidden";
         doc.style.opacity = "0";
+        spinner.hidden = false;
         spinner.style.visibility = "visible";
         spinner.style.opacity = "1";
         window.scrollTo(0, 0);
