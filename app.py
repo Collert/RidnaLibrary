@@ -523,7 +523,9 @@ def login():
     """Log user in using Google sign-in"""
     session["error"] = False
     if request.method == "POST":
-        if not session["googleid"]:
+        try:
+            guserid = session["googleid"]
+        except KeyError:
             token = request.form["idtoken"]
             try:
                 idinfo = id_token.verify_oauth2_token(token, requests.Request(), gclient_id)
@@ -533,7 +535,6 @@ def login():
             except ValueError:
                 # Invalid token
                 pass
-        guserid = session["googleid"]
         user = User.query.filter_by(google_id=guserid).first()
         if not user:
             user = User(first=idinfo["given_name"], last=idinfo["family_name"], email=idinfo["email"], google_id=guserid, picture=idinfo["picture"])
