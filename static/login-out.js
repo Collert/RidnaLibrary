@@ -35,9 +35,7 @@ var initClient = function() {
 /**
  * Handle successful sign-ins.
  */
- var onSuccess = function(user) {
-    console.log('Signed in as ' + user.getBasicProfile().getName());
- };
+ var onSuccess = onSignIn(user);
 
 /**
  * Handle sign-in failures.
