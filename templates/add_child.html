@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Add a child
+{% endblock %}
+
+{% block main %}
+<style>
+    .pic{
+        border-color: #e89c00;
+        padding: 2px;
+        border-radius: 50%;
+        border-width: 1px;
+        margin: 5px;
+    }
+    .btn-check:checked + .pic{
+        border-width: 4px;
+    }
+    .pic > img{
+        max-width: 95px;
+        border-radius: 50%;
+    }
+    .basic{
+        margin: 10px;
+        margin-left: 0px;
+    }
+</style>
+<form action="/add_child" method="POST">
+<div class="container">
+    <div class="row">
+      <div class="col-sm">
+        <!--Image selector-->
+        <div class="row"><h3>Виберіть зображення профілю</h3></div>
+        <div class="col-sm" id="pics" style="margin-bottom: 15px;">
+            <input type="radio" class="btn-check" value="/static/images/kids-pfp-default/pfp-art.jpg" name="default-pfp" id="art" autocomplete="off">
+            <label class="btn pic" for="art"><img src="/static/images/kids-pfp-default/pfp-art.jpg"></label>
+
+            <input type="radio" class="btn-check" value="/static/images/kids-pfp-default/pfp-book.jpg" name="default-pfp" id="book" autocomplete="off">
+            <label class="btn pic" for="book"><img src="/static/images/kids-pfp-default/pfp-book.jpg"></label>
+            
+            <input type="radio" class="btn-check" value="/static/images/kids-pfp-default/pfp-explore.jpg" name="default-pfp" id="explore" autocomplete="off">
+            <label class="btn pic" for="explore"><img src="/static/images/kids-pfp-default/pfp-explore.jpg"></label>
+            <br>
+            <input type="radio" class="btn-check" value="/static/images/kids-pfp-default/pfp-it.jpg" name="default-pfp" id="it" autocomplete="off">
+            <label class="btn pic" for="it"><img src="/static/images/kids-pfp-default/pfp-it.jpg"></label>
+            
+            <input type="radio" class="btn-check" value="/static/images/kids-pfp-default/pfp-music.jpg" name="default-pfp" id="music" autocomplete="off">
+            <label class="btn pic" for="music"><img src="/static/images/kids-pfp-default/pfp-music.jpg"></label>
+
+            <input type="radio" class="btn-check" value="/static/images/kids-pfp-default/pfp-pen.jpg" name="default-pfp" id="pen" autocomplete="off">
+            <label class="btn pic" for="pen"><img src="/static/images/kids-pfp-default/pfp-pen.jpg"></label>
+            <br>
+            <input type="radio" class="btn-check" value="/static/images/kids-pfp-default/pfp-read.jpg" name="default-pfp" id="read" autocomplete="off">
+            <label class="btn pic" for="read"><img src="/static/images/kids-pfp-default/pfp-read.jpg"></label>
+
+            <input type="radio" class="btn-check" value="/static/images/kids-pfp-default/pfp-research.jpg" name="default-pfp" id="research" autocomplete="off">
+            <label class="btn pic" for="research"><img src="/static/images/kids-pfp-default/pfp-research.jpg"></label>
+
+            <input type="radio" class="btn-check" value="/static/images/kids-pfp-default/pfp-sun.jpg" name="default-pfp" id="sun" autocomplete="off">
+            <label class="btn pic" for="sun"><img src="/static/images/kids-pfp-default/pfp-sun.jpg"></label>
+        </div>
+        <div class="row"><h5>Або завантажте власну фотографію</h5></div>
+        <div class="row">
+            <input class="form-control" style="margin-bottom: 15px;" type="file" name="pic-own">
+        </div>
+      </div>
+      <div class="col-sm">
+        <div class="row"><h3>Базова інформація</h3></div>
+        <div class="row">
+            <input type="text" class="basic form-control" name="first" required placeholder="Ім'я">
+            <input type="text" class="basic form-control" name="last" required placeholder="Прізвище">
+            <input type="email" class="basic form-control" name="first" required placeholder="Електронна адреса">
+        </div>
+      </div>
+    </div>
+    <button type="submit" style="margin-top: 20px;" class="btn btn-primary mb-3">Створити профіль</button>
+</div>
+</form>
+{% endblock %}

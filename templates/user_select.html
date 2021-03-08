@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block main %}
+<style>
+    .user{
+        border-color: #e89c00;
+        padding: 2px;
+        border-radius: 50%;
+        border-width: 3px;
+    }
+    .user > img{
+        border-radius: 50%;
+    }
+    div.align-items-center{
+        height: 60vh;
+    }
+    @media(max-width: 425px){
+        div.align-items-center{
+            padding-top: 20px;
+            min-height: 75vh;
+            height: min-content;
+        }
+    }
+</style>
+<div class="d-flex align-items-center">
+    <div class="container">
+        <div class="row">
+            <h1 style="position: relative; bottom: 20px;">Хто буде користуватися бібліотекою?</h1>
+        </div>
+        <div class="row">
+        {% for member in family %}
+        <div class="col-sm" style="margin-bottom: 15px;">
+            <form action="/user_select/{{member.school_id}}" method="POST">
+                <button type="submit" class="user btn mb-3"><img src="{{member.picture}}" style="max-width: 95px;"></img></button>
+            </form>
+            <span style="font-size: 20px;">{{member.first}}</span>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -187,7 +187,7 @@ def borrow(id):
         book.borrowed = True
         book.borrowed_by = session["school_id"]
         book.borrow_start = nextSat()
-        if session["role"] == "student":
+        if session["role"] == "adult" or session["role"] == "child":
             book.borrow_end = book.borrow_start + datetime.timedelta(days=BORROW_PERIOD)
         else:
             book.borrow_end = "2069-04-20"
@@ -339,7 +339,7 @@ def markout():
         book.borrowed = True
         book.borrowed_by = person.school_id
         book.borrow_start = datetime.date.fromisoformat(request.form.get("start"))
-        if person.role == "student":
+        if person.role == "adult" or person.role == "child":
             book.borrow_end = book.borrow_start + datetime.timedelta(days=BORROW_PERIOD)
         else:
             book.borrow_end = "2069-04-20"
@@ -544,14 +544,61 @@ def login():
             #user.last=idinfo["family_name"]
             user.picture=idinfo["picture"]
             db.session.commit()
-        session["school_id"] = user.school_id
-        session["first"] = user.first
-        session["last"] = user.last
-        session["email"] = user.email
-        session["role"] = user.role
-        session["picture"] = user.picture
-        return redirect("/")
+        kids = User.query.filter_by(google_id=f"child_of:{user.school_id}").all()
+        if not kids:
+            session["school_id"] = user.school_id
+            session["first"] = user.first
+            session["last"] = user.last
+            session["email"] = user.email
+            session["role"] = user.role
+            session["picture"] = user.picture
+            return redirect("/")
+        else:
+            family = [user]
+            for kid in kids:
+                family.append(kid)
+            return render_template("user_select.html", family=family)
     return render_template("login.html", error=session.get("error"), google_signin_client_id=gclient_id, user=session)
+
+@app.route("/user_select/<int:id>", methods=["POST"])
+def user_select(id):
+    user = User.query.get(id)
+    session["school_id"] = user.school_id
+    session["first"] = user.first
+    session["last"] = user.last
+    session["email"] = user.email
+    session["role"] = user.role
+    session["picture"] = user.picture
+    return redirect("/")
+
+@app.route("/add_child", methods=["GET", "POST"])
+@login_required
+def add_child():
+    """Add a child account"""
+    session["error"] = False
+    if request.method == "GET":
+        return render_template("add_child.html", error=session.get("error"), user=session)
+    else:
+        if 'pic-own' in request.files:
+            file = request.files['pic-own']
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                upload_result = cloudinary.uploader.upload(file)
+                pic = upload_result["url"]
+        else:
+            pic = request.form.get("default-pfp")
+        first = request.form.get("first")
+        last = request.form.get("last")
+        email = request.form.get("email")
+        if User.query.filter_by(email=email).first():
+            session.error = True
+            flash("Дитину з такою електронною адресою вже зареєстровано")
+            return render_template("add_child.html", error=session.get("error"), user=session)
+        child = User(first=first, last=last, email=email, pic=pic, google_id=f"child_of:{session.school_id}", role="child")
+        db.session.add(child)
+        db.session.commit()
+        flash('Дитину зареєстровано. Натисніть "Вихід" у налаштуваннях щоб змінити профіль.')
+        return redirect("/")
 
 @app.route("/logout")
 @login_required

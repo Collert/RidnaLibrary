@@ -45,8 +45,8 @@ editing {{ person.first }}{{ person.last }}
                     <div class="mb-3">
                         <label for="exampleFormControlInput1" class="form-label"><h3>Привілегії</h3></label>
                         <select class="form-select" name="role" aria-label="Current age group">
-                            <option selected hidden value="{{ person.role }}">{% if person.role == "student" %} Клієнт {% elif person.role == "teacher" %} Вчитель {% else %} Адміністратор {% endif %}</option>
-                            <option value="student">Клієнт</option>
+                            <option selected hidden value="{{ person.role }}">{% if person.role == "adult" %} Клієнт {% elif person.role == "child" %} Дитячий аккаунт {% elif person.role == "teacher" %} Вчитель {% else %} Адміністратор {% endif %}</option>
+                            <option value="adult">Клієнт</option>
                             <option value="teacher">Вчитель</option>
                             <option disabled value="">Адміністратор</option>
                         </select>

@@ -60,7 +60,7 @@
             </li>
         </ul>
 
-        <!-- Settings & privacy Menu-items -->
+        <!-- Settings Menu-items -->
     
         <ul class="setting-drop">
             <li class="arrow back-setting-btn">
@@ -88,6 +88,15 @@
                     </div>
                 Темна тема</a>
             </li>
+            {% if user["role"] != "child" %}
+                <li>
+                    <a href="/add_child">
+                        <div class="icon">
+                            <span class="fas fa-child"></span>
+                        </div>
+                    Додати дитячий профіль</a>
+                </li>
+            {% endif %}
             <li>
                 <a href="/logout" onclick="signOut();">
                     <div class="icon">

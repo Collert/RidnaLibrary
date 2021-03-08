@@ -64,8 +64,10 @@
           </table>
     {% elif not books and user.role == "admin" %}
     {% else %}
-    <br>
-    <h6>Ця інформація була представлена нам з вашого профілю Google. Її можна редагувати у ваших налаштуваннях Google.</h6>
-    <a class="btn btn-primary" href="https://myaccount.google.com/personal-info" role="button">Налаштування</a>
+      {% if user.role != child %}
+        <br>
+        <h6>Ця інформація була представлена нам з вашого профілю Google. Її можна редагувати у ваших налаштуваннях Google.</h6>
+        <a class="btn btn-primary" href="https://myaccount.google.com/personal-info" role="button">Налаштування</a>
+      {% endif %}
     {% endif %}
 {% endblock %}

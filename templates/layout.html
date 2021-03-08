@@ -31,8 +31,8 @@
 
         <title>Ridna Library: {% block title %}{% endblock %}</title>
     </head>
-    <body>
-        <div id="page-container">
+    <body id="page-container">
+        <div>
         <div id="content-wrap">
         <header style="height: 75%;">
             <style>
@@ -83,10 +83,17 @@
             {% block main %}{% endblock %}
         </main>
         </div>
-        <footer>
-                <div>
-                    <a href="/terms">Умови користування</a>     <a href="/privacy">Політика конфіденційності</a>
+        <footer style="margin-bottom: 10px;">
+            <div class="container">
+                <div class="row">
+                  <div class="col-sm">
+                    <a href="/terms">Умови користування</a>
+                  </div>
+                  <div class="col-sm">
+                    <a href="/privacy">Політика конфіденційності</a>
+                  </div>
                 </div>
+            </div>
         </footer>
     </div>
     </body>
