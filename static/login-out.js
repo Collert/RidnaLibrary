@@ -1,8 +1,8 @@
 var auth2;
 // Sign in function to pass the user info to session
 function onSignIn(googleUser){
-    sessionStorage.setItem('user', googleUser);
     var id_token = googleUser.getAuthResponse().id_token;
+    sessionStorage.setItem('token', id_token);
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/login');
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -35,8 +35,13 @@ var initClient = function() {
 /**
  * Handle successful sign-ins.
  */
-const user = sessionStorage.getItem('user');
-var onSuccess = onSignIn(user);
+var onSuccess = function() {
+    const id_token = sessionStorage.getItem('token');
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/login');
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.send('idtoken=' + id_token);
+ };
 
 /**
  * Handle sign-in failures.
