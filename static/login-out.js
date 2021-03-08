@@ -35,7 +35,8 @@ var initClient = function() {
 /**
  * Handle successful sign-ins.
  */
- var onSuccess = onSignIn(user);
+const user = sessionStorage.getItem('user');
+var onSuccess = onSignIn(user);
 
 /**
  * Handle sign-in failures.
