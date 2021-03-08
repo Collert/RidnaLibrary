@@ -528,10 +528,11 @@ def login():
             idinfo = id_token.verify_oauth2_token(token, requests.Request(), gclient_id)
 
             # ID token is valid. Get the user's Google Account ID from the decoded token.
-            guserid = idinfo['sub']
+            session["googleid"] = idinfo['sub']
         except ValueError:
             # Invalid token
             pass
+        guserid = session["googleid"]
         user = User.query.filter_by(google_id=guserid).first()
         if not user:
             user = User(first=idinfo["given_name"], last=idinfo["family_name"], email=idinfo["email"], google_id=guserid, picture=idinfo["picture"])
