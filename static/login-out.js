@@ -35,7 +35,7 @@ var initClient = function() {
  * Handle successful sign-ins.
  */
 var onSuccess = function() {
-    setTimeout(function(){window.location.href = "/";}, 1000);
+    onSignIn();
  };
 
 /**
