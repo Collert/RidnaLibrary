@@ -52,11 +52,20 @@ document.addEventListener('mouseup', function(e) {
 const btn = document.querySelector("#theme-toggle");
 const theme = document.querySelector("#theme-link");
 const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-const currentTheme = sessionStorage.getItem("theme");
+var autoThemed = sessionStorage.getItem("autoThemed");
+var currentTheme = sessionStorage.getItem("theme");
 const body = document.querySelector("body");
 const tables = document.getElementsByName("table");
 
 window.onload = (() => {
+    if (prefersDarkScheme.matches && autoThemed == null) {
+        sessionStorage.setItem("theme", "dark");
+    } 
+    else if (autoThemed === null) {
+        sessionStorage.setItem("theme", "light");
+    }
+    sessionStorage.setItem("autoThemed", true);
+    var currentTheme = sessionStorage.getItem("theme");
     if (currentTheme == "dark") {
         theme.setAttribute("href", "/static/dark-theme.css");
         document.querySelector('meta[name="theme-color"]').setAttribute("content", "#2d2d2d");
@@ -76,15 +85,6 @@ window.onload = (() => {
         body.classList.toggle("preload");
     }
 });
-
-//if (prefersDarkScheme.matches) {
-//    theme.href = "/static/dark-theme.css";
-//    btn.innerHTML = "<div class='icon'><span class='fas fa-sun'</span></div>Light theme";
-//} 
-//else {
-//    theme.href = "/static/light-theme.css";
-//    btn.innerHTML = "<div class='icon'><span class='fas fa-moon'</span></div>Dark Theme";
-//}
 
 // Theme toggle
 
