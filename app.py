@@ -1,9 +1,9 @@
+from __future__ import print_function
 # Built-in libraries
 import os
 from tempfile import mkdtemp
 import datetime
 import pickle
-from __future__ import print_function
 
 # Downloaded libraries
 from sqlalchemy import create_engine, or_, and_, sql
