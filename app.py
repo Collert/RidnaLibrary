@@ -2,7 +2,8 @@
 import os
 from tempfile import mkdtemp
 import datetime
-import time
+import pickle
+from __future__ import print_function
 
 # Downloaded libraries
 from sqlalchemy import create_engine, or_, and_, sql
@@ -11,6 +12,8 @@ from flask import Flask, flash, redirect, render_template, request, session, jso
 from flask_session import Session
 from sqlalchemy.sql.functions import user
 from werkzeug.utils import secure_filename
+from googleapiclient.discovery import build
+from google_auth_oauthlib.flow import InstalledAppFlow
 from google.oauth2 import id_token
 from google.auth.transport import requests
 import psycopg2
@@ -51,12 +54,54 @@ FROM_EMAIL = 'library@ridneslovo.ca'
 SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY') #SendGrid API key
 BORROW_PERIOD = 21 # Borrow period in days
 BOOKS_PER_PAGE = 15 # Books per page in pagination
+SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
 # Initialise database
 db.init_app(app)
 
 # Get Google client ID for sign in button
 gclient_id = os.environ.get("GOOGLE_CLIENT_ID")
+
+@app.route("/test")
+@login_required
+def test():
+    """Shows basic usage of the Google Calendar API.
+    Prints the start and name of the next 10 events on the user's calendar.
+    """
+    creds = None
+    # The file token.pickle stores the user's access and refresh tokens, and is
+    # created automatically when the authorization flow completes for the first
+    # time.
+    if os.path.exists('token.pickle'):
+        with open('token.pickle', 'rb') as token:
+            creds = pickle.load(token)
+    # If there are no (valid) credentials available, let the user log in.
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(requests.Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file(
+                'credentials.json', SCOPES)
+            creds = flow.run_local_server(port=0)
+        # Save the credentials for the next run
+        with open('token.pickle', 'wb') as token:
+            pickle.dump(creds, token)
+
+    service = build('calendar', 'v3', credentials=creds)
+
+    # Call the Calendar API
+    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+    print('Getting the upcoming 10 events')
+    events_result = service.events().list(calendarId='primary', timeMin=now,
+                                        maxResults=10, singleEvents=True,
+                                        orderBy='startTime').execute()
+    events = events_result.get('items', [])
+
+    if not events:
+        print('No upcoming events found.')
+    for event in events:
+        start = event['start'].get('dateTime', event['start'].get('date'))
+        print(start, event['summary'])
 
 @app.before_request
 def before_request():
