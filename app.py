@@ -120,8 +120,9 @@ def search():
             query = request.form.get("query")
             age = request.form.getlist("age-group")
             if query:
-                query = translator.translate(query, dest="uk")
-                query = query.text
+                if translator.detect(query).lang == "en":
+                    query = translator.translate(query, dest="uk")
+                    query = query.text
                 query = "%{}%".format(query)
                 query.strip()
             return redirect(f"/search?q={query}&age={age}")
@@ -130,8 +131,10 @@ def search():
         query = request.args.get("q")
         age = request.args.get("age")
         if query and age:
+            age = list(age.translate({ord('['): None, ord(']'): None, ord("'"): None}).split(", "))
             books = db.session.query(Book).filter(or_(Book.author.ilike(query), Book.name.ilike(query), Book.description.ilike(query)), Book.age_group.in_(age)).order_by(Book.borrowed).paginate(page=page, per_page=BOOKS_PER_PAGE)
         elif age:
+            age = list(age.translate({ord('['): None, ord(']'): None, ord("'"): None}).split(", "))
             books = db.session.query(Book).filter(Book.age_group.in_(age)).order_by(Book.borrowed).paginate(page=page, per_page=BOOKS_PER_PAGE)
         else:
             books = db.session.query(Book).order_by(Book.borrowed).paginate(page=page, per_page=BOOKS_PER_PAGE)
