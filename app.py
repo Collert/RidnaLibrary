@@ -238,6 +238,7 @@ def borrow(id):
         else:
             book.borrow_end = "2069-04-20"
         db.session.commit()
+
         ######################
         # Confirmation email #
         ######################
@@ -297,7 +298,7 @@ def borrow(id):
                     },
                 }
                 service.events().insert(calendarId='primary', body=event).execute()
-        return render_template("borrowed.html", user=session, book=book)
+        return render_template("borrowed.html", user=session, book=book, origin="borrow")
     return render_template("borrowed.html", user=session, error=session.get("error"), book=book)
 
 @app.route("/book/<int:id>")
@@ -436,6 +437,11 @@ def markout():
         else:
             book.borrow_end = "2069-04-20"
         db.session.commit()
+
+        ######################
+        # Confirmation email #
+        ######################
+
         message = Mail(
             from_email=FROM_EMAIL,
             to_emails=person.email,
