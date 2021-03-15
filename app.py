@@ -125,16 +125,14 @@ def search():
                     query = query.text
                 query = "%{}%".format(query)
                 query.strip()
-            return redirect(f"/search?q={query}&age={age}")
+            return redirect(url_for("search", q=query, age=age))
     else:
         page = request.args.get('page', 1, type=int)
         query = request.args.get("q")
-        age = request.args.get("age")
+        age = request.args.getlist("age")
         if query and age:
-            age = list(age.translate({ord('['): None, ord(']'): None, ord("'"): None}).split(", "))
             books = db.session.query(Book).filter(or_(Book.author.ilike(query), Book.name.ilike(query), Book.description.ilike(query)), Book.age_group.in_(age)).order_by(Book.borrowed).paginate(page=page, per_page=BOOKS_PER_PAGE)
         elif age:
-            age = list(age.translate({ord('['): None, ord(']'): None, ord("'"): None}).split(", "))
             books = db.session.query(Book).filter(Book.age_group.in_(age)).order_by(Book.borrowed).paginate(page=page, per_page=BOOKS_PER_PAGE)
         else:
             books = db.session.query(Book).order_by(Book.borrowed).paginate(page=page, per_page=BOOKS_PER_PAGE)
