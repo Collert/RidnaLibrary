@@ -140,3 +140,5 @@ cython_debug/
 app_test.py
 ridneslovo-websitefinal2-01.psd
 .vscode/settings.json
+credentials_and_env
+google-credentials.json

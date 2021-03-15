@@ -52,7 +52,7 @@
         <div>
             <p>
                 1x {{book.name}}<br>
-                Очікувана дата повернення: {% if book.borrow_end.strftime("%y/%m/%d") == "69/04/20" %} Необмежений доступ {% else %} {{ book.borrow_end.strftime("%b %d") }} {% endif %}
+                Очікувана дата повернення: {% if book.borrow_end == "2069-04-20" %} Необмежений доступ {% else %} {{ book.borrow_end.strftime("%b %d") }} {% endif %}
             </p>
         </div>
         <hr class="rounded">

@@ -16,19 +16,20 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.oauth2 import id_token
 from google.auth.transport import requests
-import psycopg2
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from googletrans import Translator
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+from dotenv import load_dotenv
 
 # Custom libraries
 from functions import *
 from models import *
 
 # Configure app
+load_dotenv()
 translator = Translator()
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -237,19 +238,65 @@ def borrow(id):
         else:
             book.borrow_end = "2069-04-20"
         db.session.commit()
+        ######################
+        # Confirmation email #
+        ######################
+
         message = Mail(
-            from_email=FROM_EMAIL,
+            from_email='library@ridneslovo.ca',
             to_emails=session["email"],
             subject='Ми готуємо ваші книги!',
             html_content=render_template("emails_borrow.html", book=book, person=session))
         try:
-            sg = SendGridAPIClient(SENDGRID_API_KEY)
+            sg = SendGridAPIClient("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")
             response = sg.send(message)
             print(response.status_code)
             print(response.body)
             print(response.headers)
         except Exception as e:
             print(e.message)
+
+        #########################################
+        # Google Calendar return reminder event #
+        #########################################
+
+        if session["role"] == "adult" or session["role"] == "child":
+            service = get_calendar_service()
+            book.borrow_end = book.borrow_end.isoformat()
+            event_id = f'rlsid{session["school_id"]}d{book.borrow_end.translate({ord("-"): None})}'
+            try:
+                event = service.events().get(calendarId='primary', eventId=event_id).execute()
+            except Exception:
+                event = None
+            if event:
+                event["description"] = event["description"] + f"\n<b>{book.name}</b>"
+                service.events().update(calendarId='primary', eventId=event['id'], body=event).execute()
+            else:
+                start = datetime.datetime.strptime(book.borrow_end + " 10:00", '%Y-%m-%d %H:%M')
+                end = start + datetime.timedelta(minutes=10)
+                print(start.isoformat()+"-07:00")
+                print(end.isoformat()+"-07:00")
+                event = {
+                    'id': event_id,
+                    'summary': 'Повернути книги',
+                    'location': '502 5th St, New Westminster, BC V3L 1S2',
+                    'description': f'Не забудьте повернути позичені книги:\n\n<b>{book.name}</b>',
+                    'start':{
+                        'dateTime': start.isoformat()+"-07:00"
+                    },
+                    'end':{
+                        'dateTime': end.isoformat()+"-07:00"
+                    },
+                    'transparency':'transparent',
+                    'reminders': {
+                        'useDefault': False,
+                        'overrides': [
+                            {'method': 'popup', 'minutes': 2 * 60},
+                            {'method': 'popup', 'minutes': 15 * 60},
+                        ],
+                    },
+                }
+                service.events().insert(calendarId='primary', body=event).execute()
         return render_template("borrowed.html", user=session, book=book)
     return render_template("borrowed.html", user=session, error=session.get("error"), book=book)
 

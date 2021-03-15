@@ -11,3 +11,4 @@ sendgrid
 googletrans==3.1.0a0
 flask-talisman
 cloudinary
+python-dotenv
