@@ -51,7 +51,7 @@
             <div>
                 {% for book in owing %}
                 <p>
-                    1x {{book.name}}. Очікувана дата повернення: {% if book.borrow_end.strftime("%y/%m/%d") == "69/04/20" %} Необмежений доступ {% else %} {{ book.borrow_end.strftime("%b %d") }} {% endif %}
+                    <b>1x {{book.name}}.</b> Очікувана дата повернення: {% if book.borrow_end.strftime("%y/%m/%d") == "69/04/20" %} Необмежений доступ {% else %} {{ book.borrow_end.strftime("%b %d") }} {% endif %}
                 </p>
                 {% endfor %}
             </div>
