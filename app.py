@@ -2,7 +2,6 @@
 import os
 from tempfile import mkdtemp
 import datetime
-import time
 
 # Downloaded libraries
 from sqlalchemy import create_engine, or_, and_, sql
@@ -618,11 +617,11 @@ def logout():
 @app.cli.command("return_reminder")
 def return_reminder():
     if datetime.datetime.today().weekday() == 5:
-        books = Book.query.filter(Book.borrow_end <= datetime.date.today())
+        books = db.session.query(Book).filter(Book.borrow_end <= datetime.date.today())
         borrowers = set()
         for book in books:
             borrowers.add(book.borrowed_by)
-        violators = User.query.filter(User.school_id.in_(borrowers))
+        violators = db.session.query(User).filter(User.school_id.in_(borrowers))
         for person in violators:
             owing = []
             for book in books:
@@ -632,7 +631,8 @@ def return_reminder():
                 from_email=FROM_EMAIL,
                 to_emails=person.email,
                 subject='В вас наші книги',
-                html_content=render_template("emails_late.html"), owing=owing, person=person)
+                html_content=render_template("emails_late.html", owing=owing, person=person)
+            )
             try:
                 sg = SendGridAPIClient(SENDGRID_API_KEY)
                 response = sg.send(message)
