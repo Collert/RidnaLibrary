@@ -10,7 +10,7 @@ class User(db.Model):
     last = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
     google_id = db.Column(db.String, nullable=False)
-    role = db.Column(db.String, nullable=False, default="student")
+    role = db.Column(db.String, nullable=False, default="adult")
     picture = db.Column(db.String, nullable=False, default="/static/nopic.jpg")
 
 class Book(db.Model):
