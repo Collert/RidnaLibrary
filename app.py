@@ -546,7 +546,7 @@ def login():
             # Update existing info
             #user.first = idinfo["given_name"] # Probably will leave name editing up to staff
             #user.last=idinfo["family_name"]
-            user.picture=idinfo["picture"]
+            user.picture=session["googleinfo"]["picture"]
             db.session.commit()
         kids = User.query.filter_by(google_id=f"child_of:{user.school_id}").all()
         if not kids:
