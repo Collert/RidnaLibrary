@@ -28,6 +28,10 @@ html {
   --bs-table-striped-color: #b0b3b8;
   color: #b0b3b8;
 }
+.dropdown-menu {
+  color: #b0b3b8;
+  background-color: #3c3e40;
+}
 
 .card {
   background-color: #222425;
