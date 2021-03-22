@@ -3,6 +3,16 @@ import datetime
 
 from flask import redirect, render_template, request, session, url_for, flash
 from functools import wraps
+from google.auth.transport.requests import Request
+import pickle
+from google_auth_oauthlib.flow import Flow, InstalledAppFlow
+from googleapiclient.discovery import build
+from google.oauth2.credentials import Credentials
+from dotenv import load_dotenv
+
+load_dotenv()
+SCOPES = ['https://www.googleapis.com/auth/calendar.events']
+CREDENTIALS=os.getenv('{"web":{"client_id":"381057537277-pmtvd839t2a60eslm0bvke78rviilr5l.apps.googleusercontent.com","project_id":"ridna-library","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"oaIJK2-acBdxrCsBY7YNHW60","redirect_uris":["https://library.ridneslovo.ca"],"javascript_origins":["https://ridna-library.herokuapp.com","https://library.ridneslovo.ca"]}}')
 
 def login_required(f):
     """
@@ -47,3 +57,28 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def get_calendar_service():
+    """
+    Gets Google calendar's "service"
+    """
+    creds = None
+    # The file token.json stores the user's access and refresh tokens, and is
+    # created automatically when the authorization flow completes for the first
+    # time.
+    if os.path.exists('token.json'):
+        creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+    # If there are no (valid) credentials available, let the user log in.
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file(
+                'credentials.json', SCOPES)
+            creds = flow.run_local_server(port=0)
+        # Save the credentials for the next run
+        with open('token.json', 'w') as token:
+            token.write(creds.to_json())
+
+    service = build('calendar', 'v3', credentials=creds)
+    return service
