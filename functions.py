@@ -1,7 +1,6 @@
-import os
 import datetime
 
-from flask import redirect, render_template, request, session, url_for, flash
+from flask import redirect, session, flash
 from functools import wraps
 
 def login_required(f):
@@ -21,6 +20,7 @@ def login_required(f):
 def admin_required(f):
     """
     Decorate routes to require admin previleges.
+
     Documentation here:
     http://flask.pocoo.org/docs/1.0/patterns/viewdecorators/
     """
@@ -32,6 +32,11 @@ def admin_required(f):
             return redirect("/")
         return f(*args, **kwargs)
     return decorated_function
+
+def create_card(user_id):
+    """Generate library card (QR code) from user's id"""
+    return f"https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl={user_id}"
+    
 
 def nextSat():
     """Calculate next Saturday from today"""

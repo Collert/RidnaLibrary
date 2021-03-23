@@ -25,8 +25,26 @@
 </style>
     <img src="{{person.picture}}" style="width: 10%; border-radius: 50%;" alt="{{person.first}}'s profile picture">
     <h1>{{person.first}} {{person.last}}</h1>
-    <h5 style="text-align: left;"><b>Email:</b> <a href="mailto:{{person.email}}">{{person.email}}</a></h5>
-    <h5 style="text-align: left;"><b>Шкільний ID:</b> #{{person.school_id}}</h5>
+  <div class="row">
+  <div class="col-md-6">
+    <h5 style="text-align: center;"><b>Email:</b> <a href="mailto:{{person.email}}">{{person.email}}</a></h5>
+    <h5 style="text-align: center;"><b>Шкільний ID:</b> #{{person.school_id}}</h5>
+  </div>
+  <div class="col-md-6">
+    {% if card %}
+    <div class="dropdown">
+      <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+        Показати картку читача
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <div style="text-align: center; max-width: 238px; margin: 2px;"><b style="font-size: 20px;">Не давайте нікому доступ до цієї картки!</b><br> За її допомогою будь-хто зможе користуватися вашим аккаунтом у терміналі самообслуговування!</div>
+        <img src="{{card}}" alt="Library card">
+        <div style="text-align: center;"><small>{{user["google_id"]}}</small></div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+  </div>
     {% if user.role == "admin" %}
     <a class="btn btn-primary" href="/profile/{{ person.school_id }}/edit" role="button">Редагувати інформацію</a><br><br>
     {% endif %}
