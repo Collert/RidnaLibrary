@@ -2,18 +2,14 @@
 import os
 from tempfile import mkdtemp
 import datetime
-import time
 
 # Downloaded libraries
-from sqlalchemy import create_engine, or_, and_, sql
-from sqlalchemy.orm import scoped_session, sessionmaker
-from flask import Flask, flash, redirect, render_template, request, session, jsonify, make_response, send_from_directory, url_for
+from sqlalchemy import create_engine, or_, sql
+from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
-from sqlalchemy.sql.functions import user
 from werkzeug.utils import secure_filename
 from google.oauth2 import id_token
 from google.auth.transport import requests
-import psycopg2
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from googletrans import Translator
