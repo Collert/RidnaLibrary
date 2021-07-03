@@ -4,7 +4,6 @@ gunicorn
 sqlalchemy==1.3.23
 google-api-python-client
 google_auth_oauthlib
-dotenv
 psycopg2
 flask_sqlalchemy
 sendgrid
