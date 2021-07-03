@@ -107,7 +107,6 @@ def person_edit(id):
     return render_template("edit_person.html", error=session.get("error"), user=session, person=person)
 
 @app.route("/search", methods=["GET", "POST"])
-@login_required
 def search():
     """Lookup a book by criteria"""
     session["error"]=False
