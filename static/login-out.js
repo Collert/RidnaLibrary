@@ -10,8 +10,9 @@ function onSignIn(googleUser){
         console.log('Signed in as: ' + googleUser.getBasicProfile().getName());
     };
     console.log(id_token);
-    xhr.send('idtoken=' + id_token);
-    redirectPost("/login");
+    xhr.send('idtoken=' + id_token);setTimeout(() => {
+        window.location.href("/");
+    }, 2000);
 }
 
 function redirectPost(url) {

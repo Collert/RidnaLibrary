@@ -506,6 +506,21 @@ def students():
 @app.route("/")
 @login_required
 def index():
+    """Display user's homepage with all their borrowed books.
+    If user was redirected through login page, and they have associated children to their account, lets user select whose account to use.
+    """
+    if session["kid_select"]:
+        # This reads whether we need to select a clild acount or proceed as usual. Value is passed from "/login".
+        session["kid_select"] = False
+        user = user = User.query.filter_by(google_id=session["googleinfo"]["sub"]).first()
+        kids = User.query.filter_by(google_id=f"child_of:{session['school_id']}").all()
+        family = [user]
+        session["allowed_ids"] = [user.school_id]
+        for kid in kids:
+            family.append(kid)
+            session["allowed_ids"].append(kid.school_id)
+        return render_template("user_select.html", family=family)
+    # From here, normal operation of the route
     today = datetime.date.today()
     inventory = Book.query.filter_by(borrowed_by=session["school_id"]).all()
     upcoming = []
@@ -522,19 +537,16 @@ def login():
     """Log user in using Google sign-in"""
     session["error"] = False
     if request.method == "POST":
+        token = request.form["idtoken"]
         try:
-            guserid = session["googleinfo"]["sub"]
-        except KeyError:
-            token = request.form["idtoken"]
-            try:
-                idinfo = id_token.verify_oauth2_token(token, requests.Request(), gclient_id)
+            idinfo = id_token.verify_oauth2_token(token, requests.Request(), gclient_id)
 
-                # ID token is valid. Get the user's Google Account ID from the decoded token.
-                session["googleinfo"] = idinfo
-                guserid = session["googleinfo"]["sub"]
-            except ValueError:
-                # Invalid token
-                pass
+            # ID token is valid. Get the user's Google Account ID from the decoded token.
+            session["googleinfo"] = idinfo
+            guserid = session["googleinfo"]["sub"]
+        except ValueError:
+            # Invalid token
+            pass
         user = User.query.filter_by(google_id=guserid).first()
         if not user:
             user = User(first=session["googleinfo"]["given_name"], last=session["googleinfo"]["family_name"], email=session["googleinfo"]["email"], google_id=guserid, picture=session["googleinfo"]["picture"])
@@ -547,7 +559,7 @@ def login():
             #user.last=idinfo["family_name"]
             user.picture=session["googleinfo"]["picture"]
             db.session.commit()
-        kids = User.query.filter_by(google_id=f"child_of:{user.school_id}").all()
+        kids = User.query.filter_by(google_id=f"child_of:{user.school_id}").first()
         if not kids:
             session["school_id"] = user.school_id
             session["first"] = user.first
@@ -555,16 +567,27 @@ def login():
             session["email"] = user.email
             session["role"] = user.role
             session["picture"] = user.picture
-            return redirect("/")
+            session["kid_select"] = False
+            return # Return nothing because this POST request is processed in the background and is not visual (JS will redirect)
         else:
-            family = [user]
-            for kid in kids:
-                family.append(kid)
-            return render_template("user_select.html", family=family)
+            session["kid_select"] = True
+            return # Return nothing because this POST request is processed in the background and is not visual (JS will redirect)
     return render_template("login.html", error=session.get("error"), google_signin_client_id=gclient_id, user=session)
 
 @app.route("/user_select/<int:id>", methods=["POST"])
 def user_select(id):
+    if not session["kid_select"]:
+        # Check if user has permission to log in to kid accounts
+        flash("kid_select flag not set")
+        session["error"] = True
+        return render_template("login.html", error=session.get("error"), google_signin_client_id=gclient_id, user=session)
+    else:
+        session["kid_select"] = False
+    if id not in session["allowed_ids"]:
+        # Check if passed id is in user's family
+        flash("Passed user ID not in the family")
+        session["error"] = True
+        return render_template("login.html", error=session.get("error"), google_signin_client_id=gclient_id, user=session)
     user = User.query.get(id)
     session["school_id"] = user.school_id
     session["first"] = user.first
