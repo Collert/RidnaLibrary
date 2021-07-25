@@ -208,7 +208,6 @@ def borrow(id):
     return render_template("borrowed.html", user=session, error=session.get("error"), book=book)
 
 @app.route("/book/<int:id>")
-@login_required
 def book(id):
     """Display a book"""
     session["error"]=False
