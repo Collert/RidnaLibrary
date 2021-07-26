@@ -17,7 +17,7 @@ self.addEventListener('install', (evt) => {
       })
     );
   
-    self.skipWaiting();
+    //self.skipWaiting();
 });
 
 // Activation
