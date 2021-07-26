@@ -81,7 +81,7 @@
             </div>
             </div>
             </form>
-            {% elif book.borrowed == True and book.borrowed_by == session["school_id"] and book.borrow_start > today %}
+            {% elif book.borrowed == True and book.borrowed_by == user.school_id and book.borrow_start > today %}
             <form action="/cancel/{{ book['id'] }}">
             <div class="col-12">
                 <button type="button" class="btn btn-danger mb-3 btn-lg justify-content-center" data-bs-toggle="modal" data-bs-target="#Cancel">Відмінити замовлення</button>

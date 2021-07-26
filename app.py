@@ -219,7 +219,7 @@ def book(id):
     reviews = Review.query.filter_by(book_id=id).all()
     reviewed = False
     for review in reviews:
-        if review.by_id == session["school_id"]:
+        if session["school_id"] and review.by_id == session["school_id"]:
             reviewed = review
     if reviews:
         avg_score = (sum(review.rating for review in reviews) / len(reviews))
