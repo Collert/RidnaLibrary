@@ -3,17 +3,6 @@ var auth2;
 function onSignIn(googleUser){
     var id_token = googleUser.getAuthResponse().id_token;
     sessionStorage.setItem('token', id_token);
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/login');
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function() {
-        console.log('Signed in as: ' + googleUser.getBasicProfile().getName());
-    };
-    console.log(id_token);
-    xhr.send('idtoken=' + id_token);
-    setTimeout(() => {
-        window.location.replace("/");
-    }, 2000);
 }
 
 /*function redirectPost(url) {
@@ -51,7 +40,14 @@ var onSuccess = function() {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/login');
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+        console.log('Signed in as: ' + googleUser.getBasicProfile().getName());
+    };
+    console.log(id_token);
     xhr.send('idtoken=' + id_token);
+    setTimeout(() => {
+        window.location.replace("/");
+    }, 2000);
  };
 
 /**
