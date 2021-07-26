@@ -10,18 +10,20 @@ function onSignIn(googleUser){
         console.log('Signed in as: ' + googleUser.getBasicProfile().getName());
     };
     console.log(id_token);
-    xhr.send('idtoken=' + id_token);setTimeout(() => {
+    xhr.send('idtoken=' + id_token);
+    setTimeout(() => {
         window.location.replace("/");
     }, 2000);
 }
 
-function redirectPost(url) {
+/*function redirectPost(url) {
     var form = document.createElement('form');
     document.body.appendChild(form);
     form.method = 'post';
     form.action = url;
     form.submit();
 }
+*/
 
 /**
  * Initializes the Sign-In client.
