@@ -570,10 +570,10 @@ def login():
             session["role"] = user.role
             session["picture"] = user.picture
             session["kid_select"] = False
-            return render_template("login.html")# Return nothing because this POST request is processed in the background and is not visual (JS will redirect)
+            return # Return nothing because this POST request is processed in the background and is not visual (JS will redirect)
         else:
             session["kid_select"] = True
-            return render_template("login.html") # Return nothing because this POST request is processed in the background and is not visual (JS will redirect)
+            return # Return nothing because this POST request is processed in the background and is not visual (JS will redirect)
     return render_template("login.html", error=session.get("error"), google_signin_client_id=gclient_id, user=session)
 
 @app.route("/user_select/<int:id>", methods=["POST"])
@@ -669,7 +669,7 @@ def return_reminder():
 
 # PWA routes
 
-@app.route('service-worker.js')
+@app.route('/service-worker.js')
 def sw():
     return app.send_static_file('service-worker.js')
 
