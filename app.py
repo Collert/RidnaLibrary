@@ -575,8 +575,11 @@ def login():
             session["kid_select"] = True
             return render_template("login.html")# Return nothing because this POST request is processed in the background and is not visual (JS will redirect)
     else:
-        if session["school_id"] or session["kid_select"]:
-            return redirect("/")
+        try:
+            if session["school_id"] or session["kid_select"]:
+                return redirect("/")
+        except KeyError:
+            pass
     return render_template("login.html", error=session.get("error"), google_signin_client_id=gclient_id, user=session)
 
 @app.route("/user_select/<int:id>", methods=["POST"])
