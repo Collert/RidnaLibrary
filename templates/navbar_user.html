@@ -7,6 +7,7 @@
         <!--Main menu-->
 
         <ul class="menu-bar">
+            {% if user.school_id %}
             <li>
                 <a href="/profile" style="color: #c48301;">
                     <div class="icon">
@@ -14,6 +15,15 @@
                     </div>
                 Мій профіль</a>
             </li>
+            {% else %}
+            <li>
+                <a href="/profile" style="color: #c48301;">
+                    <div class="icon">
+                        <img src="/static/images/logo.png" alt="profile picture">
+                    </div>
+                Увійти</a>
+            </li>
+            {% endif %}
 
             <li>
                 <a href="/">
@@ -88,6 +98,7 @@
                     </div>
                 Темна тема</a>
             </li>
+            {% if user.school_id %}
             {% if user["role"] != "child" %}
                 <li>
                     <a href="/add_child">
@@ -104,6 +115,7 @@
                     </div>
                 Вийти </a>
             </li>
+            {% endif %}
         </ul>
 
     <!-- Help & support Menu-items -->
