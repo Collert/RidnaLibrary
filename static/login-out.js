@@ -11,6 +11,9 @@ function onSignIn(googleUser){
     };
     console.log(id_token);
     xhr.send('idtoken=' + id_token);
+    setTimeout(() => {
+        window.location.replace("/");
+    }, 2000);
 }
 
 /*function redirectPost(url) {
