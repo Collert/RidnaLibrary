@@ -1,7 +1,6 @@
-const CACHE_NAME = 'static-cache v15';
+const CACHE_NAME = 'static-cache v16';
 
 const FILES_TO_CACHE = [
-  "/templates/login.html",
   "/static/pwa/offline.html",
   "/static/fontawesome-free-5.15.2-web/css/all.css",
   "/static/login-out.js"
