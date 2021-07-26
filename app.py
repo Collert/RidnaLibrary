@@ -671,7 +671,8 @@ def return_reminder():
 
 @app.route('/service-worker.js')
 def sw():
-    return app.send_static_file('service-worker.js')
+    app.send_static_file('service-worker.js')
+    return redirect("/")
 
 if __name__ == "__main__":
     with app.app_context():
