@@ -514,9 +514,8 @@ def index():
     """
     if session["kid_select"]:
         # This reads whether we need to select a clild acount or proceed as usual. Value is passed from "/login".
-        session["kid_select"] = False
-        user = user = User.query.filter_by(google_id=session["googleinfo"]["sub"]).first()
-        kids = User.query.filter_by(google_id=f"child_of:{session['school_id']}").all()
+        user = User.query.filter_by(google_id=session["googleinfo"]["sub"]).first()
+        kids = User.query.filter_by(google_id=f"child_of:{user.school_id}").all()
         family = [user]
         session["allowed_ids"] = [user.school_id]
         for kid in kids:
