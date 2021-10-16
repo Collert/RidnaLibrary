@@ -508,7 +508,8 @@ def students():
 @app.route("/")
 @login_required
 def index():
-    """Display user's homepage with all their borrowed books.
+    """
+    Display user's homepage with all their borrowed books.
     If user was redirected through login page, and they have associated children to their account, lets user select whose account to use.
     """
     if session["kid_select"]:
