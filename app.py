@@ -539,6 +539,9 @@ def login():
     """Log user in using Google sign-in"""
     session["error"] = False
     if request.method == "POST":
+        print("=======================================")
+        print("Got request")
+        print("=======================================")
         token = request.form["idtoken"]
         try:
             idinfo = id_token.verify_oauth2_token(token, requests.Request(), gclient_id)
