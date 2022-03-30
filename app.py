@@ -539,9 +539,10 @@ def login():
     """Log user in using Google sign-in"""
     session["error"] = False
     if request.method == "POST":
+        from pprint import pprint
         print("=======================================")
         print("Got request")
-        print(request)
+        pprint(dir(request))
         print("=======================================")
         token = request.form["idtoken"]
         try:
@@ -554,7 +555,6 @@ def login():
             # Invalid token
             pass
         user = User.query.filter_by(google_id=guserid).first()
-        from pprint import pprint
         print(idinfo)
         if not user:
             user = User(first=session["googleinfo"]["given_name"], last=session["googleinfo"]["family_name"], email=session["googleinfo"]["email"], google_id=guserid, picture=session["googleinfo"]["picture"])
