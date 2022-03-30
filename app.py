@@ -541,6 +541,7 @@ def login():
     if request.method == "POST":
         print("=======================================")
         print("Got request")
+        print(request)
         print("=======================================")
         token = request.form["idtoken"]
         try:
