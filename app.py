@@ -550,6 +550,8 @@ def login():
             # Invalid token
             pass
         user = User.query.filter_by(google_id=guserid).first()
+        from pprint import pprint
+        pprint(vars(idinfo))
         if not user:
             user = User(first=session["googleinfo"]["given_name"], last=session["googleinfo"]["family_name"], email=session["googleinfo"]["email"], google_id=guserid, picture=session["googleinfo"]["picture"])
             db.session.add(user)
