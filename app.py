@@ -542,7 +542,7 @@ def login():
         from pprint import pprint
         print("=======================================")
         print("Got request")
-        pprint(vars(request))
+        print(request.credential)
         print("=======================================")
         token = request.form["idtoken"]
         try:
