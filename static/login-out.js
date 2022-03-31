@@ -2,22 +2,14 @@ var auth2;
 // Sign in function to pass the user info to session
 function onSignIn(googleUser){
     const responsePayload = decodeJwtResponse(response.credential);
-    console.log("ID: " + responsePayload.sub);
-     console.log('Full Name: ' + responsePayload.name);
-     console.log('Given Name: ' + responsePayload.given_name);
-     console.log('Family Name: ' + responsePayload.family_name);
-     console.log("Image URL: " + responsePayload.picture);
-     console.log("Email: " + responsePayload.email);
-    //var id_token = googleUser.getAuthResponse().id_token;
-    //sessionStorage.setItem('token', id_token);
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/login');
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
-        console.log('Signed in as: ' + googleUser.getBasicProfile().getName());
+        console.log('Signed in as: ' + responsePayload.name);
     };
-    console.log(id_token);
-    xhr.send('idtoken=' + id_token);
+    console.log(responsePayload);
+    xhr.send('idtoken=' + responsePayload);
     setTimeout(() => {
         window.location.replace("/");
     }, 2000);
