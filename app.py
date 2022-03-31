@@ -546,10 +546,7 @@ def login():
         pprint(vars(request))
         print("=======================================")
         #token = request.form["idtoken"]
-        session["googleinfo"] = request.form["id"]
-        for object in session["googleinfo"]: 
-            print(object)
-        guserid = session["googleinfo"]["sub"]
+        guserid = request.form["id"]
         #try:
         #    idinfo = id_token.verify_oauth2_token(token, requests.Request(), gclient_id)
         #
