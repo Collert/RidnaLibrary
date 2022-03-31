@@ -9,7 +9,11 @@ function onSignIn(response){
         console.log('Signed in as: ' + responsePayload.name);
     };
     console.log(responsePayload);
-    xhr.send('idtoken=' + responsePayload);
+    xhr.send('id=' + responsePayload.sub);
+    xhr.send('email=' + responsePayload.email);
+    xhr.send('first=' + responsePayload.given_name);
+    xhr.send('last=' + responsePayload.family_name);
+    xhr.send('pic=' + responsePayload.picture);
     setTimeout(() => {
         window.location.replace("/");
     }, 2000);
