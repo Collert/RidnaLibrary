@@ -1,6 +1,6 @@
 var auth2;
 // Sign in function to pass the user info to session
-function onSignIn(googleUser){
+function onSignIn(response){
     const responsePayload = decodeJwtResponse(response.credential);
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/login');
