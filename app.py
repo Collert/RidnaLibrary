@@ -12,6 +12,7 @@ from sqlalchemy.sql.functions import user
 from werkzeug.utils import secure_filename
 from google.oauth2 import id_token
 from google.auth.transport import requests
+from google_auth_oauthlib.flow import Flow
 import psycopg2
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
