@@ -555,6 +555,7 @@ def login():
         except ValueError:
             # Invalid token
             pass
+        print(request.form["idtoken"])
         user = User.query.filter_by(google_id=guserid).first()
         print(idinfo)
         if not user:
