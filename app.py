@@ -545,7 +545,9 @@ def login():
         print("Got request")
         pprint(vars(request))
         print("=======================================")
-        token = request.form["idtoken"]
+        #token = request.form["idtoken"]
+        session["googleinfo"] = request.form["idtoken"]
+        guserid = session["googleinfo"]["sub"]
         try:
             idinfo = id_token.verify_oauth2_token(token, requests.Request(), gclient_id)
 
@@ -555,7 +557,7 @@ def login():
         except ValueError:
             # Invalid token
             pass
-        pprint(vars(token))
+        #pprint(vars(token))
         user = User.query.filter_by(google_id=guserid).first()
         print(idinfo)
         if not user:
