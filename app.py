@@ -546,7 +546,7 @@ def login():
         pprint(vars(request))
         print("=======================================")
         #token = request.form["idtoken"]
-        session["googleinfo"] = request.form["idtoken"]
+        session["googleinfo"] = request.form["id"]
         for object in session["googleinfo"]: 
             print(object)
         guserid = session["googleinfo"]["sub"]
@@ -563,7 +563,7 @@ def login():
         user = User.query.filter_by(google_id=guserid).first()
         print(idinfo)
         if not user:
-            user = User(first=session["googleinfo"]["given_name"], last=session["googleinfo"]["family_name"], email=session["googleinfo"]["email"], google_id=guserid, picture=session["googleinfo"]["picture"])
+            user = User(first=request.form["first"], last=request.form["last"], email=request.form["email"], google_id=guserid, picture=request.form["pic"])
             db.session.add(user)
             db.session.commit()
             user = User.query.filter_by(google_id=guserid).first()
