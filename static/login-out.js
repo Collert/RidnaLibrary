@@ -1,8 +1,15 @@
 var auth2;
 // Sign in function to pass the user info to session
 function onSignIn(googleUser){
-    var id_token = googleUser.getAuthResponse().id_token;
-    sessionStorage.setItem('token', id_token);
+    const responsePayload = decodeJwtResponse(response.credential);
+    console.log("ID: " + responsePayload.sub);
+     console.log('Full Name: ' + responsePayload.name);
+     console.log('Given Name: ' + responsePayload.given_name);
+     console.log('Family Name: ' + responsePayload.family_name);
+     console.log("Image URL: " + responsePayload.picture);
+     console.log("Email: " + responsePayload.email);
+    //var id_token = googleUser.getAuthResponse().id_token;
+    //sessionStorage.setItem('token', id_token);
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/login');
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -15,6 +22,16 @@ function onSignIn(googleUser){
         window.location.replace("/");
     }, 2000);
 }
+
+function decodeJwtResponse (token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+};
 
 /*function redirectPost(url) {
     var form = document.createElement('form');
