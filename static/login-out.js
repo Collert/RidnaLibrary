@@ -9,6 +9,9 @@ function onSignIn(response){
         console.log('Signed in as: ' + responsePayload.name);
     };
     console.log(responsePayload);
+    if (responsePayload.hasOwnProperty('picture') == false){
+        responsePayload.picture == "none";
+    }
     xhr.send('id=' + responsePayload.sub + '&email=' + responsePayload.email + '&first=' + responsePayload.given_name + '&last=' + responsePayload.family_name + '&pic=' + responsePayload.picture);
     //xhr.send('email=' + responsePayload.email);
     //xhr.send('first=' + responsePayload.given_name);
