@@ -547,16 +547,17 @@ def login():
         print("=======================================")
         #token = request.form["idtoken"]
         session["googleinfo"] = request.form["idtoken"]
+        print(session["googleinfo"])
         guserid = session["googleinfo"]["sub"]
-        try:
-            idinfo = id_token.verify_oauth2_token(token, requests.Request(), gclient_id)
-
-            # ID token is valid. Get the user's Google Account ID from the decoded token.
-            session["googleinfo"] = idinfo
-            guserid = session["googleinfo"]["sub"]
-        except ValueError:
-            # Invalid token
-            pass
+        #try:
+        #    idinfo = id_token.verify_oauth2_token(token, requests.Request(), gclient_id)
+        #
+        #    # ID token is valid. Get the user's Google Account ID from the decoded token.
+        #    session["googleinfo"] = idinfo
+        #    guserid = session["googleinfo"]["sub"]
+        #except ValueError:
+        #    # Invalid token
+        #    pass
         #pprint(vars(token))
         user = User.query.filter_by(google_id=guserid).first()
         print(idinfo)
