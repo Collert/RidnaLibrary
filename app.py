@@ -558,7 +558,6 @@ def login():
         #    pass
         #pprint(vars(token))
         user = User.query.filter_by(google_id=guserid).first()
-        print(idinfo)
         if not user:
             user = User(first=request.form["first"], last=request.form["last"], email=request.form["email"], google_id=guserid, picture=request.form["pic"])
             db.session.add(user)
