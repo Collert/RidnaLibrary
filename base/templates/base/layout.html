@@ -1,0 +1,126 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% trans "Ridna Library" %}</title>
+    <link href="https://cdn.jsdelivr.net/gh/Collert/AD-Elements@latest/main.css" rel="stylesheet">
+    <link href="{% static 'base/styles.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    {% block extra_head %}{% endblock %}
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <header>
+        <nav>
+            <div class="nav-brand">
+                <span>Ridna Library</span>
+            </div>
+            
+            <div class="nav-links">
+                <a href="{% url 'home' %}">{% trans "About" %}</a>
+                <a href="#">{% trans "Collection" %}</a>
+                <a href="#">{% trans "Events" %}</a>
+                <!-- <a href="#">{% trans "Resources" %}</a> -->
+                <a href="#">{% trans "Get involved" %}</a>
+                <form id="language-toggle" action="{% url 'set_language' %}" method="post">
+                    {% csrf_token %}
+                    {% get_current_language as current_language %}
+                    {% if current_language == 'en' %}
+                        <input name="next" type="hidden" value="{{ request.path }}">
+                    {% else %}
+                        <input name="next" type="hidden" value="{{ request.path|slice:'3:' }}">
+                    {% endif %}
+                    <select name="language" onchange="this.form.submit()">
+                        <option value="en" {% if current_language == "en" %}selected{% endif %}>
+                            🇨🇦 English
+                        </option>
+                        <option value="fr" {% if current_language == "fr" %}selected{% endif %}>
+                            🇫🇷 Français
+                        </option>
+                        <option value="uk" {% if current_language == "uk" %}selected{% endif %}>
+                            🇺🇦 Українська
+                        </option>
+                    </select>
+                </form>
+                <a id="profile_button" href="#">
+                    {% if request.user.is_authenticated %}
+                    <img src="https://media.newyorker.com/photos/59095bb86552fa0be682d9d0/master/pass/Monkey-Selfie.jpg" alt="{{ request.user.username }}'s profile picture" class="profile-pic">
+                    {% else %}
+                    <span class="material-symbols-outlined">person_4</span>
+                    {% endif %}
+                </a>
+            </div>
+        </nav>
+    </header>
+    {% block body %}{% endblock %}
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>{% trans "Company" %}</h4>
+                <ul>
+                    <li><a href="#">{% trans "About" %}</a></li>
+                    <li><a href="#">{% trans "Careers" %}</a></li>
+                    <li><a href="#">{% trans "Press Center" %}</a></li>
+                    <li><a href="#">{% trans "Investor Relations" %}</a></li>
+                    <li><a href="#">{% trans "Trust Center" %}</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>{% trans "Links" %}</h4>
+                <ul>
+                    <li><a href="#">{% trans "Download Extension" %}</a></li>
+                    <li><a href="#">{% trans "Desktop" %}</a></li>
+                    <li><a href="#">{% trans "Mobile" %}</a></li>
+                    <li><a href="#">{% trans "Status" %}</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>{% trans "Contact" %}</h4>
+                <ul>
+                    <li>📧 info@ridnalibrary.org</li>
+                    <li>📞 +1 (555) 123-4567</li>
+                    <li>📍 123 Cultural Avenue<br>Library District, LD 12345</li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>{% trans "Newsletter Signup" %}</h4>
+                <div class="newsletter-signup">
+                    <p>{% trans "Stay updated with our latest arrivals and events" %}</p>
+                    <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                        <input type="email" placeholder="{% trans 'Your email address' %}" style="flex: 1; padding: 0.5rem; border: none; border-radius: 4px;">
+                        <button class="btn btn-primary">{% trans "Subscribe" %}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 {% trans "Ridna Library" %}. {% trans "All rights reserved." %}</p>
+            <div class="social-links">
+                <a href="#" title="Facebook">📘</a>
+                <a href="#" title="Twitter">🐦</a>
+                <a href="#" title="Instagram">📷</a>
+                <a href="#" title="YouTube">📺</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
