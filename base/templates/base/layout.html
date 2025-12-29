@@ -93,21 +93,19 @@
             <div class="footer-section">
                 <h4>{% trans "Contact" %}</h4>
                 <ul>
-                    <li>📧 info@ridnalibrary.org</li>
-                    <li>📞 +1 (555) 123-4567</li>
-                    <li>📍 123 Cultural Avenue<br>Library District, LD 12345</li>
+                    <li><span class="material-symbols-outlined">mail</span> info@ridnalibrary.org</li>
+                    <li><span class="material-symbols-outlined">phone</span> +1 (555) 123-4567</li>
+                    <li><span class="material-symbols-outlined">location_on</span> 123 Cultural Avenue<br>Library District, LD 12345</li>
                 </ul>
             </div>
             
-            <div class="footer-section">
+            <div id="newsletter" class="footer-section">
                 <h4>{% trans "Newsletter Signup" %}</h4>
-                <div class="newsletter-signup">
-                    <p>{% trans "Stay updated with our latest arrivals and events" %}</p>
-                    <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-                        <input type="email" placeholder="{% trans 'Your email address' %}" style="flex: 1; padding: 0.5rem; border: none; border-radius: 4px;">
-                        <button class="btn btn-primary">{% trans "Subscribe" %}</button>
-                    </div>
-                </div>
+                <p>{% trans "Stay updated with our latest arrivals and events" %}</p>
+                <form>
+                    <input type="email" class="no-style" placeholder="{% trans 'Your email address' %}">
+                    <button class="btn btn-primary no-style">{% trans "Subscribe" %}</button>
+                </form>
             </div>
         </div>
         

@@ -108,37 +108,26 @@
             </div>
         </div>
 
+        {% if featured_item %}
         <div id="featured-item" style="margin-top: 2rem;">
             <div id="featured-item-image">
                 <div class="image-placeholder"></div>
             </div>
             <div id="featured-item-info">
                 <h4>{% trans "Librarian's Pick" %}</h4>
-                <h2>
-                    {% if featured_item %}
-                        {{ featured_item.item.title }}
-                    {% else %}
-                        {% trans "No featured item available." %}
-                    {% endif %}
-                </h2>
+                <h2>{{ featured_item.item.title }}</h2>
+                <p>{{ featured_item.item.description|truncatewords:75 }}</p>
+                <a href="{{ featured_item.item.get_absolute_url }}" class="button btn-primary">{% trans "Learn More" %} →</a>
             </div>
         </div>
+        {% endif %}
     </section>
 
     <!-- Feature Highlights -->
     <section class="feature-highlights">
         <div style="max-width: 1200px; margin: 0 auto;">
-            <h2 style="text-align: center; margin-bottom: 2rem;">{% trans "Why Choose Our Library?" %}</h2>
+            <h2>{% trans "Upcoming Events" %}</h2>
             <div class="feature-grid">
-                <div class="feature-item">
-                    <h4>{% trans "Українська Діа - бібліотека" %}</h4>
-                    <a href="#" style="color: var(--ukrainian-gold);">{% trans "Read More" %} →</a>
-                </div>
-                <div class="feature-item">
-                    <h4>{% trans "Майбутні Події книжкових" %}</h4>
-                    <p>{% trans "Upcoming Book Events" %}</p>
-                    <a href="#" style="color: var(--ukrainian-gold);">{% trans "Read More" %} →</a>
-                </div>
                 <div class="feature-item">
                     <h4>{% trans "Українська Діа - Бібліотека" %}</h4>
                     <p>{% trans "Ukrainian Dia-Library Services" %}</p>

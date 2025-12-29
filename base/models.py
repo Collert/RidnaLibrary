@@ -15,8 +15,10 @@ def calculate_next_saturday():
 class Item(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=100)
+    description = models.TextField()
     published_date = models.DateField()
     added_date = models.DateField(auto_now_add=True)
+    image = models.ImageField(upload_to='item_images/', null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -71,3 +73,11 @@ class FeaturedItem(models.Model):
 
     def __str__(self):
         return f"Featured: {self.item.title}"
+    
+class Event(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    event_date = models.DateTimeField()
+
+    def __str__(self):
+        return self.title
