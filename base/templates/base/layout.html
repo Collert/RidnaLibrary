@@ -31,11 +31,11 @@
             </div>
             
             <div class="nav-links">
-                <a href="{% url 'home' %}">{% trans "About" %}</a>
-                <a href="#">{% trans "Collection" %}</a>
-                <a href="#">{% trans "Events" %}</a>
-                <!-- <a href="#">{% trans "Resources" %}</a> -->
-                <a href="#">{% trans "Get involved" %}</a>
+                <a {% if request.path == '/' %}class="selected"{% endif %} href="{% url 'home' %}">{% trans "About" %}</a>
+                <a {% if request.path == '/collection/' %}class="selected"{% endif %} href="#">{% trans "Collection" %}</a>
+                <a {% if request.path == '/events/' %}class="selected"{% endif %} href="#">{% trans "Events" %}</a>
+                <!-- <a {% if request.path == '/resources/' %}class="selected"{% endif %} href="#">{% trans "Resources" %}</a> -->
+                <a {% if request.path == '/get-involved/' %}class="selected"{% endif %} href="#">{% trans "Get involved" %}</a>
                 <form id="language-toggle" action="{% url 'set_language' %}" method="post">
                     {% csrf_token %}
                     {% get_current_language as current_language %}

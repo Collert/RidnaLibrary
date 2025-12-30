@@ -59,7 +59,7 @@ header nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
+    height: 4rem;
 }
 
 .nav-brand {
@@ -69,16 +69,31 @@ header nav {
     font-weight: bold;
     color: var(--ukrainian-blue);
     font-size: 1.1rem;
+    padding: 1rem 2rem;
 }
 
 .nav-links {
     display: flex;
     align-items: center;
     gap: 2rem;
+    padding: 0 2rem;
+    height: 100%;
 }
 
 .nav-links a {
     font-weight: 500;
+    height: 100%;
+    display: flex !important;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.nav-links a::after {
+    background-color: var(--ukrainian-gold) !important;
+}
+
+.nav-links a.selected::after {
+    transform: scaleX(1) !important;
 }
 
 #language-toggle select,
