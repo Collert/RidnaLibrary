@@ -32,10 +32,10 @@
             
             <div class="nav-links">
                 <a {% if request.path == '/' %}class="selected"{% endif %} href="{% url 'home' %}">{% trans "About" %}</a>
-                <a {% if request.path == '/collection/' %}class="selected"{% endif %} href="#">{% trans "Collection" %}</a>
-                <a {% if request.path == '/events/' %}class="selected"{% endif %} href="#">{% trans "Events" %}</a>
-                <!-- <a {% if request.path == '/resources/' %}class="selected"{% endif %} href="#">{% trans "Resources" %}</a> -->
-                <a {% if request.path == '/get-involved/' %}class="selected"{% endif %} href="#">{% trans "Get involved" %}</a>
+                <a {% if '/collection/' in request.path %}class="selected"{% endif %} href="#">{% trans "Collection" %}</a>
+                <a {% if  '/events/' in request.path %}class="selected"{% endif %} href="#">{% trans "Events" %}</a>
+                <!-- <a {% if '/resources/' in request.path %}class="selected"{% endif %} href="#">{% trans "Resources" %}</a> -->
+                <a {% if '/get-involved/' in request.path %}class="selected"{% endif %} href="#">{% trans "Get involved" %}</a>
                 <form id="language-toggle" action="{% url 'set_language' %}" method="post">
                     {% csrf_token %}
                     {% get_current_language as current_language %}
@@ -66,6 +66,10 @@
             </div>
         </nav>
     </header>
+    
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+    
     {% block body %}{% endblock %}
     <footer class="footer">
         <div class="footer-content">
@@ -119,6 +123,106 @@
             </div>
         </div>
     </footer>
+    
+    <script>
+        // Toast Notification System
+        function showToast(message, theme = 'info', icon = null, duration = 50000) {
+            const container = document.getElementById('toast-container');
+            
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = `toast ${theme}`;
+            
+            // Default icons for themes
+            const defaultIcons = {
+                'success': 'check_circle',
+                'error': 'error',
+                'warning': 'warning',
+                'info': 'info',
+                'default': 'notifications'
+            };
+            
+            const toastIcon = icon || defaultIcons[theme] || defaultIcons['default'];
+            
+            // Create toast content
+            toast.innerHTML = `
+                <div class="toast-icon">
+                    <span class="material-symbols-outlined">${toastIcon}</span>
+                </div>
+                <div class="toast-content">${message}</div>
+                <button class="toast-close" type="button">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+                <div class="toast-progress"></div>
+            `;
+            
+            // Add to container
+            container.appendChild(toast);
+            
+            // Get progress bar
+            const progressBar = toast.querySelector('.toast-progress');
+            
+            // Show toast
+            requestAnimationFrame(() => {
+                toast.classList.add('show');
+                
+                // Start progress animation
+                if (duration > 0) {
+                    progressBar.style.width = '100%';
+                    progressBar.style.transitionDuration = duration + 'ms';
+                    
+                    requestAnimationFrame(() => {
+                        progressBar.style.width = '0%';
+                    });
+                }
+            });
+            
+            // Auto hide
+            let hideTimeout;
+            if (duration > 0) {
+                hideTimeout = setTimeout(() => {
+                    hideToast(toast);
+                }, duration);
+            }
+            
+            // Close button functionality
+            const closeBtn = toast.querySelector('.toast-close');
+            closeBtn.addEventListener('click', () => {
+                if (hideTimeout) clearTimeout(hideTimeout);
+                hideToast(toast);
+            });
+            
+            return toast;
+        }
+        
+        function hideToast(toast) {
+            toast.classList.add('hide');
+            toast.classList.remove('show');
+            
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 300);
+        }
+        
+        // Convenience functions for different toast types
+        function showSuccessToast(message, icon, duration) {
+            return showToast(message, 'success', icon, duration);
+        }
+        
+        function showErrorToast(message, icon, duration) {
+            return showToast(message, 'error', icon, duration);
+        }
+        
+        function showWarningToast(message, icon, duration) {
+            return showToast(message, 'warning', icon, duration);
+        }
+        
+        function showInfoToast(message, icon, duration) {
+            return showToast(message, 'info', icon, duration);
+        }
+    </script>
 </body>
 
 </html>
