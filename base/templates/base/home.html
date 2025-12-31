@@ -7,6 +7,8 @@
 {% endblock %}
 
 {% block body %}
+<main>
+
     <!-- Header Section -->
     {% if hero_section %}
     <section class="hero">
@@ -19,10 +21,14 @@
             </div>
             
             <div class="hero-image">
-                <div class="image-placeholder">
-                    {% trans "Family Reading Together" %}<br>
-                    <small>{% trans "Warm family scene placeholder" %}</small>
-                </div>
+                {% if hero_section.image %}
+                    <img src="{{ hero_section.image.url }}" alt="{{ hero_section.title }}">
+                {% else %}
+                    <div class="image-placeholder">
+                        {% trans "Family Reading Together" %}<br>
+                        <small>{% trans "Warm family scene placeholder" %}</small>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </section>
@@ -96,22 +102,16 @@
     <section class="new-arrivals">
         <h2>{% trans "New Arrivals" %}</h2>
         
-        <div class="carousel-container">
-            <div class="carousel">
-                {% for group in new_arrivals %}
-                <div class="carousel-group">
-                    {% for item in group %}
-                    <a href="#" class="book-card no-style">{{ item.title }}</a>
-                    {% endfor %}
-                </div>
-                {% endfor %}
-            </div>
-        </div>
+        {% include 'base/components/sectioned-carousel.html' with item_group=new_arrivals %}
 
         {% if featured_item %}
         <div id="featured-item" style="margin-top: 2rem;">
             <div id="featured-item-image">
-                <div class="image-placeholder"></div>
+                {% if featured_item.item.image %}
+                    <img src="{{ featured_item.item.image.url }}" alt="{{ featured_item.item.title }}">
+                {% else %}
+                    <div class="image-placeholder"></div>
+                {% endif %}
             </div>
             <div id="featured-item-info">
                 <h4>{% trans "Librarian's Pick" %}</h4>
@@ -136,4 +136,5 @@
             </div>
         </div>
     </section>
+</main>
 {% endblock %}

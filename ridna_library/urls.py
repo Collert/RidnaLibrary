@@ -30,6 +30,7 @@ urlpatterns += i18n_patterns(
     prefix_default_language=False
 )
 
-# Serve static files in development
+# Serve static and media files in development
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS[0] if settings.STATICFILES_DIRS else None)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

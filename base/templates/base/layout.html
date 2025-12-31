@@ -126,7 +126,7 @@
     
     <script>
         // Toast Notification System
-        function showToast(message, theme = 'info', icon = null, duration = 50000) {
+        function showToast(message, theme = 'info', icon = null, duration = 5000) {
             const container = document.getElementById('toast-container');
             
             // Create toast element
@@ -223,6 +223,43 @@
             return showToast(message, 'info', icon, duration);
         }
     </script>
+
+    {% if messages %}
+    <div id="django-messages" style="display: none;">
+        {% for message in messages %}
+        <span data-message="{{ message|escapejs }}" data-tags="{{ message.tags }}"></span>
+        {% endfor %}
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const messagesContainer = document.getElementById('django-messages');
+            if (messagesContainer) {
+                const messageElements = messagesContainer.querySelectorAll('[data-message]');
+                messageElements.forEach(function(element) {
+                    const messageText = element.getAttribute('data-message');
+                    const messageTags = element.getAttribute('data-tags');
+                    
+                    // Map Django message tags to toast themes
+                    let theme = 'default';
+                    if (messageTags.includes('error') || messageTags.includes('danger')) {
+                        theme = 'error';
+                    } else if (messageTags.includes('warning')) {
+                        theme = 'warning';
+                    } else if (messageTags.includes('success')) {
+                        theme = 'success';
+                    } else if (messageTags.includes('info')) {
+                        theme = 'info';
+                    }
+                    
+                    showToast(messageText, theme, null, 7000);
+                });
+                
+                // Clean up the container after processing
+                messagesContainer.remove();
+            }
+        });
+    </script>
+    {% endif %}
 </body>
 
 </html>

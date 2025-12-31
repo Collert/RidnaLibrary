@@ -295,6 +295,11 @@ header nav {
     border: 1px solid rgba(107, 114, 128, 0.3);
 }
 
+.toast.info *,
+.toast.default * {
+    color: var(--bg-light);
+}
+
 /* Toast Icon */
 .toast-icon {
     margin-right: 12px;

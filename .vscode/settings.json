@@ -11,5 +11,8 @@
     // },
     "html.format.enable": false,
     "html.format.preserveNewLines": true,
-    "html.format.wrapAttributes": "preserve"
+    "html.format.wrapAttributes": "preserve",
+    "cSpell.words": [
+        "favourited"
+    ]
 }

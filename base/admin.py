@@ -13,14 +13,12 @@ class MemberAdmin(admin.ModelAdmin):
     readonly_fields = ['join_date']
 
 class LoanAdmin(admin.ModelAdmin):
-    list_display = ['item', 'member', 'loan_date', 'due_date', 'return_date']
+    list_display = ['item', 'user', 'loan_date', 'due_date', 'return_date']
     list_filter = ['loan_date', 'due_date', 'return_date']
-    search_fields = ['item__title', 'member__user__username']
+    search_fields = ['item__title', 'user__username']
 
 admin.site.register(Book, BookAdmin)
 admin.site.register(Member, MemberAdmin)
 admin.site.register(Loan, LoanAdmin)
 admin.site.register(FeaturedItem)
 admin.site.register(HeroSection)
-
-# Register your models here.

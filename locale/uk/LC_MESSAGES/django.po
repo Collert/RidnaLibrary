@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-26 13:16-0800\n"
+"POT-Creation-Date: 2025-12-30 10:23-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,80 +21,380 @@ msgstr ""
 "100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
 "(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 
-#: base/templates/base/home.html:8
+#: .\base\models.py:18
+msgid "Fantasy"
+msgstr "Фентезі"
+
+#: .\base\models.py:19
+msgid "Science Fiction"
+msgstr ""
+
+#: .\base\models.py:20
+msgid "Mystery"
+msgstr ""
+
+#: .\base\models.py:21
+msgid "Thriller"
+msgstr ""
+
+#: .\base\models.py:22
+msgid "Romance"
+msgstr ""
+
+#: .\base\models.py:23
+msgid "Horror"
+msgstr ""
+
+#: .\base\models.py:24
+msgid "Biography"
+msgstr ""
+
+#: .\base\models.py:25
+msgid "Autobiography"
+msgstr ""
+
+#: .\base\models.py:26
+msgid "History"
+msgstr ""
+
+#: .\base\models.py:27
+msgid "Philosophy"
+msgstr ""
+
+#: .\base\models.py:28
+msgid "Psychology"
+msgstr ""
+
+#: .\base\models.py:29
+msgid "Science"
+msgstr ""
+
+#: .\base\models.py:30
+msgid "Technology"
+msgstr ""
+
+#: .\base\models.py:31
+msgid "Health & Fitness"
+msgstr ""
+
+#: .\base\models.py:32
+msgid "Cooking"
+msgstr ""
+
+#: .\base\models.py:33
+msgid "Travel"
+msgstr ""
+
+#: .\base\models.py:34
+msgid "Sports"
+msgstr ""
+
+#: .\base\models.py:35
+msgid "Politics"
+msgstr ""
+
+#: .\base\models.py:36
+msgid "Economics"
+msgstr ""
+
+#: .\base\models.py:37
+msgid "Religion"
+msgstr ""
+
+#: .\base\models.py:38
+msgid "Self Help"
+msgstr ""
+
+#: .\base\models.py:39
+msgid "Business"
+msgstr ""
+
+#: .\base\models.py:40
+msgid "Education"
+msgstr ""
+
+#: .\base\models.py:41
+msgid "Children's Books"
+msgstr ""
+
+#: .\base\models.py:42
+msgid "Young Adult"
+msgstr ""
+
+#: .\base\models.py:43
+msgid "Poetry"
+msgstr ""
+
+#: .\base\models.py:44
+msgid "Drama"
+msgstr ""
+
+#: .\base\models.py:45
+msgid "Classics"
+msgstr ""
+
+#: .\base\models.py:46
+msgid "Contemporary Fiction"
+msgstr ""
+
+#: .\base\models.py:47
+msgid "Historical Fiction"
+msgstr ""
+
+#: .\base\models.py:48
+msgid "Crime"
+msgstr ""
+
+#: .\base\models.py:49
+msgid "Adventure"
+msgstr ""
+
+#: .\base\models.py:50
+msgid "Humor"
+msgstr ""
+
+#: .\base\models.py:51
+msgid "Arts & Music"
+msgstr ""
+
+#: .\base\models.py:52
+msgid "Reference"
+msgstr ""
+
+#: .\base\models.py:53
+msgid "Other"
+msgstr ""
+
+#: .\base\models.py:56
+msgid "English"
+msgstr ""
+
+#: .\base\models.py:57
+msgid "French"
+msgstr ""
+
+#: .\base\models.py:58
+msgid "Ukrainian"
+msgstr ""
+
+#: .\base\templates\base\home.html:28 .\base\templates\base\home.html:48
+msgid "Family Reading Together"
+msgstr ""
+
+#: .\base\templates\base\home.html:29 .\base\templates\base\home.html:49
+msgid "Warm family scene placeholder"
+msgstr ""
+
+#: .\base\templates\base\home.html:39
+msgid "Your Cultural Home Away From Home"
+msgstr ""
+
+#: .\base\templates\base\home.html:41
+msgid "View catalog"
+msgstr ""
+
+#: .\base\templates\base\home.html:42 .\base\templates\base\home.html:139
+msgid "Upcoming Events"
+msgstr ""
+
+#: .\base\templates\base\home.html:61
+msgid "Hours"
+msgstr ""
+
+#: .\base\templates\base\home.html:62
+msgid "9 AM - 6 PM"
+msgstr ""
+
+#: .\base\templates\base\home.html:68
+msgid "Location"
+msgstr ""
+
+#: .\base\templates\base\home.html:69
+msgid "Hour | Location"
+msgstr ""
+
+#: .\base\templates\base\home.html:75
+msgid "Phone"
+msgstr ""
+
+#: .\base\templates\base\home.html:84
+msgid "Our Collection"
+msgstr ""
+
+#: .\base\templates\base\home.html:85
+msgid ""
+"Our community is unique in shaping our collection through various events, "
+"readings, and courses."
+msgstr ""
+
+#: .\base\templates\base\home.html:90
+msgid "Community & Support"
+msgstr ""
+
+#: .\base\templates\base\home.html:91
+msgid ""
+"Join Our Treasures and community community & support mentorrs, and support "
+"in wins."
+msgstr ""
+
+#: .\base\templates\base\home.html:96
+msgid "Learn & Grow"
+msgstr ""
+
+#: .\base\templates\base\home.html:97
+msgid ""
+"Learn more about current event and how to enroll afturmaila technicus and "
+"realturity and more."
+msgstr ""
+
+#: .\base\templates\base\home.html:103
+msgid "New Arrivals"
+msgstr ""
+
+#: .\base\templates\base\home.html:127
+msgid "Librarian's Pick"
+msgstr ""
+
+#: .\base\templates\base\home.html:130
+msgid "Learn More"
+msgstr ""
+
+#: .\base\templates\base\home.html:142
+msgid "Українська Діа - Бібліотека"
+msgstr ""
+
+#: .\base\templates\base\home.html:143
+msgid "Ukrainian Dia-Library Services"
+msgstr ""
+
+#: .\base\templates\base\home.html:144
+msgid "Read More"
+msgstr ""
+
+#: .\base\templates\base\item.html:16
+msgid "No image available"
+msgstr ""
+
+#: .\base\templates\base\item.html:21
+msgid "Author"
+msgstr ""
+
+#: .\base\templates\base\item.html:25
+msgid "Published Date"
+msgstr ""
+
+#: .\base\templates\base\item.html:29
+msgid "Language"
+msgstr "Мова"
+
+#: .\base\templates\base\item.html:33
+msgid "Genre"
+msgstr ""
+
+#: .\base\templates\base\item.html:39
+msgid "Read more"
+msgstr ""
+
+#: .\base\templates\base\item.html:48
+msgid "Available copies"
+msgstr ""
+
+#: .\base\templates\base\item.html:51
+#, python-format
+msgid "Available to borrow: %(available_copies)s copy"
+msgid_plural "Available to borrow: %(available_copies)s copies"
+msgstr[0] "В наявності: %(available_copies)s примірник"
+msgstr[1] "В наявності: %(available_copies)s примірники"
+msgstr[2] "В наявності: %(available_copies)s примірників"
+
+#: .\base\templates\base\item.html:58
+msgid "Currently unavailable"
+msgstr ""
+
+#: .\base\templates\base\layout.html:9 .\base\templates\base\layout.html:113
 msgid "Ridna Library"
 msgstr ""
 
-#: base/templates/base/home.html:44
-msgid "Language:"
-msgstr "Мова:"
-
-#: base/templates/base/home.html:56
-msgid "Welcome to Ridna Library"
+#: .\base\templates\base\layout.html:34 .\base\templates\base\layout.html:75
+msgid "About"
 msgstr ""
 
-#: base/templates/base/home.html:58
-msgid "This is a Django project with internationalization support."
+#: .\base\templates\base\layout.html:35
+msgid "Collection"
 msgstr ""
 
-#: base/templates/base/home.html:60
-msgid "Features"
+#: .\base\templates\base\layout.html:36
+msgid "Events"
 msgstr ""
 
-#: base/templates/base/home.html:62
-msgid "Multi-language support"
+#: .\base\templates\base\layout.html:37
+msgid "Resources"
 msgstr ""
 
-#: base/templates/base/home.html:63
-msgid "Easy language switching"
+#: .\base\templates\base\layout.html:38
+msgid "Get involved"
 msgstr ""
 
-#: base/templates/base/home.html:64
-msgid "Translation-ready templates"
+#: .\base\templates\base\layout.html:73
+msgid "Company"
 msgstr ""
 
-#: base/templates/base/home.html:67
-msgid "Getting Started"
+#: .\base\templates\base\layout.html:76
+msgid "Careers"
 msgstr ""
 
-#: base/templates/base/home.html:69
-msgid "To create translations for your content, use the"
+#: .\base\templates\base\layout.html:77
+msgid "Press Center"
 msgstr ""
 
-#: base/templates/base/home.html:71
-msgid "and"
+#: .\base\templates\base\layout.html:78
+msgid "Investor Relations"
 msgstr ""
 
-#: base/templates/base/home.html:73
-msgid "template tags."
+#: .\base\templates\base\layout.html:79
+msgid "Trust Center"
 msgstr ""
 
-#: base/templates/base/home.html:75
-msgid "Then run"
+#: .\base\templates\base\layout.html:84
+msgid "Links"
 msgstr ""
 
-#: base/templates/base/home.html:75
-msgid "to generate translation files."
+#: .\base\templates\base\layout.html:86
+msgid "Download Extension"
 msgstr ""
 
-#: base/templates/base/home.html:78
-msgid "Current time:"
+#: .\base\templates\base\layout.html:87
+msgid "Desktop"
 msgstr ""
 
-#: base/templates/base/home.html:83
-#, python-format
-msgid ""
-"\n"
-"            There is %(counter)s user in the system.\n"
-"            "
-msgid_plural ""
-"\n"
-"            There are %(counter)s users in the system.\n"
-"            "
-msgstr[0] ""
-msgstr[1] ""
+#: .\base\templates\base\layout.html:88
+msgid "Mobile"
+msgstr ""
 
-#: base/templates/base/home.html:93
-#, python-format
-msgid "Welcome to %(site_name)s!"
+#: .\base\templates\base\layout.html:89
+msgid "Status"
+msgstr ""
+
+#: .\base\templates\base\layout.html:94
+msgid "Contact"
+msgstr ""
+
+#: .\base\templates\base\layout.html:103
+msgid "Newsletter Signup"
+msgstr ""
+
+#: .\base\templates\base\layout.html:104
+msgid "Stay updated with our latest arrivals and events"
+msgstr ""
+
+#: .\base\templates\base\layout.html:106
+msgid "Your email address"
+msgstr ""
+
+#: .\base\templates\base\layout.html:107
+msgid "Subscribe"
+msgstr ""
+
+#: .\base\templates\base\layout.html:113
+msgid "All rights reserved."
 msgstr ""
