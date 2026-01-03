@@ -38,7 +38,7 @@
             <div class="hero-text">
                 <h1>{% trans "Your Cultural Home Away From Home" %}</h1>                
                 <div class="hero-buttons">
-                    <a href="#" class="button btn-primary">{% trans "View catalog" %}</a>
+                    <a href="{% url 'collection' %}" class="button btn-primary">{% trans "View catalog" %}</a>
                     <a href="#" class="button btn-secondary">{% trans "Upcoming events" %}</a>
                 </div>
             </div>
@@ -117,7 +117,7 @@
                 <h4>{% trans "Librarian's Pick" %}</h4>
                 <h2>{{ featured_item.item.title }}</h2>
                 <p>{{ featured_item.item.description|truncatewords:75 }}</p>
-                <a href="{{ featured_item.item.get_absolute_url }}" class="button btn-primary">{% trans "Learn More" %} →</a>
+                <a href="{% url 'item' featured_item.item.id %}" class="button btn-primary">{% trans "Learn More" %} →</a>
             </div>
         </div>
         {% endif %}
