@@ -19,13 +19,14 @@ from django.urls import include, path
 from django.conf.urls.i18n import i18n_patterns
 from django.conf import settings
 from django.conf.urls.static import static
+from base.admin import admin_site
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
 ]
 
 urlpatterns += i18n_patterns(
-    path('admin/', admin.site.urls),
+    path('admin/', admin_site.urls),
     path('', include('base.urls')),
     prefix_default_language=False
 )

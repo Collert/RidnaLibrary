@@ -5,12 +5,14 @@
     --ukrainian-blue: #0057B7;
     --text-dark: #0c4a74;
     --bg-light: #f8f5e9;
-    --grey: #e9ecef;
-    --dark-grey: #808080;
+    --grey: #f5f5f5;
+    --dark-grey: #ccc;
     --text-light: var(--primary-contrast);
 
     --accent-1: var(--ukrainian-blue);
     --accent-2: var(--ukrainian-gold);
+
+    interpolate-size: allow-keywords;
 }
 
 /* Reset and base styles */

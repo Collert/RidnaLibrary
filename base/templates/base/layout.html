@@ -32,7 +32,7 @@
             
             <div class="nav-links">
                 <a {% if request.path == '/' %}class="selected"{% endif %} href="{% url 'home' %}">{% trans "About" %}</a>
-                <a {% if '/collection/' in request.path %}class="selected"{% endif %} href="#">{% trans "Collection" %}</a>
+                <a {% if '/collection/' in request.path %}class="selected"{% endif %} href="{% url 'collection' %}">{% trans "Collection" %}</a>
                 <a {% if  '/events/' in request.path %}class="selected"{% endif %} href="#">{% trans "Events" %}</a>
                 <!-- <a {% if '/resources/' in request.path %}class="selected"{% endif %} href="#">{% trans "Resources" %}</a> -->
                 <a {% if '/get-involved/' in request.path %}class="selected"{% endif %} href="#">{% trans "Get involved" %}</a>

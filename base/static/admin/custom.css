@@ -1,0 +1,28 @@
+/* Change primary action button */
+.submit-row input.default,
+.button.default,
+input[type=submit].default {
+    background: #1f8f7a !important;
+    border-color: #1f8f7a !important;
+    color: white !important;
+}
+
+/* Make normal buttons less gray */
+.button,
+input[type=submit],
+input[type=button],
+.submit-row input {
+    border-radius: 10px !important;
+    padding: 8px 14px !important;
+}
+
+/* Sidebar / header */
+#header {
+    background: #142623 !important;
+}
+
+#branding h1,
+#branding h1 a:link,
+#branding h1 a:visited {
+    color: #d6f4e7 !important;
+}

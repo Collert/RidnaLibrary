@@ -7,4 +7,5 @@ urlpatterns = [
     path('collection/item/<int:item_id>/favourite/', views.favourite_item, name='favourite_item'),
     path('collection/item/<int:item_id>/borrow/', views.borrow_item, name='borrow_item'),
     path('collection/item/<int:item_id>/place_hold/', views.place_hold, name='place_hold'),
+    path('collection/', views.collection, name='collection'),
 ]

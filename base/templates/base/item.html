@@ -9,7 +9,7 @@
 {% block body %}
 <main id="item">
     <section id="main">
-        {% if not item.image %}
+        {% if item.image %}
             <img src="{{ item.image.url }}" alt="{{ item.title }} cover image" class="item-image">
         {% else %}
             <div class="image-placeholder">
@@ -140,7 +140,9 @@
                 {% else %}
                     <button type="button" disabled class="btn-primary">{% trans "Log in to borrow" %}</button>
                 {% endif %}
-                <button type="button" id="favorite-button" class="icon btn-secondary {% if favourited_by_user %}favorited{% endif %}"><span class="material-symbols-outlined">favorite</span></button>
+                {% if user.is_authenticated %}
+                    <button type="button" id="favorite-button" class="icon btn-secondary {% if favourited_by_user %}favorited{% endif %}"><span class="material-symbols-outlined">favorite</span></button>
+                {% endif %}
             </form>
         </div>
     </section>

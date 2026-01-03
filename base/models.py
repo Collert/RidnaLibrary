@@ -4,9 +4,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from datetime import timedelta
-from django.utils.translation import gettext_lazy as _
 from django.utils.translation import get_language
-from parler.models import TranslatableModel, TranslatedFields
+from .enums import *
 
 def calculate_next_saturday():
     today = timezone.now().date()
@@ -15,62 +14,14 @@ def calculate_next_saturday():
         days_ahead += 7
     return days_ahead
 
-class Genre(models.TextChoices):
-    FANTASY = "fantasy", _("Fantasy")
-    SCIFI = "sci_fi", _("Science Fiction")
-    MYSTERY = "mystery", _("Mystery")
-    THRILLER = "thriller", _("Thriller")
-    ROMANCE = "romance", _("Romance")
-    HORROR = "horror", _("Horror")
-    BIOGRAPHY = "biography", _("Biography")
-    AUTOBIOGRAPHY = "autobiography", _("Autobiography")
-    HISTORY = "history", _("History")
-    PHILOSOPHY = "philosophy", _("Philosophy")
-    PSYCHOLOGY = "psychology", _("Psychology")
-    SCIENCE = "science", _("Science")
-    TECHNOLOGY = "technology", _("Technology")
-    HEALTH = "health", _("Health & Fitness")
-    COOKING = "cooking", _("Cooking")
-    TRAVEL = "travel", _("Travel")
-    SPORTS = "sports", _("Sports")
-    POLITICS = "politics", _("Politics")
-    ECONOMICS = "economics", _("Economics")
-    RELIGION = "religion", _("Religion")
-    SELF_HELP = "self_help", _("Self Help")
-    BUSINESS = "business", _("Business")
-    EDUCATION = "education", _("Education")
-    CHILDREN = "children", _("Children's Books")
-    YOUNG_ADULT = "young_adult", _("Young Adult")
-    POETRY = "poetry", _("Poetry")
-    DRAMA = "drama", _("Drama")
-    CLASSICS = "classics", _("Classics")
-    CONTEMPORARY = "contemporary", _("Contemporary Fiction")
-    HISTORICAL_FICTION = "historical_fiction", _("Historical Fiction")
-    CRIME = "crime", _("Crime")
-    ADVENTURE = "adventure", _("Adventure")
-    HUMOR = "humor", _("Humor")
-    ARTS = "arts", _("Arts & Music")
-    REFERENCE = "reference", _("Reference")
-    OTHER = "other", _("Other")
-
-class Language(models.TextChoices):
-    ENGLISH    = "en", _("English")
-    FRENCH     = "fr", _("French")
-    UKRAINIAN  = "uk", _("Ukrainian")
-
 class Item(models.Model):
     title = models.CharField(max_length=200)
-    author = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     title_fr = models.CharField(max_length=200, blank=True)
-    author_fr = models.CharField(max_length=100, blank=True)
     description_fr = models.TextField(blank=True)
     title_uk = models.CharField(max_length=200, blank=True)
-    author_uk = models.CharField(max_length=100, blank=True)
     description_uk = models.TextField(blank=True)
     published_date = models.DateField()
-    language = models.CharField(max_length=10, default='en', choices=Language.choices)
-    genre = models.CharField(max_length=50, choices=Genre.choices)
     total_copies = models.PositiveIntegerField(default=1)
     added_date = models.DateField(auto_now_add=True)
     image = models.ImageField(upload_to='item_images/', null=True, blank=True)
@@ -92,16 +43,6 @@ class Item(models.Model):
     def is_borrowed_and_not_received_by(self, user):
         return Loan.objects.filter(item=self, user=user, return_date__isnull=True, received=False).exists()
 
-    def get_localized_author(self):
-        """Return the author name in the current language"""
-        current_language = get_language()
-        if current_language == 'uk' and self.author_uk:
-            return self.author_uk
-        elif current_language == 'fr' and self.author_fr:
-            return self.author_fr
-        else:
-            return self.author
-
     def get_localized_title(self):
         """Return the title in the current language"""
         current_language = get_language()
@@ -122,8 +63,13 @@ class Item(models.Model):
         else:
             return self.description
     
-    def new_arrivals(self):
-        return self.objects.all().order_by('-added_date')[:15]
+    @classmethod
+    def new_arrivals(cls):
+        return cls.objects.all().order_by('-added_date')[:15]
+    
+    # This is not very efficient but works for now
+    def is_new_arrival(self):
+        return self in self.__class__.new_arrivals()
     
     def users_position_in_hold_queue(self, user):
         holds = self.holds.filter(item=self).order_by('hold_date')
@@ -134,8 +80,29 @@ class Item(models.Model):
     
     def borrow_queue(self):
         return self.holds.filter(item=self).order_by('hold_date')
+    
+class CreativeWork(Item):
+    author = models.CharField(max_length=100)
+    author_fr = models.CharField(max_length=100, blank=True)
+    author_uk = models.CharField(max_length=100, blank=True)
+    genre = models.CharField(max_length=50, choices=Genre.choices)
+    theme = models.CharField(max_length=50, blank=True, choices=Theme.choices)
+    audience = models.CharField(max_length=50, blank=True, choices=Audience.choices)
+    tone = models.CharField(max_length=50, blank=True, choices=Tone.choices)
+    language = models.CharField(max_length=10, default='en', choices=Language.choices)
+    language_level = models.CharField(max_length=50, blank=True, choices=LanguageLevel.choices)
+    
+    def get_localized_author(self):
+        """Return the author name in the current language"""
+        current_language = get_language()
+        if current_language == 'uk' and self.author_uk:
+            return self.author_uk
+        elif current_language == 'fr' and self.author_fr:
+            return self.author_fr
+        else:
+            return self.author
 
-class Book(Item):
+class Book(CreativeWork):
     isbn_number = models.CharField(max_length=13, unique=True)
 
 class Member(models.Model):

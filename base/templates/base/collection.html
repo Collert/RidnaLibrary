@@ -1,0 +1,261 @@
+{% extends 'base/layout.html' %}
+{% load i18n %}
+{% load static %}
+{% load dict_extras %}
+
+{% block extra_head %}
+<link href="{% static 'base/collection.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<main id="collection">
+    <form method="get" id="filters">
+        <h2><span class="material-symbols-outlined">filter_alt</span>{% trans "Filters" %}</h2>
+        <div class="filter-section">
+            <h3><span class="material-symbols-outlined">text_fields</span>{% trans "Search" %}</h3>
+            <input type="text" name="search" value="{{ search.query }}" placeholder="{% trans 'Search the collection...' %}">
+        </div>
+        <div id="filter-checkboxes">
+            <div class="filter-section">
+                <h3><span class="material-symbols-outlined">palette</span>{% trans "Genre" %}</h3>
+                {% for genre in genres.0 %}
+                    <div class="checkbox">
+                        <input type="checkbox" {% if genre.code in search.genres %}checked{% endif %} id="genre-{{ genre.code }}" name="genre" value="{{ genre.code }}"/>
+                        <label for="genre-{{ genre.code }}">{{ genre.name }} ({{ genre.count }})</label>
+                    </div>
+                {% endfor %}
+                {% if genres|length > 1 %}
+                    <button type="button" data-type="genre" class="expand_filter-container" id="toggle-genres">{% trans "Show more" %}</button>
+                    {% for genre in genres.1 %}
+                        <div hidden class="checkbox more-genre">
+                            <input type="checkbox" id="genre-{{ genre.code }}" name="genre" value="{{ genre.code }}"/>
+                            <label for="genre-{{ genre.code }}">{{ genre.name }} ({{ genre.count }})</label>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="filter-section">
+                <h3><span class="material-symbols-outlined">translate</span>{% trans "Language" %}</h3>
+                {% for language in languages.0 %}
+                    <div class="checkbox">
+                        <input type="checkbox" {% if language.code in search.languages %}checked{% endif %} id="language-{{ language.code }}" name="language" value="{{ language.code }}"/>
+                        <label for="language-{{ language.code }}">{{ language.name }} ({{ language.count }})</label>
+                    </div>
+                {% endfor %}
+                {% if languages|length > 1 %}
+                    <button type="button" data-type="language" class="expand_filter-container" id="toggle-languages">{% trans "Show more" %}</button>
+                    {% for language in languages.1 %}
+                        <div hidden class="checkbox more-language">
+                            <input type="checkbox" id="language-{{ language.code }}" name="language" value="{{ language.code }}"/>
+                            <label for="language-{{ language.code }}">{{ language.name }} ({{ language.count }})</label>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="filter-section">
+                <h3><span class="material-symbols-outlined">emoji_nature</span>{% trans "Theme" %}</h3>
+                {% for theme in themes.0 %}
+                    <div class="checkbox">
+                        <input type="checkbox" {% if theme.code in search.themes %}checked{% endif %} id="theme-{{ theme.code }}" name="theme" value="{{ theme.code }}"/>
+                        <label for="theme-{{ theme.code }}">{{ theme.name }} ({{ theme.count }})</label>
+                    </div>
+                {% endfor %}
+                {% if themes|length > 1 %}
+                    <button type="button" data-type="theme" class="expand_filter-container" id="toggle-themes">{% trans "Show more" %}</button>
+                    {% for theme in themes.1 %}
+                        <div hidden class="checkbox more-theme">
+                            <input type="checkbox" id="theme-{{ theme.code }}" name="theme" value="{{ theme.code }}"/>
+                            <label for="theme-{{ theme.code }}">{{ theme.name }} ({{ theme.count }})</label>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="filter-section">
+                <h3><span class="material-symbols-outlined">mood</span>{% trans "Tone" %}</h3>
+                {% for tone in tones.0 %}
+                    <div class="checkbox">
+                        <input type="checkbox" {% if tone.code in search.tones %}checked{% endif %} id="tone-{{ tone.code }}" name="tone" value="{{ tone.code }}"/>
+                        <label for="tone-{{ tone.code }}">{{ tone.name }} ({{ tone.count }})</label>
+                    </div>
+                {% endfor %}
+                {% if tones|length > 1 %}
+                    <button type="button" data-type="tone" class="expand_filter-container" id="toggle-tones">{% trans "Show more" %}</button>
+                    {% for tone in tones.1 %}
+                        <div hidden class="checkbox more-tone">
+                            <input type="checkbox" id="tone-{{ tone.code }}" name="tone" value="{{ tone.code }}"/>
+                            <label for="tone-{{ tone.code }}">{{ tone.name }} ({{ tone.count }})</label>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="filter-section">
+                <h3><span class="material-symbols-outlined">groups_3</span>{% trans "Audience" %}</h3>
+                {% for audience in audiences.0 %}
+                    <div class="checkbox">
+                        <input type="checkbox" {% if audience.code in search.audiences %}checked{% endif %} id="audience-{{ audience.code }}" name="audience" value="{{ audience.code }}"/>
+                        <label for="audience-{{ audience.code }}">{{ audience.name }} ({{ audience.count }})</label>
+                    </div>
+                {% endfor %}
+                {% if audiences|length > 1 %}
+                    <button type="button" data-type="audience" class="expand_filter-container" id="toggle-audiences">{% trans "Show more" %}</button>
+                    {% for audience in audiences.1 %}
+                        <div hidden class="checkbox more-audience">
+                            <input type="checkbox" id="audience-{{ audience.code }}" name="audience" value="{{ audience.code }}"/>
+                            <label for="audience-{{ audience.code }}">{{ audience.name }} ({{ audience.count }})</label>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="filter-section">
+                <h3><span class="material-symbols-outlined">signal_cellular_2_bar</span>{% trans "Language level" %}</h3>
+                {% for language_level in language_levels.0 %}
+                    <div class="checkbox">
+                        <input type="checkbox" {% if language_level.code in search.language_levels %}checked{% endif %} id="language_level-{{ language_level.code }}" name="language_level" value="{{ language_level.code }}"/>
+                        <label for="language_level-{{ language_level.code }}">{{ language_level.name }} ({{ language_level.count }})</label>
+                    </div>
+                {% endfor %}
+                {% if language_levels|length > 1 %}
+                    <button type="button" data-type="language_level" class="expand_filter-container" id="toggle-language_levels">{% trans "Show more" %}</button>
+                    {% for language_level in language_levels.1 %}
+                        <div hidden class="checkbox more-language_level">
+                            <input type="checkbox" id="language_level-{{ language_level.code }}" name="language_level" value="{{ language_level.code }}"/>
+                            <label for="language_level-{{ language_level.code }}">{{ language_level.name }} ({{ language_level.count }})</label>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="submit-buttons-container">
+            <button type="button" class="button btn-primary"><span class="material-symbols-outlined">filter_alt_off</span>{% trans "Clear filters" %}</button>
+            <button type="submit" class="button btn-primary"><span class="material-symbols-outlined">search</span>{% trans "Search" %}</button>
+        </div>
+    </form>
+    <section id="item-list">
+        <div id="results-count">
+            {% blocktrans trimmed count counter=items.paginator.count %}
+                Showing {{ counter }} result
+            {% plural %}
+                Showing {{ counter }} results
+            {% endblocktrans %}
+        </div>
+        {% for item in items %}
+            <a href="{% url 'item' item.id %}" class="item-card">
+                <div class="image-container">
+                    {% if item.image %}
+                        <img src="{{ item.image.url }}" alt="">
+                    {% else %}
+                        <div class="no-image-placeholder">
+                            <span class="material-symbols-outlined">image</span>
+                        </div>
+                    {% endif %}
+                </div>
+                <h3>{{ item.get_localized_title }}</h3>
+                <h4>{{ item.get_localized_author }}</h4>
+                {% if item.is_new_arrival %}
+                    <div class="new-arrival-badge">{% trans "New" %}</div>
+                {% endif %}
+            </a>
+        {% empty %}
+        <div id="no-items-message">
+            <span class="material-symbols-outlined">sentiment_neutral</span>
+            <h1>{% trans "Sorry, no items found matching your criteria." %}</h1>
+        </div>
+        {% endfor %}
+        {% if items.has_other_pages %}
+            <div id="pagination">
+                <span class="page-links">
+                    {% if items.has_previous %}
+                        <a href="?page={{ items.previous_page_number }}" class="page-nav no-style">&laquo; {% trans "Previous" %}</a>
+                    {% endif %}
+                    
+                    {% if items.number > 3 %}
+                        <a href="?page=1" class="page-number no-style">1</a>
+                        {% if items.number > 4 %}
+                            <span class="ellipsis">...</span>
+                        {% endif %}
+                    {% endif %}
+                    
+                    {% for page_num in items.paginator.page_range %}
+                        {% if page_num >= items.number|add:"-2" and page_num <= items.number|add:"2" %}
+                            {% if page_num == items.number %}
+                                <span class="current-page">{{ page_num }}</span>
+                            {% else %}
+                                <a href="?page={{ page_num }}" class="page-number no-style">{{ page_num }}</a>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if items.number < items.paginator.num_pages|add:"-2" %}
+                        {% if items.number < items.paginator.num_pages|add:"-3" %}
+                            <span class="ellipsis">...</span>
+                        {% endif %}
+                        <a href="?page={{ items.paginator.num_pages }}" class="page-number no-style">{{ items.paginator.num_pages }}</a>
+                    {% endif %}
+                    
+                    {% if items.has_next %}
+                        <a href="?page={{ items.next_page_number }}" class="page-nav no-style">{% trans "Next" %} &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        {% endif %}
+    </section>
+</main>
+
+<script>
+    document.querySelectorAll('.expand_filter-container').forEach(button => {
+        button.addEventListener('click', () => {
+            const filterType = button.dataset.type;
+            document.querySelectorAll(`.more-${filterType}`).forEach(elem => {
+                elem.hidden = false;
+            });
+            button.hidden = true;
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const checkboxes = document.querySelectorAll('#filters input[type="checkbox"], #filters input[type="text"]');
+        const clearButton = document.querySelector('.submit-buttons-container button:first-child');
+
+        function updateClearButtonVisibility() {
+            let anyChecked = false;
+            checkboxes.forEach(checkbox => {
+                if ((checkbox.type === 'checkbox' && checkbox.checked) || (checkbox.type === 'text' && checkbox.value.trim() !== '')) {
+                    anyChecked = true;
+                }
+            });
+            showClearFiltersButton(anyChecked);
+        }
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', updateClearButtonVisibility);
+            if (checkbox.type === 'text') {
+                checkbox.addEventListener('input', updateClearButtonVisibility);
+            }
+        });
+
+        clearButton.addEventListener('click', () => {
+            checkboxes.forEach(checkbox => {
+                if (checkbox.type === 'checkbox') {
+                    checkbox.checked = false;
+                } else if (checkbox.type === 'text') {
+                    checkbox.value = '';
+                }
+            });
+            showClearFiltersButton(false);
+        });
+
+        // Initial check on page load
+        updateClearButtonVisibility();
+    });
+
+    function showClearFiltersButton(show) {
+        const buttonContainer = document.querySelector('.submit-buttons-container');
+        if (show) {
+            buttonContainer.classList.add('show-clear-button');
+            return;
+        } else {
+            buttonContainer.classList.remove('show-clear-button');
+        }
+    }
+</script>
+{% endblock %}

@@ -3,12 +3,14 @@ from django.contrib import messages
 from django.http import HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import render, redirect
 from django.utils.translation import gettext_lazy as _
-from .models import FeaturedItem, HeroSection, Item, ItemHold
-from .models import Loan
+from .models import FeaturedItem, HeroSection, Item, ItemHold, Loan, Book
+from .enums import *
+from django.core.paginator import Paginator
+from django.db.models import Q
 
 def home(request):
     hero_section = HeroSection.objects.first()
-    new_arrivals_all = Item.new_arrivals(Item)
+    new_arrivals_all = Item.new_arrivals()
     new_arrivals = [new_arrivals_all[:5], new_arrivals_all[5:10], new_arrivals_all[10:15]]
     featured_item = random.choice(FeaturedItem.objects.all()) if FeaturedItem.objects.exists() else None
     return render(request, 'base/home.html', {
@@ -18,7 +20,7 @@ def home(request):
     })
 
 def item(request, item_id):
-    item = Item.objects.get(id=item_id)
+    item = Book.objects.get(id=item_id)
     available_copies = item.available_copies()
     favourited_by_user = item.favourited_by.filter(id=request.user.id).exists()
     return render(request, 'base/item.html', {
@@ -115,3 +117,69 @@ def favourite_item(request, item_id):
         else:
             return JsonResponse({'error': _("User not authenticated")}, status=403)
     return HttpResponseNotAllowed(['POST'])
+
+def collection(request):
+    search = {
+        "query": request.GET.get('search', ''),
+        "genres": request.GET.getlist('genre'),
+        "languages": request.GET.getlist('language'),
+        "themes": request.GET.getlist('theme'),
+        "tones": request.GET.getlist('tone'),
+        "audiences": request.GET.getlist('audience'),
+        "language_levels": request.GET.getlist('language_level'),
+    }
+
+    condition = Q()
+
+    if search["query"]:
+        condition &= (Q(title__icontains=search["query"]) |
+                      Q(author__icontains=search["query"]) |
+                      Q(description__icontains=search["query"]) |
+                      Q(title_fr__icontains=search["query"]) |
+                      Q(author_fr__icontains=search["query"]) |
+                      Q(description_fr__icontains=search["query"]) |
+                      Q(title_uk__icontains=search["query"]) |
+                      Q(author_uk__icontains=search["query"]) |
+                      Q(description_uk__icontains=search["query"]))
+        
+    if search["genres"]:
+        condition &= Q(genre__in=search["genres"])
+
+    if search["languages"]:
+        condition &= Q(language__in=search["languages"])
+
+    if search["themes"]:
+        condition &= Q(theme__in=search["themes"])
+    
+    if search["tones"]:
+        condition &= Q(tone__in=search["tones"])
+    
+    if search["audiences"]:
+        condition &= Q(audience__in=search["audiences"])
+
+    if search["language_levels"]:
+        condition &= Q(language_level__in=search["language_levels"])
+
+    items = Book.objects.filter(condition).order_by('-added_date')
+
+    paginated_items = Paginator(items, 10)  # Show 10 items per page
+    page_number = request.GET.get("page")
+    page_obj = paginated_items.get_page(page_number)
+    
+    all_genres = Genre.choices_with_counts()
+    all_languages = Language.choices_with_counts()
+    all_themes = Theme.choices_with_counts()
+    all_tones = Tone.choices_with_counts()
+    all_audiences = Audience.choices_with_counts()
+    all_language_levels = LanguageLevel.choices_with_counts()
+
+    return render(request, 'base/collection.html', {
+        'items': page_obj,
+        'genres': [all_genres[:5], all_genres[5:]] if len(all_genres) > 5 else [all_genres],
+        'languages': [all_languages[:5], all_languages[5:]] if len(all_languages) > 5 else [all_languages],
+        'themes': [all_themes[:5], all_themes[5:]] if len(all_themes) > 5 else [all_themes],
+        'tones': [all_tones[:5], all_tones[5:]] if len(all_tones) > 5 else [all_tones],
+        'audiences': [all_audiences[:5], all_audiences[5:]] if len(all_audiences) > 5 else [all_audiences],
+        'language_levels': [all_language_levels[:5], all_language_levels[5:]] if len(all_language_levels) > 5 else [all_language_levels],
+        'search': search,
+    })

@@ -1,5 +1,19 @@
 from django.contrib import admin
 from .models import Book, Loan, Member, FeaturedItem, HeroSection
+from django.contrib.auth.admin import UserAdmin, GroupAdmin
+from django.contrib.auth.models import User, Group
+
+class MyAdminSite(admin.AdminSite):
+    site_header = "Ridna Library Admin"
+    site_title = "Ridna Library Admin"
+    index_title = "Dashboard"
+
+    class Media:
+        css = {
+            "all": ("admin/custom.css",)
+        }
+
+admin_site = MyAdminSite(name="myadmin")
 
 class BookAdmin(admin.ModelAdmin):
     list_display = ['title', 'author', 'published_date', 'added_date', 'isbn_number']
@@ -17,8 +31,10 @@ class LoanAdmin(admin.ModelAdmin):
     list_filter = ['loan_date', 'due_date', 'return_date']
     search_fields = ['item__title', 'user__username']
 
-admin.site.register(Book, BookAdmin)
-admin.site.register(Member, MemberAdmin)
-admin.site.register(Loan, LoanAdmin)
-admin.site.register(FeaturedItem)
-admin.site.register(HeroSection)
+admin_site.register(User, UserAdmin)
+admin_site.register(Group, GroupAdmin)
+admin_site.register(Book, BookAdmin)
+admin_site.register(Member, MemberAdmin)
+admin_site.register(Loan, LoanAdmin)
+admin_site.register(FeaturedItem)
+admin_site.register(HeroSection)
