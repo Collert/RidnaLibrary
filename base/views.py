@@ -1,5 +1,10 @@
+import os
 import random
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 from django.http import HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import render, redirect
 from django.utils.translation import gettext_lazy as _
@@ -7,6 +12,7 @@ from .models import FeaturedItem, HeroSection, Item, ItemHold, Loan, Book
 from .enums import *
 from django.core.paginator import Paginator
 from django.db.models import Q
+from urllib.parse import quote
 
 def home(request):
     hero_section = HeroSection.objects.first()
@@ -183,3 +189,92 @@ def collection(request):
         'language_levels': [all_language_levels[:5], all_language_levels[5:]] if len(all_language_levels) > 5 else [all_language_levels],
         'search': search,
     })
+
+def get_random_splash_screen():
+    splash_screens = os.listdir('base/static/base/splash-screens/')
+    filename = random.choice(splash_screens)
+    # URL encode the filename to make it URL safe
+    return quote(filename, safe='')
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        
+        if not username or not password:
+            messages.error(request, _('Please fill in all fields.'))
+            return render(request, 'base/login.html', {'bg_img': get_random_splash_screen()})
+        
+        user = authenticate(request, username=username, password=password)
+        
+        if user is not None:
+            login(request, user)
+            messages.add_message(request, messages.INFO, _('Welcome back, %(username)s!') % {'username': user.username})
+            # Redirect to the next page if specified, otherwise to home
+            next_page = request.GET.get('next', 'home')
+            return redirect(next_page)
+        else:
+            messages.error(request, _('Invalid username or password.'))
+    
+    return render(request, 'base/login.html', {'bg_img': get_random_splash_screen()})
+
+def logout_view(request):
+    if request.user.is_authenticated:
+        logout(request)
+        messages.success(request, _('You have been successfully logged out.'))
+    return redirect('home')
+
+def register_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+        
+        # Validation
+        if not username or not email or not password1 or not password2:
+            messages.error(request, _('Please fill in all fields.'))
+            return render(request, 'base/register.html', {'bg_img': get_random_splash_screen()})
+        
+        if password1 != password2:
+            messages.error(request, _('Passwords do not match.'))
+            return render(request, 'base/register.html', {'bg_img': get_random_splash_screen()})
+        
+        # Check if username already exists
+        if User.objects.filter(username=username).exists():
+            messages.error(request, _('Username already exists. Please choose a different username.'))
+            return render(request, 'base/register.html', {'bg_img': get_random_splash_screen()})
+        
+        # Check if email already exists
+        if User.objects.filter(email=email).exists():
+            messages.error(request, _('Email already registered. Please use a different email or try logging in.'))
+            return render(request, 'base/register.html', {'bg_img': get_random_splash_screen()})
+        
+        # Create a temporary user instance for password validation
+        temp_user = User(username=username, email=email)
+        
+        try:
+            # Validate password using Django's built-in validators
+            validate_password(password1, temp_user)
+        except ValidationError as e:
+            # Django's password validation returns a list of errors
+            for error in e.messages:
+                messages.error(request, error)
+            return render(request, 'base/register.html', {'bg_img': get_random_splash_screen()})
+        
+        try:
+            # Create user
+            user = User.objects.create_user(username=username, email=email, password=password1)
+            user.save()
+            
+            # Log the user in
+            login(request, user)
+            
+            messages.success(request, _('Welcome to Ridna Library, %(username)s! Your account has been created successfully.') % {'username': user.username})
+            return redirect('home')
+        
+        except Exception as e:
+            messages.error(request, _('An error occurred while creating your account. Please try again.'))
+            return render(request, 'base/register.html', {'bg_img': get_random_splash_screen()})
+    
+    return render(request, 'base/register.html', {'bg_img': get_random_splash_screen()})
