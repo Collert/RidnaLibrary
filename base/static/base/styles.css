@@ -122,6 +122,59 @@ header nav {
     place-items: center;
 }
 
+#profile-container {
+    position: relative;
+    display: inline-block;
+    height: 100%;
+}
+
+#profile-container:hover #profile-controls,
+#profile-controls:hover {
+    height: auto;
+    border: 1px solid var(--dark-grey);
+}
+
+#profile-controls {
+    position: absolute;
+    top: calc(4rem);
+    right: -7px;
+    background: var(--bg-light);
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    z-index: 1001;
+    height: 0;
+    min-width: 150px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+#profile-container:hover #profile-controls,
+#profile-controls:hover {
+    padding: .5rem;
+    height: auto;
+    border: 1px solid var(--dark-grey);
+}
+
+#profile-controls a {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-direction: row;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+#log-out-button,
+#log-out-button * {
+    color: var(--error-color) !important;
+    font-weight: 600;
+}
+
 #profile_button .profile-pic {
     width: 35px;
     height: 35px;

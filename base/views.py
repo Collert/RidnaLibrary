@@ -278,3 +278,17 @@ def register_view(request):
             return render(request, 'base/register.html', {'bg_img': get_random_splash_screen()})
     
     return render(request, 'base/register.html', {'bg_img': get_random_splash_screen()})
+
+def profile_view(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
+    user_loans = Loan.objects.filter(user=request.user).order_by('-loan_date')
+    user_holds = ItemHold.objects.filter(user=request.user).order_by('hold_date')
+    favourite_items = Book.objects.filter(favourited_by=request.user)
+    
+    return render(request, 'base/profile.html', {
+        'user_loans': user_loans,
+        'user_holds': user_holds,
+        'favourite_items': favourite_items,
+    })
