@@ -60,6 +60,10 @@ header {
     margin-bottom: -10px;
 }
 
+main {
+    padding-top: 10px;
+}
+
 header nav {
     border-radius: 0 0 10px 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
