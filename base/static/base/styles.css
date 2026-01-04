@@ -57,6 +57,7 @@ header {
     background-color: var(--bg-light);
     border-radius: 0 0 10px 10px;
     height: fit-content;
+    margin-bottom: -10px;
 }
 
 header nav {
