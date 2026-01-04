@@ -25,7 +25,16 @@ def home(request):
         'featured_item': featured_item
     })
 
-def item(request, item_id):
+def book_item(request, item_id):
+    return item(request, item_id, item_type='book')
+
+def film_item(request, item_id):
+    return item(request, item_id, item_type='film')
+
+def music_item(request, item_id):
+    return item(request, item_id, item_type='music')
+
+def item(request, item_id, item_type='book'):
     item = Book.objects.get(id=item_id)
     available_copies = item.available_copies()
     favourited_by_user = item.favourited_by.filter(id=request.user.id).exists()
@@ -124,7 +133,22 @@ def favourite_item(request, item_id):
             return JsonResponse({'error': _("User not authenticated")}, status=403)
     return HttpResponseNotAllowed(['POST'])
 
-def collection(request):
+def books(request):
+    return collection(request, collection_type='book')
+
+def film(request):
+    return collection(request, collection_type='film')
+
+def music(request):
+    return collection(request, collection_type='music')
+
+def sell(request):
+    return collection(request, collection_type='sell')
+
+def for_you(request):
+    return collection(request, collection_type='personalized')
+
+def collection(request, collection_type='book'):
     search = {
         "query": request.GET.get('search', ''),
         "genres": request.GET.getlist('genre'),
@@ -188,6 +212,7 @@ def collection(request):
         'audiences': [all_audiences[:5], all_audiences[5:]] if len(all_audiences) > 5 else [all_audiences],
         'language_levels': [all_language_levels[:5], all_language_levels[5:]] if len(all_language_levels) > 5 else [all_language_levels],
         'search': search,
+        'collection_type': collection_type,
     })
 
 def get_random_splash_screen():

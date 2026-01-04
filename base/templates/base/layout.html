@@ -32,7 +32,16 @@
             
             <div class="nav-links">
                 <a {% if request.path == '/' %}class="selected"{% endif %} href="{% url 'home' %}">{% trans "About" %}</a>
-                <a {% if '/collection/' in request.path %}class="selected"{% endif %} href="{% url 'collection' %}">{% trans "Collection" %}</a>
+                <div id="collection-container">
+                    <a {% if '/collection/' in request.path %}class="selected"{% endif %} href="{% url 'collection' %}">{% trans "Collection" %}</a>
+                    <div id="collection-controls">
+                        <!-- <a class="no-style" href="#"><span class="material-symbols-outlined">for_you</span>{% trans "For You" %}</a> -->
+                        <!-- <a class="no-style" href="#"><span class="material-symbols-outlined">sell</span>{% trans "For sale" %}</a> -->
+                        <a class="no-style" href="#"><span class="material-symbols-outlined">book</span>{% trans "Books" %}</a>
+                        <!-- <a class="no-style" href="#"><span class="material-symbols-outlined">movie</span>{% trans "Film & TV" %}</a> -->
+                        <!-- <a class="no-style" href="#"><span class="material-symbols-outlined">music_note</span>{% trans "Music" %}</a> -->
+                    </div>
+                </div>
                 <a {% if  '/events/' in request.path %}class="selected"{% endif %} href="#">{% trans "Events" %}</a>
                 <!-- <a {% if '/resources/' in request.path %}class="selected"{% endif %} href="#">{% trans "Resources" %}</a> -->
                 <a {% if '/get-involved/' in request.path %}class="selected"{% endif %} href="#">{% trans "Get involved" %}</a>

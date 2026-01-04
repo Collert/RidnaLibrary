@@ -122,21 +122,25 @@ header nav {
     place-items: center;
 }
 
-#profile-container {
+#profile-container,
+#collection-container {
     position: relative;
     display: inline-block;
     height: 100%;
 }
 
 #profile-container:hover #profile-controls,
-#profile-controls:hover {
+#profile-controls:hover,
+#collection-container:hover #collection-controls,
+#collection-controls:hover {
     height: auto;
     border: 1px solid var(--dark-grey);
 }
 
-#profile-controls {
+#profile-controls,
+#collection-controls {
     position: absolute;
-    top: calc(4rem);
+    top: 4rem;
     right: -7px;
     background: var(--bg-light);
     border: none;
@@ -150,14 +154,23 @@ header nav {
     transition: all 0.3s ease;
 }
 
+#collection-controls {
+    right: 50%;
+    transform: translateX(50%);
+    width: max-content;
+}
+
 #profile-container:hover #profile-controls,
-#profile-controls:hover {
+#profile-controls:hover,
+#collection-container:hover #collection-controls,
+#collection-controls:hover {
     padding: .5rem;
     height: auto;
     border: 1px solid var(--dark-grey);
 }
 
-#profile-controls a {
+#profile-controls a,
+#collection-controls a {
     display: flex;
     align-items: center;
     justify-content: start;
