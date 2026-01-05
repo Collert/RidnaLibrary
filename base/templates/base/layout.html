@@ -75,7 +75,7 @@
                     </a>
                     {% if request.user.is_authenticated %}
                     <div id="profile-controls">
-                        <a class="no-style" href="#"><span class="material-symbols-outlined">dashboard</span>{% trans "Dashboard" %}</a>
+                        <a class="no-style" href="{% url 'dashboard' %}"><span class="material-symbols-outlined">dashboard</span>{% trans "Dashboard" %}</a>
                         <a class="no-style" href="#"><span class="material-symbols-outlined">favorite</span>{% trans "Favourites" %}</a>
                         <a class="no-style" id="log-out-button" href="{% url 'logout' %}"><span class="material-symbols-outlined">logout</span>{% trans "Log out" %}</a>
                     </div>

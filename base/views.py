@@ -2,17 +2,19 @@ import os
 import random
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.http import HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import render, redirect
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy as _, ngettext
 from .models import FeaturedItem, HeroSection, Item, ItemHold, Loan, Book
 from .enums import *
 from django.core.paginator import Paginator
 from django.db.models import Q
 from urllib.parse import quote
+from django.utils import timezone
 
 def home(request):
     hero_section = HeroSection.objects.first()
@@ -22,20 +24,11 @@ def home(request):
     return render(request, 'base/home.html', {
         'hero_section': hero_section, 
         'new_arrivals': new_arrivals, 
-        'featured_item': featured_item
+        'featured_item': featured_item.item
     })
 
-def book_item(request, item_id):
-    return item(request, item_id, item_type='book')
-
-def film_item(request, item_id):
-    return item(request, item_id, item_type='film')
-
-def music_item(request, item_id):
-    return item(request, item_id, item_type='music')
-
-def item(request, item_id, item_type='book'):
-    item = Book.objects.get(id=item_id)
+def item(request, item_id):
+    item = Book.objects.get(pk=item_id)
     available_copies = item.available_copies()
     favourited_by_user = item.favourited_by.filter(id=request.user.id).exists()
     return render(request, 'base/item.html', {
@@ -235,8 +228,19 @@ def login_view(request):
         if user is not None:
             login(request, user)
             messages.add_message(request, messages.INFO, _('Welcome back, %(username)s!') % {'username': user.username})
-            # Redirect to the next page if specified, otherwise to home
-            next_page = request.GET.get('next', 'home')
+            overdue_count = Loan.objects.filter(user=user, return_date__isnull=True, due_date__lt=timezone.localdate()).count()
+            if overdue_count:
+                messages.warning(
+                    request,
+                    ngettext(
+                        'You have %(count)s overdue item. Please return it as soon as possible.',
+                        'You have %(count)s overdue items. Please return them as soon as possible.',
+                        overdue_count,
+                    )
+                    % {'count': overdue_count},
+                )
+            # Redirect to the next page if specified, otherwise to dashboard
+            next_page = request.GET.get('next', 'dashboard')
             return redirect(next_page)
         else:
             messages.error(request, _('Invalid username or password.'))
@@ -308,12 +312,53 @@ def profile_view(request):
     if not request.user.is_authenticated:
         return redirect('login')
     
-    user_loans = Loan.objects.filter(user=request.user).order_by('-loan_date')
-    user_holds = ItemHold.objects.filter(user=request.user).order_by('hold_date')
-    favourite_items = Book.objects.filter(favourited_by=request.user)
-    
-    return render(request, 'base/profile.html', {
-        'user_loans': user_loans,
-        'user_holds': user_holds,
-        'favourite_items': favourite_items,
-    })
+    return redirect('dashboard')
+
+@login_required
+def dashboard(request, kind=''):
+    counts = {
+        'all': Loan.objects.filter(user=request.user, return_date__isnull=True).count(),
+        'due_soon': Loan.objects.filter(user=request.user, due_date__lte=timezone.now() + timezone.timedelta(days=4), return_date__isnull=True).count(),
+        'overdue': Loan.objects.filter(user=request.user, due_date__lt=timezone.now(), return_date__isnull=True).count(),
+    }
+    if kind == 'overdue':
+        items = Loan.objects.filter(user=request.user, due_date__lt=timezone.now(), return_date__isnull=True).order_by('due_date')
+        return render(request, 'base/dashboard.html', {
+            'items': items, 
+            'counts': counts
+            })
+    elif kind == 'due_soon':
+        items = Loan.objects.filter(user=request.user, due_date__lte=timezone.now() + timezone.timedelta(days=4), return_date__isnull=True).order_by('due_date')
+        return render(request, 'base/dashboard.html', {
+            'items': items, 
+            'counts': counts
+            })
+    elif kind == 'all':
+        items = Loan.objects.filter(user=request.user, return_date__isnull=True).order_by('-loan_date')
+        return render(request, 'base/dashboard.html', {
+            'items': items, 
+            'counts': counts
+            })
+    elif kind == 'history':
+        items = Loan.objects.filter(user=request.user, return_date__isnull=False).order_by('-loan_date')
+        return render(request, 'base/dashboard.html', {
+            'items': items, 
+            'counts': counts
+            })
+    return redirect('dashboard_all')
+
+@login_required
+def dashboard_all(request):
+    return dashboard(request, kind='all')
+
+@login_required
+def dashboard_due_soon(request):
+    return dashboard(request, kind='due_soon')
+
+@login_required
+def dashboard_overdue(request):
+    return dashboard(request, kind='overdue')
+
+@login_required
+def dashboard_history(request):
+    return dashboard(request, kind='history')

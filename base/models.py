@@ -6,6 +6,7 @@ from django.utils import timezone
 from datetime import timedelta
 from django.utils.translation import get_language
 from .enums import *
+from polymorphic.models import PolymorphicModel
 
 def calculate_next_saturday():
     today = timezone.now().date()
@@ -14,7 +15,7 @@ def calculate_next_saturday():
         days_ahead += 7
     return days_ahead
 
-class Item(models.Model):
+class Item(PolymorphicModel):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     title_fr = models.CharField(max_length=200, blank=True)
@@ -130,7 +131,7 @@ class Loan(models.Model):
         return f"{self.item.title} loaned to {self.user.username}"
     
     def days_left(self):
-        return (self.due_date - timezone.now().date() - timedelta(days=17)).days
+        return (self.due_date - timezone.now().date()).days + 1
     
     def rounded_percent_loan_progress(self):
         total_loan_period = (self.due_date - self.loan_date).days

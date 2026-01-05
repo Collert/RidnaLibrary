@@ -115,9 +115,9 @@
             </div>
             <div id="featured-item-info">
                 <h4>{% trans "Librarian's Pick" %}</h4>
-                <h2>{{ featured_item.item.title }}</h2>
-                <p>{{ featured_item.item.description|truncatewords:75 }}</p>
-                <a href="{% url 'item' featured_item.item.id %}" class="button btn-primary">{% trans "Learn More" %} →</a>
+                <h2>{{ featured_item.title }}</h2>
+                <p>{{ featured_item.description|truncatewords:75 }}</p>
+                <a href="{% url 'item' featured_item.id %}" class="button btn-primary">{% trans "Learn More" %} →</a>
             </div>
         </div>
         {% endif %}

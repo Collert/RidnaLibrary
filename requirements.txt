@@ -1,3 +1,4 @@
 Django
 Pillow
 Faker
+django-polymorphic
