@@ -17,4 +17,5 @@ urlpatterns = [
     path('dashboard/due_soon/', views.dashboard_due_soon, name='dashboard_due_soon'),
     path('dashboard/overdue/', views.dashboard_overdue, name='dashboard_overdue'),
     path('dashboard/history/', views.dashboard_history, name='dashboard_history'),
+    path('favourites/', views.favourites, name='favourites'),
 ]

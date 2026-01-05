@@ -1,0 +1,50 @@
+{% extends 'base/layout.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block extra_head %}
+<link href="{% static 'base/collection.css' %}" rel="stylesheet">
+<link href="{% static 'base/favourites.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<main id="favourites">
+    <h1>{% trans "Your Favourites" %}</h1>
+    <section>
+        {% for item in favourite_items %}
+            <a href="{% url 'item' item.id %}" class="item-card">
+                <div class="image-container">
+                    {% if item.image %}
+                        <img src="{{ item.image.url }}" alt="{{ item.get_localized_title }}">
+                    {% else %}
+                        <div class="no-image-placeholder"><span class="material-symbols-outlined">image</span></div>
+                    {% endif %}
+                </div>
+                <div class="item-info">
+                    <h2 class="item-title">{{ item.get_localized_title }}</h2>
+                    <p class="item-added-date">
+                        {% trans "Added on" %}: {{ item.added_date|date:"F j" }}
+                    </p>
+                    {% if item.available_copies > 0 %}
+                        <p class="item-availability">
+                            <span class="material-symbols-outlined available-icon">check_circle</span>
+                            {% blocktrans count item.available_copies as copies %}
+                                {{ copies }} copy available
+                            {% plural %}
+                                {{ copies }} copies available
+                            {% endblocktrans %}
+                        </p>
+                    {% else %}
+                        <p class="item-availability none-available">
+                            <span class="material-symbols-outlined unavailable-icon">cancel</span>
+                            {% trans "Currently unavailable" % }
+                        </p>
+                    {% endif %}
+                </div>
+            </a>
+        {% empty %}
+            <p>{% trans "You have no favourite items yet." %}</p>
+        {% endfor %}
+    </section>
+</main>
+{% endblock %}

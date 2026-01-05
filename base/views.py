@@ -362,3 +362,11 @@ def dashboard_overdue(request):
 @login_required
 def dashboard_history(request):
     return dashboard(request, kind='history')
+
+@login_required
+def favourites(request):
+    favourite_items = request.user.favourite_items.all().order_by('-added_date')
+    
+    return render(request, 'base/favourites.html', {
+        'favourite_items': favourite_items
+    })
