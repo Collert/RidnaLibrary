@@ -20,4 +20,6 @@ urlpatterns = [
     path('favourites/', views.favourites, name='favourites'),
     path('events/', views.events, name='events'),
     path('events/<int:event_id>/', views.event, name='event'),
+    path('events/<int:event_id>/invite.ics', views.event_ical, name='event_ical'),
+    path('events/<int:event_id>/express_interest/', views.toggle_event_interest, name='express_interest'),
 ]

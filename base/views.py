@@ -1,13 +1,14 @@
 import os
 import random
+import datetime
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
-from django.http import HttpResponseNotAllowed, JsonResponse
-from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
+from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.translation import gettext_lazy as _, ngettext
 from .models import FeaturedItem, HeroSection, Item, ItemHold, Loan, Book, Event, FeaturedEvent, EventKind
 from .enums import *
@@ -407,5 +408,73 @@ def events(request):
         })
 
 def event(request, event_id):
-    pass
-    
+    event = Event.objects.get(pk=event_id)
+    is_interested = event.interested_users.filter(id=request.user.id).exists() if request.user.is_authenticated else False
+    return render(request, 'base/event.html', {
+        'event': event,
+        'is_interested': is_interested,
+    })
+
+def build_ical_response(*, summary, description, location, start_dt, end_dt, uid, filename):
+    """Build an HttpResponse containing a minimal iCalendar file."""
+
+    def fmt_dt(value):
+        return value.astimezone(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ')
+
+    def escape(text):
+        return text.replace('\\', '\\\\').replace(';', '\\;').replace(',', '\\,').replace('\n', '\\n')
+
+    ical_content = (
+        "BEGIN:VCALENDAR\r\n"
+        "VERSION:2.0\r\n"
+        "PRODID:-//Ridna Library//EN\r\n"
+        "BEGIN:VEVENT\r\n"
+        f"UID:{uid}\r\n"
+        f"DTSTAMP:{fmt_dt(timezone.now())}\r\n"
+        f"DTSTART:{fmt_dt(start_dt)}\r\n"
+        f"DTEND:{fmt_dt(end_dt)}\r\n"
+        f"SUMMARY:{escape(summary)}\r\n"
+        f"DESCRIPTION:{escape(description)}\r\n"
+        f"LOCATION:{escape(location)}\r\n"
+        "END:VEVENT\r\n"
+        "END:VCALENDAR\r\n"
+    )
+
+    response = HttpResponse(ical_content, content_type='text/calendar')
+    response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    return response
+
+def event_ical(request, event_id):
+    """Generate a downloadable iCalendar invite for the event."""
+    event = get_object_or_404(Event, pk=event_id)
+
+    # Build the event time window; iCal needs explicit start/end in UTC
+    start_dt = timezone.localtime(event.event_date)
+    end_dt = start_dt + timezone.timedelta(hours=1)
+
+    return build_ical_response(
+        summary=event.get_localized_title(),
+        description=event.get_localized_description(),
+        location=event.address,
+        start_dt=start_dt,
+        end_dt=end_dt,
+        uid=f"event-{event.id}@ridna-library",
+        filename=f"ridna-library-event-{event.id}.ics",
+    )
+
+def toggle_event_interest(request, event_id):
+    if request.method == 'POST':
+        event = Event.objects.get(pk=event_id)
+        user = request.user
+        if user.is_authenticated:
+            if event.interested_users.filter(id=user.id).exists():
+                event.interested_users.remove(user)
+                interested = False
+            else:
+                event.interested_users.add(user)
+                interested = True
+            return JsonResponse({'interested': interested})
+        else:
+            return JsonResponse({'error': _("User not authenticated")}, status=403)
+    return HttpResponseNotAllowed(['POST'])
+
