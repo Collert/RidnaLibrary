@@ -42,7 +42,7 @@
                         <!-- <a class="no-style" href="#"><span class="material-symbols-outlined">music_note</span>{% trans "Music" %}</a> -->
                     </div>
                 </div>
-                <a {% if  '/events/' in request.path %}class="selected"{% endif %} href="#">{% trans "Events" %}</a>
+                <a {% if  '/events/' in request.path %}class="selected"{% endif %} href="{% url 'events' %}">{% trans "Events" %}</a>
                 <!-- <a {% if '/resources/' in request.path %}class="selected"{% endif %} href="#">{% trans "Resources" %}</a> -->
                 <a {% if '/get-involved/' in request.path %}class="selected"{% endif %} href="#">{% trans "Get involved" %}</a>
                 <form id="language-toggle" action="{% url 'set_language' %}" method="post">

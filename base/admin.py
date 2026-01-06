@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Book, Loan, Member, FeaturedItem, HeroSection
+from .models import Book, Loan, Member, FeaturedItem, HeroSection, Event, FeaturedEvent
 from django.contrib.auth.admin import UserAdmin, GroupAdmin
 from django.contrib.auth.models import User, Group
 
@@ -21,6 +21,16 @@ class BookAdmin(admin.ModelAdmin):
     search_fields = ['title', 'author', 'isbn_number']
     readonly_fields = ['added_date']
 
+class MemberInline(admin.StackedInline):
+    model = Member
+    can_delete = False
+    extra = 0
+    fields = ['join_date']
+    readonly_fields = ['join_date']
+
+class CustomUserAdmin(UserAdmin):
+    inlines = [MemberInline]
+
 class MemberAdmin(admin.ModelAdmin):
     list_display = ['user', 'join_date']
     list_filter = ['join_date']
@@ -31,10 +41,12 @@ class LoanAdmin(admin.ModelAdmin):
     list_filter = ['loan_date', 'due_date', 'return_date']
     search_fields = ['item__title', 'user__username']
 
-admin_site.register(User, UserAdmin)
+admin_site.register(User, CustomUserAdmin)
 admin_site.register(Group, GroupAdmin)
 admin_site.register(Book, BookAdmin)
 admin_site.register(Member, MemberAdmin)
 admin_site.register(Loan, LoanAdmin)
 admin_site.register(FeaturedItem)
 admin_site.register(HeroSection)
+admin_site.register(Event)
+admin_site.register(FeaturedEvent)

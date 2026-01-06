@@ -281,3 +281,52 @@ class LanguageLevel(models.TextChoices):
                 'count': language_level_counts.get(code, 0)
             })
         return language_levels_list
+    
+class EventKind(models.TextChoices):
+    AUTHOR_TALK = "author_talk", _("Author Talk")
+    BOOK_CLUB = "book_club", _("Book Club")
+    WORKSHOP = "workshop", _("Workshop")
+    STORY_TIME = "story_time", _("Story Time")
+    LITERARY_FESTIVAL = "literary_festival", _("Literary Festival")
+    POETRY_READING = "poetry_reading", _("Poetry Reading")
+    WRITING_SEMINAR = "writing_seminar", _("Writing Seminar")
+    CULTURAL_EVENT = "cultural_event", _("Cultural Event")
+    EDUCATIONAL_PROGRAM = "educational_program", _("Educational Program")
+    OTHER = "other", _("Other")
+
+
+    @classmethod
+    def get_event_kind_counts(cls):
+        """Return a dictionary with event kind codes as keys and item counts as values"""
+        from .models import Event  # Import here to avoid circular dependency
+        
+        # Get all event kind choices
+        event_kind_dict = {choice[0]: 0 for choice in cls.choices}
+        
+        # Query items grouped by event kind
+        event_kind_counts = Event.objects.values('kind').annotate(count=Count('id'))
+        
+        # Update the dictionary with actual counts
+        for entry in event_kind_counts:
+            if entry['kind'] in event_kind_dict:
+                event_kind_dict[entry['kind']] = entry['count']
+        
+        return event_kind_dict
+    
+    @classmethod
+    def choices_with_counts(cls):
+        """Return a list of language levels with their counts for display purposes"""
+        event_kind_counts = cls.get_event_kind_counts()
+        event_kinds_list = []
+        for code, name in cls.choices:
+            event_kinds_list.append({
+                'code': code,
+                'name': name,
+                'count': event_kind_counts.get(code, 0)
+            })
+            print({
+                'code': code,
+                'name': name,
+                'count': event_kind_counts.get(code, 0)
+            })
+        return event_kinds_list

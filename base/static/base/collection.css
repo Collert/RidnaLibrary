@@ -213,7 +213,6 @@ main#collection {
 
 #pagination {
     grid-column: 1 / -1;
-    grid-row: -1;
     display: flex;
     justify-content: center;
 }

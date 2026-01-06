@@ -9,7 +9,7 @@ from django.core.exceptions import ValidationError
 from django.http import HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import render, redirect
 from django.utils.translation import gettext_lazy as _, ngettext
-from .models import FeaturedItem, HeroSection, Item, ItemHold, Loan, Book
+from .models import FeaturedItem, HeroSection, Item, ItemHold, Loan, Book, Event, FeaturedEvent, EventKind
 from .enums import *
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -370,3 +370,42 @@ def favourites(request):
     return render(request, 'base/favourites.html', {
         'favourite_items': favourite_items
     })
+
+def events(request):
+    search = {
+        "days": request.GET.getlist('day'),
+        "event_types": request.GET.getlist('event_type'),
+    }
+
+    condition = Q(event_date__gte=timezone.now())
+
+    if search["days"]:
+        day_conditions = Q()
+        if 'wd' in search["days"]:
+            day_conditions |= Q(event_date__week_day__in=[2,3,4,5,6])  # Monday to Friday
+        if 'we' in search["days"]:
+            day_conditions |= Q(event_date__week_day__in=[1,7])  # Saturday and Sunday
+        condition &= day_conditions
+    if search["event_types"]:
+        condition &= Q(kind__in=search["event_types"])
+
+    events = Event.objects.filter(condition).order_by('event_date')
+    try:
+        featured_event = random.choice(FeaturedEvent.objects.all())
+    except IndexError:
+        featured_event = None
+    paginated_events = Paginator(events, 5)  # Show 5 events per page
+    page_number = request.GET.get("page")
+    page_obj = paginated_events.get_page(page_number)
+    return render(request, 'base/events.html', {
+        'page_obj': page_obj,
+        'all_events': Event.objects.all(),
+        'featured_event': featured_event.event,
+        'event_types': EventKind.choices_with_counts(),
+        'search': search,
+        "days_counts": Event.get_counts_by_weekday_weekend(),
+        })
+
+def event(request, event_id):
+    pass
+    

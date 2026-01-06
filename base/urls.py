@@ -18,4 +18,6 @@ urlpatterns = [
     path('dashboard/overdue/', views.dashboard_overdue, name='dashboard_overdue'),
     path('dashboard/history/', views.dashboard_history, name='dashboard_history'),
     path('favourites/', views.favourites, name='favourites'),
+    path('events/', views.events, name='events'),
+    path('events/<int:event_id>/', views.event, name='event'),
 ]

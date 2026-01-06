@@ -162,41 +162,7 @@
         </div>
         {% endfor %}
         {% if items.has_other_pages %}
-            <div id="pagination">
-                <span class="page-links">
-                    {% if items.has_previous %}
-                        <a href="?page={{ items.previous_page_number }}" class="page-nav no-style">&laquo; {% trans "Previous" %}</a>
-                    {% endif %}
-                    
-                    {% if items.number > 3 %}
-                        <a href="?page=1" class="page-number no-style">1</a>
-                        {% if items.number > 4 %}
-                            <span class="ellipsis">...</span>
-                        {% endif %}
-                    {% endif %}
-                    
-                    {% for page_num in items.paginator.page_range %}
-                        {% if page_num >= items.number|add:"-2" and page_num <= items.number|add:"2" %}
-                            {% if page_num == items.number %}
-                                <span class="current-page">{{ page_num }}</span>
-                            {% else %}
-                                <a href="?page={{ page_num }}" class="page-number no-style">{{ page_num }}</a>
-                            {% endif %}
-                        {% endif %}
-                    {% endfor %}
-                    
-                    {% if items.number < items.paginator.num_pages|add:"-2" %}
-                        {% if items.number < items.paginator.num_pages|add:"-3" %}
-                            <span class="ellipsis">...</span>
-                        {% endif %}
-                        <a href="?page={{ items.paginator.num_pages }}" class="page-number no-style">{{ items.paginator.num_pages }}</a>
-                    {% endif %}
-                    
-                    {% if items.has_next %}
-                        <a href="?page={{ items.next_page_number }}" class="page-nav no-style">{% trans "Next" %} &raquo;</a>
-                    {% endif %}
-                </span>
-            </div>
+            {% include 'base/components/pagination.html' with items=items %}
         {% endif %}
     </section>
 </main>

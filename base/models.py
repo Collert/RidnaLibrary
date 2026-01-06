@@ -163,14 +163,6 @@ class FeaturedItem(models.Model):
     def __str__(self):
         return f"Featured: {self.item.title}"
     
-class Event(models.Model):
-    title = models.CharField(max_length=200)
-    description = models.TextField()
-    event_date = models.DateTimeField()
-
-    def __str__(self):
-        return self.title
-    
 class ItemHold(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='holds')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -179,3 +171,54 @@ class ItemHold(models.Model):
 
     def __str__(self):
         return f"Hold: {self.item.title} for {self.user.username}"
+    
+class Event(models.Model):
+    title = models.CharField(max_length=200)
+    title_fr = models.CharField(max_length=200, blank=True, null=True)
+    title_uk = models.CharField(max_length=200, blank=True, null=True)
+    description = models.TextField()
+    description_fr = models.TextField(blank=True, null=True)
+    description_uk = models.TextField(blank=True, null=True)
+    kind = models.CharField(max_length=50, choices=EventKind.choices)
+    address = models.CharField(max_length=150)
+    event_date = models.DateTimeField()
+    image = models.ImageField(upload_to='event_images/', null=True, blank=True)
+    interested_users = models.ManyToManyField(User, related_name='interested_events', blank=True)
+
+    def get_localized_title(self):
+        """Return the title in the current language"""
+        current_language = get_language()
+        if current_language == 'uk' and self.title_uk:
+            return self.title_uk
+        elif current_language == 'fr' and self.title_fr:
+            return self.title_fr
+        else:
+            return self.title
+
+    def get_localized_description(self):
+        """Return the description in the current language"""
+        current_language = get_language()
+        if current_language == 'uk' and self.description_uk:
+            return self.description_uk
+        elif current_language == 'fr' and self.description_fr:
+            return self.description_fr
+        else:
+            return self.description
+        
+    def is_on_a_weekend(self):
+        return self.event_date.weekday() in [5, 6]  # Saturday=5, Sunday=6
+    
+    @classmethod
+    def get_counts_by_weekday_weekend(cls):
+        weekend_count = cls.objects.filter(event_date__week_day__in=[1,7]).count()  # Sunday=1, Saturday=7
+        weekday_count = cls.objects.filter(event_date__week_day__in=[2,3,4,5,6]).count()  # Mon-Fri
+        return (weekday_count, weekend_count)
+
+    def __str__(self):
+        return self.get_localized_title()
+
+class FeaturedEvent(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Featured Event: {self.event.title}"
