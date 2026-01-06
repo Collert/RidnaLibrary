@@ -28,7 +28,7 @@
                     {% if item.available_copies > 0 %}
                         <p class="item-availability">
                             <span class="material-symbols-outlined available-icon">check_circle</span>
-                            {% blocktrans count item.available_copies as copies %}
+                            {% blocktrans trimmed count item.available_copies as copies %}
                                 {{ copies }} copy available
                             {% plural %}
                                 {{ copies }} copies available

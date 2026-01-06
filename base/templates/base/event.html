@@ -20,7 +20,7 @@
             <span><span class="material-symbols-outlined">location_on</span>{{ event.address }}</span>
             {% if event.interested_users.count > 0 %}
                 <span><span class="material-symbols-outlined">diversity_3</span>
-                    {% blocktrans count count=event.interested_users.count %}
+                    {% blocktrans trimmed count count=event.interested_users.count %}
                         {{ count }} other person is interested
                     {% plural %}
                         {{ count }} other people are interested

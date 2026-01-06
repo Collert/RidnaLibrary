@@ -52,7 +52,7 @@
                     {% if loan.is_overdue %}
                         <p class="item-overdue-warning">
                             <span class="material-symbols-outlined">warning</span>
-                            {% blocktrans count loan.days_overdue as days %}
+                            {% blocktrans trimmed count loan.days_overdue as days %}
                                 This item is overdue by {{ days }} day!
                             {% plural %}
                                 This item is overdue by {{ days }} days!

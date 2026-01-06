@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-05 22:52-0800\n"
+"POT-Creation-Date: 2026-01-05 23:02-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -52,7 +52,7 @@ msgstr ""
 
 #: .\base\enums.py:14 .\base\templates\base\dashboard.html:31
 msgid "History"
-msgstr ""
+msgstr "L'Histoire"
 
 #: .\base\enums.py:15
 msgid "Philosophy"
@@ -64,11 +64,11 @@ msgstr ""
 
 #: .\base\enums.py:17
 msgid "Science"
-msgstr ""
+msgstr "Science"
 
 #: .\base\enums.py:18
 msgid "Technology"
-msgstr ""
+msgstr "Technologie"
 
 #: .\base\enums.py:19
 msgid "Health & Fitness"
@@ -435,8 +435,8 @@ msgstr ""
 #, python-format
 msgid "Showing %(counter)s result"
 msgid_plural "Showing %(counter)s results"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Montrer %(counter)s resulte"
+msgstr[1] "Montrer %(counter)s resultes"
 
 #: .\base\templates\base\collection.html:155
 msgid "New"
@@ -480,14 +480,8 @@ msgstr ""
 
 #: .\base\templates\base\dashboard.html:55
 #, python-format
-msgid ""
-"\n"
-"                                This item is overdue by %(days)s day!\n"
-"                            "
-msgid_plural ""
-"\n"
-"                                This item is overdue by %(days)s days!\n"
-"                            "
+msgid "This item is overdue by %(days)s day!"
+msgid_plural "This item is overdue by %(days)s days!"
 msgstr[0] ""
 msgstr[1] ""
 
