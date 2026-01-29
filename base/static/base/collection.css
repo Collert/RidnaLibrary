@@ -194,16 +194,31 @@ main#collection {
     width: 100%;
 }
 
-.item-card .new-arrival-badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background-color: var(--ukrainian-blue);
-    color: var(--bg-light);
+.item-card .badge {
     padding: 0.25rem 0.5rem;
     border-radius: 4px;
     font-size: 0.75rem;
     font-weight: bold;
+}
+
+.item-card .badge.new-arrival {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: var(--bg-light);
+    background-color: var(--ukrainian-blue);
+}
+
+.item-card .top-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    justify-content: center;
+}
+
+.item-card .badge.tag {
+    color: var(--bg-light);
+    background-color: var(--ukrainian-gold-dark);
 }
 
 #results-count {
@@ -238,4 +253,63 @@ main#collection {
 .page-links *:not(.ellipsis):not(.current-page):hover {
     background-color: var(--ukrainian-blue);
     color: var(--bg-light);
+}
+
+.radio-bar {
+    display: flex;
+}
+
+.filter-section:has(.radio-bar) {
+    align-items: center;
+}
+
+.radio-box {
+    border: 2px solid var(--ukrainian-blue);
+    transition: all 300ms ease;
+}
+
+.radio-box:not(:last-child) {
+    border-right: none;
+}
+
+.radio-box:first-child {
+    border-radius: 7px 0 0 7px;
+}
+
+.radio-box:last-child {
+    border-radius: 0 7px 7px 0;
+}
+
+.radio-box:hover:not(:has(input:disabled)),
+.radio-box:has(input:checked) {
+    background-color: var(--ukrainian-blue);
+
+    & label span {
+        color: var(--bg-light);
+    }
+}
+
+.radio-box input {
+    display: none;
+}
+
+.radio-box label {
+    font-weight: 600;
+    display: flex;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 1rem;
+    height: 100%;
+    text-align: center;
+}
+
+.radio-box input:disabled+label {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.radio-box label span {
+    width: max-content;
 }

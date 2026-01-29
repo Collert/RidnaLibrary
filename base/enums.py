@@ -59,7 +59,7 @@ class Genre(models.TextChoices):
         return genre_dict
     
     @classmethod
-    def choices_with_counts(cls):
+    def get_choices_with_counts(cls):
         """Return a list of genres with their counts for display purposes"""
         genre_counts = cls.get_genre_counts()
         genres_list = []
@@ -72,9 +72,9 @@ class Genre(models.TextChoices):
         return genres_list
 
 class Language(models.TextChoices):
-    ENGLISH    = "en", _("English")
-    FRENCH     = "fr", _("French")
-    UKRAINIAN  = "uk", _("Ukrainian")
+    ENGLISH    = "language_en", _("English")
+    FRENCH     = "language_fr", _("French")
+    UKRAINIAN  = "language_uk", _("Ukrainian")
 
     @classmethod
     def get_language_counts(cls):
@@ -95,7 +95,7 @@ class Language(models.TextChoices):
         return language_dict
     
     @classmethod
-    def choices_with_counts(cls):
+    def get_choices_with_counts(cls):
         """Return a list of languages with their counts for display purposes"""
         language_counts = cls.get_language_counts()
         languages_list = []
@@ -153,7 +153,7 @@ class Theme(models.TextChoices):
         return theme_dict
     
     @classmethod
-    def choices_with_counts(cls):
+    def get_choices_with_counts(cls):
         """Return a list of themes with their counts for display purposes"""
         theme_counts = cls.get_theme_counts()
         themes_list = []
@@ -196,7 +196,7 @@ class Tone(models.TextChoices):
         return tone_dict
     
     @classmethod
-    def choices_with_counts(cls):
+    def get_choices_with_counts(cls):
         """Return a list of tones with their counts for display purposes"""
         tone_counts = cls.get_tone_counts()
         tones_list = []
@@ -233,7 +233,7 @@ class Audience(models.TextChoices):
         return audience_dict
     
     @classmethod
-    def choices_with_counts(cls):
+    def get_choices_with_counts(cls):
         """Return a list of audiences with their counts for display purposes"""
         audience_counts = cls.get_audience_counts()
         audiences_list = []
@@ -246,10 +246,10 @@ class Audience(models.TextChoices):
         return audiences_list
     
 class LanguageLevel(models.TextChoices):
-    BEGINNER = "beginner", _("Beginner")
-    INTERMEDIATE = "intermediate", _("Intermediate")
-    ADVANCED = "advanced", _("Advanced")
-    EXPERT = "expert", _("Expert")
+    BEGINNER = "beginner_reading_level", _("Beginner")
+    INTERMEDIATE = "intermediate_reading_level", _("Intermediate")
+    ADVANCED = "advanced_reading_level", _("Advanced")
+    EXPERT = "expert_reading_level", _("Expert")
 
     @classmethod
     def get_language_level_counts(cls):
@@ -270,7 +270,7 @@ class LanguageLevel(models.TextChoices):
         return language_level_dict
     
     @classmethod
-    def choices_with_counts(cls):
+    def get_choices_with_counts(cls):
         """Return a list of language levels with their counts for display purposes"""
         language_level_counts = cls.get_language_level_counts()
         language_levels_list = []
@@ -314,17 +314,12 @@ class EventKind(models.TextChoices):
         return event_kind_dict
     
     @classmethod
-    def choices_with_counts(cls):
+    def get_choices_with_counts(cls):
         """Return a list of language levels with their counts for display purposes"""
         event_kind_counts = cls.get_event_kind_counts()
         event_kinds_list = []
         for code, name in cls.choices:
             event_kinds_list.append({
-                'code': code,
-                'name': name,
-                'count': event_kind_counts.get(code, 0)
-            })
-            print({
                 'code': code,
                 'name': name,
                 'count': event_kind_counts.get(code, 0)

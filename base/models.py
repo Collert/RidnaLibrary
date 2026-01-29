@@ -6,6 +6,7 @@ from django.utils import timezone
 from datetime import timedelta
 from django.utils.translation import get_language
 from .enums import *
+from django.db.models import Q
 from polymorphic.models import PolymorphicModel
 
 def calculate_next_saturday():
@@ -27,6 +28,7 @@ class Item(PolymorphicModel):
     added_date = models.DateField(auto_now_add=True)
     image = models.ImageField(upload_to='item_images/', null=True, blank=True)
     favourited_by = models.ManyToManyField(User, related_name='favourite_items', blank=True)
+    custom_tags = models.ManyToManyField('recommendations.Tag', blank=True)
 
     def __str__(self):
         return self.title
@@ -82,6 +84,61 @@ class Item(PolymorphicModel):
     def borrow_queue(self):
         return self.holds.filter(item=self).order_by('hold_date')
     
+    @property
+    def tags(self):
+        tags = set(self.custom_tags.values_list('name', flat=True))  # strings
+        cw = getattr(self, "creativework", None)
+        if not cw:
+            return tags
+
+        for s in [cw.genre, cw.theme, cw.audience, cw.tone, cw.language, cw.language_level]:
+            if s:
+                tags.add(s)
+        return tags
+
+    @classmethod
+    def get_top_picks_for_user(cls, user, limit=10):
+        from recommendations.views import score_an_item_for_user, get_user_tag_scores
+        recently_borrowed_items = Loan.objects.filter(
+            user=user, 
+            loan_date__gt=timezone.now() - timedelta(days=30)
+        ).values_list('item_id', flat=True)[:20]
+
+        user_scores = get_user_tag_scores(user)
+        if not user_scores:
+            return []
+
+        top_tags = list(user_scores.keys())
+
+        candidates = (
+            cls.objects
+            .exclude(id__in=recently_borrowed_items)
+            .filter(
+                Q(custom_tags__name__in=top_tags) |
+                Q(creativework__genre__in=top_tags) |
+                Q(creativework__theme__in=top_tags) |
+                Q(creativework__audience__in=top_tags) |
+                Q(creativework__tone__in=top_tags) |
+                Q(creativework__language__in=top_tags) |
+                Q(creativework__language_level__in=top_tags)
+            )
+            .distinct()
+            .prefetch_related('custom_tags')
+        )
+        scored_items = []
+        for item in candidates:
+            total_score, reasons = score_an_item_for_user(
+                item, 
+                user, 
+                multiplier=1.1 if item.is_available() else 1.0, 
+                user_tag_scores=user_scores
+            )
+            if total_score > 0:
+                scored_items.append((total_score, item, reasons))
+        scored_items.sort(reverse=True, key=lambda x: x[0])
+        top_items = scored_items[:limit]
+        return [(item, score, reasons) for score, item, reasons in top_items]
+    
 class CreativeWork(Item):
     author = models.CharField(max_length=100)
     author_fr = models.CharField(max_length=100, blank=True)
@@ -90,7 +147,7 @@ class CreativeWork(Item):
     theme = models.CharField(max_length=50, blank=True, choices=Theme.choices)
     audience = models.CharField(max_length=50, blank=True, choices=Audience.choices)
     tone = models.CharField(max_length=50, blank=True, choices=Tone.choices)
-    language = models.CharField(max_length=10, default='en', choices=Language.choices)
+    language = models.CharField(max_length=15, default='language_en', choices=Language.choices)
     language_level = models.CharField(max_length=50, blank=True, choices=LanguageLevel.choices)
     
     def get_localized_author(self):

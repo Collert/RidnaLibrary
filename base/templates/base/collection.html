@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load static %}
 {% load dict_extras %}
+{% load model_extras %}
 
 {% block extra_head %}
 <link href="{% static 'base/collection.css' %}" rel="stylesheet">
@@ -12,11 +13,36 @@
     <form method="get" id="filters">
         <h2><span class="material-symbols-outlined">filter_alt</span>{% trans "Filters" %}</h2>
         <div class="filter-section">
+            <div class="radio-bar">
+                <div class="radio-box">
+                    <input type="radio" required {% if "books" in request.path %}checked{% endif %} id="books-radio" name="item-type" value="books"/>
+                    <label for="books-radio">
+                        <span class="material-symbols-outlined">book</span>
+                        <span>{% trans "Books" %}</span>
+                    </label>
+                </div>
+                <div class="radio-box">
+                    <input type="radio" disabled required {% if "films" in request.path %}checked{% endif %} id="films-radio" name="item-type" value="films"/>
+                    <label for="films-radio">
+                        <span class="material-symbols-outlined">movie</span>
+                        <span>{% trans "Films & TV" %}</span>
+                    </label>
+                </div>
+                <div class="radio-box">
+                    <input type="radio" disabled required {% if "music" in request.path %}checked{% endif %} id="music-radio" name="item-type" value="music"/>
+                    <label for="music-radio">
+                        <span class="material-symbols-outlined">music_note</span>
+                        <span>{% trans "Music" %}</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="filter-section">
             <h3><span class="material-symbols-outlined">text_fields</span>{% trans "Search" %}</h3>
             <input type="text" name="search" value="{{ search.query }}" placeholder="{% trans 'Search the collection...' %}">
         </div>
         <div id="filter-checkboxes">
-            <div class="filter-section">
+            <div class="filter-section" id="genre-filter-section">
                 <h3><span class="material-symbols-outlined">palette</span>{% trans "Genre" %}</h3>
                 {% for genre in genres.0 %}
                     <div class="checkbox">
@@ -34,7 +60,7 @@
                     {% endfor %}
                 {% endif %}
             </div>
-            <div class="filter-section">
+            <div class="filter-section" id="language-filter-section">
                 <h3><span class="material-symbols-outlined">translate</span>{% trans "Language" %}</h3>
                 {% for language in languages.0 %}
                     <div class="checkbox">
@@ -52,7 +78,7 @@
                     {% endfor %}
                 {% endif %}
             </div>
-            <div class="filter-section">
+            <div class="filter-section" id="theme-filter-section">
                 <h3><span class="material-symbols-outlined">emoji_nature</span>{% trans "Theme" %}</h3>
                 {% for theme in themes.0 %}
                     <div class="checkbox">
@@ -70,7 +96,7 @@
                     {% endfor %}
                 {% endif %}
             </div>
-            <div class="filter-section">
+            <div class="filter-section" id="tone-filter-section">
                 <h3><span class="material-symbols-outlined">mood</span>{% trans "Tone" %}</h3>
                 {% for tone in tones.0 %}
                     <div class="checkbox">
@@ -88,7 +114,7 @@
                     {% endfor %}
                 {% endif %}
             </div>
-            <div class="filter-section">
+            <div class="filter-section" id="audience-filter-section">
                 <h3><span class="material-symbols-outlined">groups_3</span>{% trans "Audience" %}</h3>
                 {% for audience in audiences.0 %}
                     <div class="checkbox">
@@ -106,7 +132,7 @@
                     {% endfor %}
                 {% endif %}
             </div>
-            <div class="filter-section">
+            <div class="filter-section" id="language_level-filter-section">
                 <h3><span class="material-symbols-outlined">signal_cellular_2_bar</span>{% trans "Language level" %}</h3>
                 {% for language_level in language_levels.0 %}
                     <div class="checkbox">
@@ -138,6 +164,38 @@
                 Showing {{ counter }} results
             {% endblocktrans %}
         </div>
+        {% if items.0.1 %}
+        {% for item_rec in items %}
+        {% with item_rec.0 as item %}
+            <a href="{% url 'item' item.id %}" class="item-card">
+                <div class="image-container">
+                    {% if item.image %}
+                        <img src="{{ item.image.url }}" alt="">
+                    {% else %}
+                        <div class="no-image-placeholder">
+                            <span class="material-symbols-outlined">image</span>
+                        </div>
+                    {% endif %}
+                </div>
+                <h3>{{ item.get_localized_title }}</h3>
+                <h4>{{ item.get_localized_author }}</h4>
+                {% if item.is_new_arrival %}
+                    <div class="badge new-arrival">{% trans "New" %}</div>
+                {% endif %}
+                <div class="top-tags">
+                    {% for tag in item_rec.2 %}
+                        <span class="tag badge">{{ tag.1|localize_tag }}</span>
+                    {% endfor %}
+                </div>
+            </a>
+        {% endwith %}
+        {% empty %}
+        <div id="no-items-message">
+            <span class="material-symbols-outlined">sentiment_neutral</span>
+            <h1>{% trans "Sorry, no items found matching your criteria." %}</h1>
+        </div>
+        {% endfor %}
+        {% else %}
         {% for item in items %}
             <a href="{% url 'item' item.id %}" class="item-card">
                 <div class="image-container">
@@ -152,7 +210,7 @@
                 <h3>{{ item.get_localized_title }}</h3>
                 <h4>{{ item.get_localized_author }}</h4>
                 {% if item.is_new_arrival %}
-                    <div class="new-arrival-badge">{% trans "New" %}</div>
+                    <div class="new-arrival badge">{% trans "New" %}</div>
                 {% endif %}
             </a>
         {% empty %}
@@ -161,6 +219,7 @@
             <h1>{% trans "Sorry, no items found matching your criteria." %}</h1>
         </div>
         {% endfor %}
+        {% endif %}
         {% if items.has_other_pages %}
             {% include 'base/components/pagination.html' with items=items %}
         {% endif %}
@@ -181,6 +240,19 @@
     document.addEventListener('DOMContentLoaded', () => {
         const checkboxes = document.querySelectorAll('#filters input[type="checkbox"], #filters input[type="text"]');
         const clearButton = document.querySelector('.submit-buttons-container button:first-child');
+        const radioButtons = document.querySelectorAll('#filters input[type="radio"]');
+
+        radioButtons.forEach(radio => {
+            radio.addEventListener('change', () => {
+                document.querySelector('#filters').action = `/collection/${radio.value}/`;
+            });
+        });
+
+        document.querySelector('#filters').addEventListener('submit', () => {
+            radioButtons.forEach(radio => {
+                radio.name = '';
+            });
+        });
 
         function updateClearButtonVisibility() {
             let anyChecked = false;

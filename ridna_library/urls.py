@@ -28,6 +28,7 @@ urlpatterns = [
 urlpatterns += i18n_patterns(
     path('admin/', admin_site.urls),
     path('', include('base.urls')),
+    path('recommendations/', include('recommendations.urls')),
     prefix_default_language=False
 )
 

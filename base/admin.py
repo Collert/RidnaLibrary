@@ -1,4 +1,6 @@
 from django.contrib import admin
+
+from recommendations.models import UserRecommendationExtras
 from .models import Book, Loan, Member, FeaturedItem, HeroSection, Event, FeaturedEvent
 from django.contrib.auth.admin import UserAdmin, GroupAdmin
 from django.contrib.auth.models import User, Group
@@ -28,8 +30,15 @@ class MemberInline(admin.StackedInline):
     fields = ['join_date']
     readonly_fields = ['join_date']
 
+class UserRecommendationExtrasInline(admin.StackedInline):
+    model = UserRecommendationExtras
+    can_delete = False
+    extra = 1
+    fields = ['last_recommendation_update']
+    readonly_fields = ['last_recommendation_update']
+
 class CustomUserAdmin(UserAdmin):
-    inlines = [MemberInline]
+    inlines = [MemberInline, UserRecommendationExtrasInline]
 
 class MemberAdmin(admin.ModelAdmin):
     list_display = ['user', 'join_date']

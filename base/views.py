@@ -16,6 +16,8 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from urllib.parse import quote
 from django.utils import timezone
+from recommendations.views import record_interaction
+from recommendations.enums import InteractionWeight
 
 def home(request):
     hero_section = HeroSection.objects.first()
@@ -32,6 +34,7 @@ def item(request, item_id):
     item = Book.objects.get(pk=item_id)
     available_copies = item.available_copies()
     favourited_by_user = item.favourited_by.filter(id=request.user.id).exists()
+    record_interaction(request.user, item, InteractionWeight.VIEW)
     return render(request, 'base/item.html', {
         'item': item, 
         'available_copies': available_copies,
@@ -46,7 +49,7 @@ def item(request, item_id):
 def borrow_item(request, item_id):
     if request.method == 'POST':
         item = Item.objects.get(id=item_id)
-        
+        record_interaction(request.user, item, InteractionWeight.BORROW)
         cancel_request = request.POST.get('cancel-request')
         
         if cancel_request == 'true':
@@ -115,6 +118,7 @@ def favourite_item(request, item_id):
     if request.method == 'POST':
         item = Item.objects.get(id=item_id)
         user = request.user
+        record_interaction(user, item, InteractionWeight.FAVOURITE)
         if user.is_authenticated:
             if item.favourited_by.filter(id=user.id).exists():
                 item.favourited_by.remove(user)
@@ -142,7 +146,18 @@ def sell(request):
 def for_you(request):
     return collection(request, collection_type='personalized')
 
-def collection(request, collection_type='book'):
+def collection(request, collection_type=None):
+    # Log top picks in a readable format for debugging
+    # if request.user.is_authenticated:
+    #     top_picks = Item.get_top_picks_for_user(request.user)
+    #     if top_picks:
+    #         formatted_picks = []
+    #         for idx, (item_obj, score, reasons) in enumerate(top_picks, start=1):
+    #             reasons_text = ", ".join(f"{reason_score:.1f} {tag}" for reason_score, tag in reasons)
+    #             formatted_picks.append(f"{idx}. {item_obj} — score {score:.1f} ({reasons_text})")
+    #         print("Top picks for user:\n" + "\n".join(formatted_picks))
+    #     else:
+    #         print("Top picks for user: none")
     search = {
         "query": request.GET.get('search', ''),
         "genres": request.GET.getlist('genre'),
@@ -152,6 +167,9 @@ def collection(request, collection_type='book'):
         "audiences": request.GET.getlist('audience'),
         "language_levels": request.GET.getlist('language_level'),
     }
+    
+    if not any(search.values()) and not collection_type:
+        return redirect('for_you')
 
     condition = Q()
 
@@ -184,18 +202,24 @@ def collection(request, collection_type='book'):
     if search["language_levels"]:
         condition &= Q(language_level__in=search["language_levels"])
 
-    items = Book.objects.filter(condition).order_by('-added_date')
+    if collection_type == 'book':
+        items = Book.objects.filter(condition).order_by('-added_date')
+    elif collection_type == 'personalized':
+        if request.user.is_authenticated:
+            items = Item.get_top_picks_for_user(request.user)
+        else:
+            items = Item.objects.all()
 
     paginated_items = Paginator(items, 10)  # Show 10 items per page
     page_number = request.GET.get("page")
     page_obj = paginated_items.get_page(page_number)
     
-    all_genres = Genre.choices_with_counts()
-    all_languages = Language.choices_with_counts()
-    all_themes = Theme.choices_with_counts()
-    all_tones = Tone.choices_with_counts()
-    all_audiences = Audience.choices_with_counts()
-    all_language_levels = LanguageLevel.choices_with_counts()
+    all_genres = Genre.get_choices_with_counts()
+    all_languages = Language.get_choices_with_counts()
+    all_themes = Theme.get_choices_with_counts()
+    all_tones = Tone.get_choices_with_counts()
+    all_audiences = Audience.get_choices_with_counts()
+    all_language_levels = LanguageLevel.get_choices_with_counts()
 
     return render(request, 'base/collection.html', {
         'items': page_obj,
@@ -402,7 +426,7 @@ def events(request):
         'page_obj': page_obj,
         'all_events': Event.objects.all(),
         'featured_event': featured_event.event,
-        'event_types': EventKind.choices_with_counts(),
+        'event_types': EventKind.get_choices_with_counts(),
         'search': search,
         "days_counts": Event.get_counts_by_weekday_weekend(),
         })
