@@ -2,3 +2,5 @@ Django
 Pillow
 Faker
 django-polymorphic
+python-dotenv
+psycopg2-binary
