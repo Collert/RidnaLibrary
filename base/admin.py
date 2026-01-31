@@ -10,11 +10,6 @@ class MyAdminSite(admin.AdminSite):
     site_title = "Ridna Library Admin"
     index_title = "Dashboard"
 
-    class Media:
-        css = {
-            "all": ("admin/custom.css",)
-        }
-
 admin_site = MyAdminSite(name="myadmin")
 
 class BookAdmin(admin.ModelAdmin):

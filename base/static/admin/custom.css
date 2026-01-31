@@ -1,28 +1,193 @@
-/* Change primary action button */
-.submit-row input.default,
-.button.default,
-input[type=submit].default {
-    background: #1f8f7a !important;
-    border-color: #1f8f7a !important;
-    color: white !important;
+/* ==============================================
+   RIDNA LIBRARY ADMIN THEME
+   Ukrainian-inspired color palette
+   
+   Overrides Django's built-in CSS variables
+   ============================================== */
+
+/* ==============================================
+   LIGHT THEME (Default)
+   ============================================== */
+:root,
+html[data-theme="light"] {
+    --primary: #0057B7;
+    --primary-fg: #fff;
+    --secondary: #0c4a74;
+    --accent: #eeb83e;
+
+    --body-fg: #0c4a74;
+    --body-bg: #f8f5e9;
+    --body-quiet-color: #5a7a8a;
+    --body-loud-color: #003d7a;
+
+    --header-color: #f8f5e9;
+    --header-branding-color: #FFD700;
+    --header-bg: #0c4a74;
+    --header-link-color: #f8f5e9;
+
+    --breadcrumbs-fg: #0c4a74;
+    --breadcrumbs-link-fg: #0057B7;
+    --breadcrumbs-bg: #efe9d9;
+
+    --link-fg: #0057B7;
+    --link-hover-color: #003d7a;
+    --link-selected-fg: #003d7a;
+
+    --hairline-color: #d4c9b5;
+    --border-color: #ccc;
+
+    --error-fg: #ba2121;
+    --message-success-bg: #d4edda;
+    --message-warning-bg: #fff3cd;
+    --message-error-bg: #f8d7da;
+
+    --darkened-bg: #efe9d9;
+    --selected-bg: #d6e6f5;
+    --selected-row: #fef9e6;
+
+    --button-fg: #fff;
+    --button-bg: #0c4a74;
+    --button-hover-bg: #0a3d5f;
+    --default-button-bg: #0057B7;
+    --default-button-hover-bg: #004494;
+    --close-button-bg: #747474;
+    --close-button-hover-bg: #5c5c5c;
+    --delete-button-bg: #ba2121;
+    --delete-button-hover-bg: #9a1c1c;
+
+    --object-tools-fg: #f8f5e9;
+    --object-tools-bg: #0c4a74;
+    --object-tools-hover-bg: #0057B7;
 }
 
-/* Make normal buttons less gray */
+/* ==============================================
+   DARK THEME - System preference
+   ============================================== */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --primary: #4d9de0;
+        --primary-fg: #fff;
+        --secondary: #5fa3c4;
+        --accent: #FFD700;
+
+        --body-fg: #e8e4d9;
+        --body-bg: #121820;
+        --body-quiet-color: #8a9aa8;
+        --body-loud-color: #ffffff;
+
+        --header-color: #f8f5e9;
+        --header-branding-color: #FFD700;
+        --header-bg: #0a2e47;
+        --header-link-color: #f8f5e9;
+
+        --breadcrumbs-fg: #e8e4d9;
+        --breadcrumbs-link-fg: #4d9de0;
+        --breadcrumbs-bg: #1a2530;
+
+        --link-fg: #4d9de0;
+        --link-hover-color: #6db3f2;
+        --link-selected-fg: #6db3f2;
+
+        --hairline-color: #3a4a5a;
+        --border-color: #3a4a5a;
+
+        --error-fg: #e35b5b;
+        --message-success-bg: #1a3a2a;
+        --message-warning-bg: #3a3520;
+        --message-error-bg: #3a1a1a;
+
+        --darkened-bg: #1a2530;
+        --selected-bg: #1a3a52;
+        --selected-row: #243040;
+
+        --button-fg: #fff;
+        --button-bg: #1a3a52;
+        --button-hover-bg: #243a55;
+        --default-button-bg: #4d9de0;
+        --default-button-hover-bg: #6db3f2;
+        --close-button-bg: #5a5a5a;
+        --close-button-hover-bg: #6a6a6a;
+        --delete-button-bg: #e35b5b;
+        --delete-button-hover-bg: #f06b6b;
+
+        --object-tools-fg: #f8f5e9;
+        --object-tools-bg: #1a3a52;
+        --object-tools-hover-bg: #4d9de0;
+    }
+}
+
+/* ==============================================
+   DARK THEME - Explicit selection
+   ============================================== */
+html[data-theme="dark"] {
+    --primary: #4d9de0;
+    --primary-fg: #fff;
+    --secondary: #5fa3c4;
+    --accent: #FFD700;
+
+    --body-fg: #e8e4d9;
+    --body-bg: #121820;
+    --body-quiet-color: #8a9aa8;
+    --body-loud-color: #ffffff;
+
+    --header-color: #f8f5e9;
+    --header-branding-color: #FFD700;
+    --header-bg: #0a2e47;
+    --header-link-color: #f8f5e9;
+
+    --breadcrumbs-fg: #e8e4d9;
+    --breadcrumbs-link-fg: #4d9de0;
+    --breadcrumbs-bg: #1a2530;
+
+    --link-fg: #4d9de0;
+    --link-hover-color: #6db3f2;
+    --link-selected-fg: #6db3f2;
+
+    --hairline-color: #3a4a5a;
+    --border-color: #3a4a5a;
+
+    --error-fg: #e35b5b;
+    --message-success-bg: #1a3a2a;
+    --message-warning-bg: #3a3520;
+    --message-error-bg: #3a1a1a;
+
+    --darkened-bg: #1a2530;
+    --selected-bg: #1a3a52;
+    --selected-row: #243040;
+
+    --button-fg: #fff;
+    --button-bg: #1a3a52;
+    --button-hover-bg: #243a55;
+    --default-button-bg: #4d9de0;
+    --default-button-hover-bg: #6db3f2;
+    --close-button-bg: #5a5a5a;
+    --close-button-hover-bg: #6a6a6a;
+    --delete-button-bg: #e35b5b;
+    --delete-button-hover-bg: #f06b6b;
+
+    --object-tools-fg: #f8f5e9;
+    --object-tools-bg: #1a3a52;
+    --object-tools-hover-bg: #4d9de0;
+}
+
+/* ==============================================
+   MINOR STYLE TWEAKS (optional)
+   ============================================== */
+
+/* Rounded buttons */
 .button,
 input[type=submit],
 input[type=button],
-.submit-row input {
-    border-radius: 10px !important;
-    padding: 8px 14px !important;
+a.button {
+    border-radius: 6px;
 }
 
-/* Sidebar / header */
-#header {
-    background: #142623 !important;
+/* Rounded modules */
+.module {
+    border-radius: 8px;
 }
 
-#branding h1,
-#branding h1 a:link,
-#branding h1 a:visited {
-    color: #d6f4e7 !important;
+.module>h2,
+.module>caption {
+    border-radius: 8px 8px 0 0;
 }
