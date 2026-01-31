@@ -1,0 +1,69 @@
+{% extends 'base/layout.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block extra_head %}
+<link href="{% static 'base/event.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<main id="event">
+    <img src="{{ event.image.url }}" alt="{{ event.title }}">
+    <section id="event-info">
+        <div id="info-left">
+            <h1>{{ event.get_localized_title }}</h1>
+            <p>{{ event.get_localized_description }}</p>
+        </div>
+        <div id="info-right">
+            <h2>{% trans "Event Details" %}</h2>
+            <span><span class="material-symbols-outlined">event</span>{{ event.event_date }}</span>
+            <span><span class="material-symbols-outlined">location_on</span>{{ event.address }}</span>
+            {% if event.interested_users.count > 0 %}
+                <span><span class="material-symbols-outlined">diversity_3</span>
+                    {% blocktrans trimmed count count=event.interested_users.count %}
+                        {{ count }} other person is interested
+                    {% plural %}
+                        {{ count }} other people are interested
+                    {% endblocktrans %}
+                </span>
+            {% endif  %}
+            <div id="event-buttons">
+                <button id="interest-button" class="{% if is_interested %}interested{% endif %} no-style"><span class="material-symbols-outlined">star</span>{% trans "I'm Interested" %}</button>
+                <button id="add-to-calendar-button" class="no-style"><span class="material-symbols-outlined">calendar_add_on</span>{% trans "Add to Calendar" %}</button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+    document.getElementById('interest-button').addEventListener('click', function() {
+        fetch('{% url "express_interest" event.id %}', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if (!response.ok) {
+                showErrorToast('{% trans "There was an error recording your interest." %}');
+            }
+            return response.json();
+        }).then(data => {
+            if (data.interested) {
+                showSuccessToast('{% trans "Your interest has been recorded! Thank you for helping us plan this event." %}');
+                document.getElementById('interest-button').classList.add('interested');
+            } else {
+                showToast("{% trans 'Your interest has been removed.' %}");
+                document.getElementById('interest-button').classList.remove('interested');
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+            showErrorToast('{% trans "There was an error recording your interest." %}');
+        });
+    });
+
+    document.getElementById('add-to-calendar-button').addEventListener('click', function() {
+        window.location.href = '{% url "event_ical" event.id %}';
+    });
+</script>
+{% endblock %}

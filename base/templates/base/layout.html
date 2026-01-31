@@ -1,0 +1,283 @@
+{% load static %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% trans "Ridna Library" %}</title>
+    <link href="https://cdn.jsdelivr.net/gh/Collert/AD-Elements@latest/main.css" rel="stylesheet">
+    <link href="{% static 'base/styles.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    {% block extra_head %}{% endblock %}
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <header>
+        <nav>
+            <div class="nav-brand">
+                <span>Ridna Library</span>
+            </div>
+            
+            <div class="nav-links">
+                <a {% if request.path == '/' %}class="selected"{% endif %} href="{% url 'home' %}">{% trans "About" %}</a>
+                <div id="collection-container">
+                    <a {% if '/collection/' in request.path %}class="selected"{% endif %} href="{% url 'collection' %}">{% trans "Collection" %}</a>
+                    <div id="collection-controls">
+                        <a class="no-style" href="{% url 'for_you' %}"><span class="material-symbols-outlined">for_you</span>{% trans "For You" %}</a>
+                        <!-- <a class="no-style" href="#"><span class="material-symbols-outlined">sell</span>{% trans "For sale" %}</a> -->
+                        <a class="no-style" href="{% url 'collection_books' %}"><span class="material-symbols-outlined">book</span>{% trans "Books" %}</a>
+                        <!-- <a class="no-style" href="#"><span class="material-symbols-outlined">movie</span>{% trans "Film & TV" %}</a> -->
+                        <!-- <a class="no-style" href="#"><span class="material-symbols-outlined">music_note</span>{% trans "Music" %}</a> -->
+                    </div>
+                </div>
+                <a {% if  '/events/' in request.path %}class="selected"{% endif %} href="{% url 'events' %}">{% trans "Events" %}</a>
+                <!-- <a {% if '/resources/' in request.path %}class="selected"{% endif %} href="#">{% trans "Resources" %}</a> -->
+                <!-- <a {% if '/get-involved/' in request.path %}class="selected"{% endif %} href="#">{% trans "Get involved" %}</a> -->
+                <form id="language-toggle" action="{% url 'set_language' %}" method="post">
+                    {% csrf_token %}
+                    {% get_current_language as current_language %}
+                    {% if current_language == 'en' %}
+                        <input name="next" type="hidden" value="{{ request.path }}">
+                    {% else %}
+                        <input name="next" type="hidden" value="{{ request.path|slice:'3:' }}">
+                    {% endif %}
+                    <select name="language" onchange="this.form.submit()">
+                        <option value="en" {% if current_language == "en" %}selected{% endif %}>
+                            🇨🇦 English
+                        </option>
+                        <option value="fr" {% if current_language == "fr" %}selected{% endif %}>
+                            🇫🇷 Français
+                        </option>
+                        <option value="uk" {% if current_language == "uk" %}selected{% endif %}>
+                            🇺🇦 Українська
+                        </option>
+                    </select>
+                </form>
+                <div id="profile-container">
+                    <a id="profile_button" href="{% url 'profile' %}">
+                        {% if request.user.is_authenticated %}
+                        <img src="https://media.newyorker.com/photos/59095bb86552fa0be682d9d0/master/pass/Monkey-Selfie.jpg" alt="{{ request.user.username }}'s profile picture" class="profile-pic">
+                        {% else %}
+                        <span class="material-symbols-outlined">person_4</span>
+                        {% endif %}
+                    </a>
+                    {% if request.user.is_authenticated %}
+                    <div id="profile-controls">
+                        <a class="no-style" href="{% url 'dashboard' %}"><span class="material-symbols-outlined">dashboard</span>{% trans "Dashboard" %}</a>
+                        <a class="no-style" href="{% url 'favourites' %}"><span class="material-symbols-outlined">favorite</span>{% trans "Favourites" %}</a>
+                        <a class="no-style" id="log-out-button" href="{% url 'logout' %}"><span class="material-symbols-outlined">logout</span>{% trans "Log out" %}</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+    
+    {% block body %}{% endblock %}
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>{% trans "Company" %}</h4>
+                <ul>
+                    <li><a href="#">{% trans "About" %}</a></li>
+                    <li><a href="#">{% trans "Careers" %}</a></li>
+                    <li><a href="#">{% trans "Press Center" %}</a></li>
+                    <li><a href="#">{% trans "Investor Relations" %}</a></li>
+                    <li><a href="#">{% trans "Trust Center" %}</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>{% trans "Links" %}</h4>
+                <ul>
+                    <li><a href="#">{% trans "Download Extension" %}</a></li>
+                    <li><a href="#">{% trans "Desktop" %}</a></li>
+                    <li><a href="#">{% trans "Mobile" %}</a></li>
+                    <li><a href="#">{% trans "Status" %}</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>{% trans "Contact" %}</h4>
+                <ul>
+                    <li><span class="material-symbols-outlined">mail</span> info@ridnalibrary.org</li>
+                    <li><span class="material-symbols-outlined">phone</span> +1 (555) 123-4567</li>
+                    <li><span class="material-symbols-outlined">location_on</span> 123 Cultural Avenue<br>Library District, LD 12345</li>
+                </ul>
+            </div>
+            
+            <div id="newsletter" class="footer-section">
+                <h4>{% trans "Newsletter Signup" %}</h4>
+                <p>{% trans "Stay updated with our latest arrivals and events" %}</p>
+                <form>
+                    <input type="email" class="no-style" placeholder="{% trans 'Your email address' %}">
+                    <button class="btn btn-primary no-style">{% trans "Subscribe" %}</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 {% trans "Ridna Library" %}. {% trans "All rights reserved." %}</p>
+            <div class="social-links">
+                <a href="#" title="Facebook">📘</a>
+                <a href="#" title="Twitter">🐦</a>
+                <a href="#" title="Instagram">📷</a>
+                <a href="#" title="YouTube">📺</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Toast Notification System
+        function showToast(message, theme = 'info', icon = null, duration = 5000) {
+            const container = document.getElementById('toast-container');
+            
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = `toast ${theme}`;
+            
+            // Default icons for themes
+            const defaultIcons = {
+                'success': 'check_circle',
+                'error': 'error',
+                'warning': 'warning',
+                'info': 'info',
+                'default': 'notifications'
+            };
+            
+            const toastIcon = icon || defaultIcons[theme] || defaultIcons['default'];
+            
+            // Create toast content
+            toast.innerHTML = `
+                <div class="toast-icon">
+                    <span class="material-symbols-outlined">${toastIcon}</span>
+                </div>
+                <div class="toast-content">${message}</div>
+                <button class="toast-close" type="button">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+                <div class="toast-progress"></div>
+            `;
+            
+            // Add to container
+            container.appendChild(toast);
+            
+            // Get progress bar
+            const progressBar = toast.querySelector('.toast-progress');
+            
+            // Show toast
+            requestAnimationFrame(() => {
+                toast.classList.add('show');
+                
+                // Start progress animation
+                if (duration > 0) {
+                    progressBar.style.width = '100%';
+                    progressBar.style.transitionDuration = duration + 'ms';
+                    
+                    requestAnimationFrame(() => {
+                        progressBar.style.width = '0%';
+                    });
+                }
+            });
+            
+            // Auto hide
+            let hideTimeout;
+            if (duration > 0) {
+                hideTimeout = setTimeout(() => {
+                    hideToast(toast);
+                }, duration);
+            }
+            
+            // Close button functionality
+            const closeBtn = toast.querySelector('.toast-close');
+            closeBtn.addEventListener('click', () => {
+                if (hideTimeout) clearTimeout(hideTimeout);
+                hideToast(toast);
+            });
+            
+            return toast;
+        }
+        
+        function hideToast(toast) {
+            toast.classList.add('hide');
+            toast.classList.remove('show');
+            
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 300);
+        }
+        
+        // Convenience functions for different toast types
+        function showSuccessToast(message, icon, duration) {
+            return showToast(message, 'success', icon, duration);
+        }
+        
+        function showErrorToast(message, icon, duration) {
+            return showToast(message, 'error', icon, duration);
+        }
+        
+        function showWarningToast(message, icon, duration) {
+            return showToast(message, 'warning', icon, duration);
+        }
+        
+        function showInfoToast(message, icon, duration) {
+            return showToast(message, 'info', icon, duration);
+        }
+    </script>
+
+    {% if messages %}
+    <div id="django-messages" style="display: none;">
+        {% for message in messages %}
+        <span data-message="{{ message|escapejs }}" data-tags="{{ message.tags }}"></span>
+        {% endfor %}
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const messagesContainer = document.getElementById('django-messages');
+            if (messagesContainer) {
+                const messageElements = messagesContainer.querySelectorAll('[data-message]');
+                messageElements.forEach(function(element) {
+                    const messageText = element.getAttribute('data-message');
+                    const messageTags = element.getAttribute('data-tags');
+                    
+                    // Map Django message tags to toast themes
+                    let theme = 'default';
+                    if (messageTags.includes('error') || messageTags.includes('danger')) {
+                        theme = 'error';
+                    } else if (messageTags.includes('warning')) {
+                        theme = 'warning';
+                    } else if (messageTags.includes('success')) {
+                        theme = 'success';
+                    } else if (messageTags.includes('info')) {
+                        theme = 'info';
+                    }
+                    
+                    showToast(messageText, theme, null, 7000);
+                });
+                
+                // Clean up the container after processing
+                messagesContainer.remove();
+            }
+        });
+    </script>
+    {% endif %}
+</body>
+
+</html>

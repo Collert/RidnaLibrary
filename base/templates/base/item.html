@@ -1,0 +1,250 @@
+{% extends 'base/layout.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block extra_head %}
+<link href="{% static 'base/item.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<main id="item">
+    <section id="main">
+        {% if item.image %}
+            <img src="{{ item.image.url }}" alt="{{ item.title }} cover image" class="item-image">
+        {% else %}
+            <div class="image-placeholder">
+                <span>{% trans "No image available" %}</span>
+            </div>
+        {% endif %}
+        <div id="item-details">
+            <h1>{{ item.get_localized_title }}</h1>
+            <h2>{% trans "Author" %}: {{ item.get_localized_author }}</h2>
+            <div id="quick-info">
+                <div class="info-block">
+                    <span class="material-symbols-outlined">calendar_month</span>
+                    <span><strong>{% trans "Published Date" %}:</strong> {{ item.published_date }}</span>
+                </div>
+                <div class="info-block">
+                    <span class="material-symbols-outlined">translate</span>
+                    <span><strong>{% trans "Language" %}:</strong> {{ item.get_language_display }}</span>
+                </div>
+                <div class="info-block">
+                    <span class="material-symbols-outlined">palette</span>
+                    <span><strong>{% trans "Genre" %}:</strong> {{ item.get_genre_display }}</span>
+                </div>
+            </div>
+            {% if item.get_localized_description|length < 800 %}
+            <p>{{ item.get_localized_description }}</p>
+            {% else %}
+            <p>{{ item.get_localized_description|truncatechars:800 }} <button>{% trans "Read more" %}</button></p>
+            {% endif %}
+            <div id="availability-container">
+                {% if borrowed_by_user %}
+                    {% if user_loan.unlimited_loan %}
+                        <span class="material-symbols-outlined waiting">all_inclusive</span>
+                    {% elif user_loan.is_overdue %}
+                        <span class="material-symbols-outlined unavailable">warning</span>
+                    {% else %}
+                        <span class="material-symbols-outlined 
+                            {% if user_loan.rounded_percent_loan_progress >= 90 %}
+                                unavailable
+                            {% elif user_loan.rounded_percent_loan_progress >= 70 %}
+                                warning
+                            {% else %}
+                                waiting
+                            {% endif %}"
+                        >clock_loader_{{ user_loan.rounded_percent_loan_progress }}</span>
+                    {% endif %}
+                {% elif requested_by_user %}
+                    <span class="material-symbols-outlined warning">pace</span>
+                {% else %}
+                    {% if available_copies > 0 %}
+                            <span class="material-symbols-outlined available">check_circle</span>
+                    {% else %}
+                            <span class="material-symbols-outlined unavailable">cancel</span>
+                    {% endif %}
+                {% endif %}
+                <div id="availability-info">
+                    {% if borrowed_by_user or requested_by_user %}
+                        <h4>{% trans "Your loan" %}</h4>
+                        {% if requested_by_user %}
+                            <span class="available-text">{% trans "Preparing your item. Ready on:" %} {{ user_loan.loan_date }}</span>
+                        {% elif borrowed_by_user %}
+                            <span class="available-text">
+                                {% if user_loan.unlimited_loan %}
+                                    {% trans "This item has an unlimited loan period." %}
+                                {% elif user_loan.is_overdue %}
+                                    {% blocktrans trimmed count days_overdue=user_loan.days_overdue %}
+                                        Overdue by: {{ days_overdue }} day
+                                    {% plural %}
+                                        Overdue by: {{ days_overdue }} days
+                                    {% endblocktrans %}
+                                {% elif user_loan.days_left == 0 %}
+                                    {% trans "Due today" %}
+                                {% else %}
+                                    {% blocktrans trimmed count days_left=user_loan.days_left %}
+                                        Time left: {{ days_left }} day
+                                    {% plural %}
+                                        Time left: {{ days_left }} days
+                                    {% endblocktrans %}
+                                {% endif %}
+                            </span>
+                        {% endif %}
+                    {% else %}
+                        <h4>{% trans "Available copies" %}</h4>
+                        {% if available_copies > 0 %}
+                            <span class="available-text">
+                                {% blocktrans trimmed count available_copies=available_copies %}
+                                    Available to borrow: {{ available_copies }} copy
+                                {% plural %}
+                                    Available to borrow: {{ available_copies }} copies
+                                {% endblocktrans %}
+                            </span>
+                        {% else %}
+                            <span class="unavailable-text">{% trans "Currently unavailable" %}. {% if item.holds.count %}{{ item.holds.count }} {% trans "on hold" %}{% endif %}</span>
+                            <br>
+                            {% if user.is_authenticated and on_hold_by_user %}
+                                <span class="info-text">
+                                    {% if user_position_in_hold_queue %}
+                                        {% blocktrans trimmed with position=user_position_in_hold_queue %}
+                                            Your position in queue: {{ user_position_in_hold_queue }}.
+                                        {% endblocktrans %}
+                                    {% endif %}
+                                </span>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            <form id="action-bar" method="post" action="{% url 'borrow_item' item.id %}">
+                {% csrf_token %}
+                {% if user.is_authenticated %}
+                    {% if borrowed_by_user %}
+                        <button type="button" disabled class="btn-secondary">{% trans "You have borrowed this item" %}</button>
+                    {% elif requested_by_user %}
+                        <input type="text" hidden name="cancel-request" value="true">
+                        <button type="submit" class="btn-secondary">{% trans "Cancel item request" %}</button>
+                    {% else %}
+                        {% if available_copies > 0 %}
+                            <input type="text" hidden name="cancel-request" value="false">
+                            <button type="submit" class="btn-primary">{% trans "Borrow this item" %}</button>
+                        {% else %}
+                            <button type="submit" class="btn-secondary" disabled>{% trans "Borrow this item" %}</button>
+                            {% if not on_hold_by_user %}
+                                <button id="place-hold-button" data-place="true" class="btn-primary">{% trans "Place a hold" %}</button>
+                            {% else %}
+                                <button id="place-hold-button" data-place="false" class="btn-secondary">{% trans "Cancel hold" %}</button>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% else %}
+                    <button type="button" disabled class="btn-primary">{% trans "Log in to borrow" %}</button>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <button type="button" id="favorite-button" class="icon btn-secondary {% if favourited_by_user %}favorited{% endif %}"><span class="material-symbols-outlined">favorite</span></button>
+                {% endif %}
+            </form>
+        </div>
+    </section>
+    <section id="recommendations">
+        {% include 'base/components/sectioned-carousel.html' with item_group=new_arrivals %}
+    </section>
+</main>
+
+<script>
+    const readMoreButton = document.querySelector('#item-details button');
+    const descriptionParagraph = '{{ item.get_localized_description|escapejs }}';
+    const remainingText = descriptionParagraph.length > 800 ? descriptionParagraph.slice(799, descriptionParagraph.length) : '';
+
+    readMoreButton.addEventListener('click', () => {
+        descriptionParagraphElement = document.querySelector('#item-details p');
+        readMoreButton.classList.add('remove');
+        setTimeout(() => {
+            readMoreButton.remove();
+            descriptionParagraphElement.innerHTML = descriptionParagraphElement.innerHTML.slice(0, 795);
+            typewriterEffect(descriptionParagraphElement, remainingText, 7);
+        }, 500);
+    });
+
+    function typewriterEffect(element, text, delay = 50) {
+        let index = 0;
+        function type() {
+            if (index < text.length) {
+                element.innerHTML += text.charAt(index);
+                index++;
+                setTimeout(type, delay);
+            }
+        }
+        type();
+    }
+
+    document.querySelector('#favorite-button').addEventListener('click', function(event) {
+        event.preventDefault();
+        fetch("{% url 'favourite_item' item.id %}", {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({})
+        }).then(response => response.json())
+          .then(data => {
+            if (data.favourited !== undefined) {
+                this.classList.toggle('favorited', data.favourited);
+                // Show toast notification
+                if (data.favourited) {
+                    showSuccessToast('{% trans "Item added to favorites!" %}', 'favorite', 3000);
+                } else {
+                    showInfoToast('{% trans "Item removed from favorites." %}', 'heart_broken', 3000);
+                }
+            }
+          })
+          .catch(error => {
+            showErrorToast('{% trans "Failed to update favorites. Please try again." %}', 'error');
+          });
+    });
+
+    const holdButton = document.querySelector('#place-hold-button');
+
+    holdButton?.addEventListener('click', function(event) {
+        event.preventDefault();
+        fetch("{% url 'place_hold' item.id %}", {
+            method: holdButton.dataset.place === 'true' ? 'POST' : 'DELETE',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({})
+        }).then(response => response.json())
+          .then(data => {
+            data.messages.forEach(message => {
+                const availabilityInfoContainer = document.querySelector('#availability-info');
+                showToast(message.text, message.level);
+                if (message.level === 'success') {
+                    if (holdButton.dataset.place === 'true') {
+                        holdButton.dataset.place = 'false';
+                        holdButton.classList.remove('btn-primary');
+                        holdButton.classList.add('btn-secondary');
+                        holdButton.textContent = '{% trans "Cancel hold" %}';
+                        document.createElement('br').insertAdjacentElement('afterend', availabilityInfoContainer);
+                        const infoTextSpan = document.createElement('span');
+                        infoTextSpan.classList.add('info-text');
+                        infoTextSpan.textContent = '{% trans "Your position in queue" %}: ' + data.position_in_queue;
+                        availabilityInfoContainer.appendChild(infoTextSpan);
+                    } else {
+                        holdButton.dataset.place = 'true';
+                        holdButton.classList.remove('btn-secondary');
+                        holdButton.classList.add('btn-primary');
+                        holdButton.textContent = '{% trans "Place a hold" %}';
+                        const infoTextSpan = availabilityInfoContainer.querySelector('.info-text');
+                        infoTextSpan?.remove();
+                    }
+                }
+            });
+          })
+          .catch(error => {
+            showErrorToast('{% trans "Failed to place hold. Please try again." %}');
+          });
+    });
+</script>
+{% endblock %}

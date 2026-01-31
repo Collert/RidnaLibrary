@@ -1,0 +1,117 @@
+<div class="carousel-container">
+    <div class="carousel">
+        {% for group in item_group %}
+        <div class="carousel-group">
+            {% for item in group %}
+            <a href="#" class="book-card no-style">{{ item.title }}</a>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .carousel-container {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        position: relative;
+    }
+
+    .carousel {
+        display: flex;
+        overflow-x: auto;
+        gap: 1rem;
+        padding: 1rem 0;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        scroll-behavior: smooth;
+        width: 100%;
+        max-width: calc(5 * 10vw + 4 * 2rem);
+        /* 5 cards visible */
+        anchor-name: --carousel;
+        scroll-marker-group: after;
+    }
+
+    .carousel::-webkit-scrollbar {
+        display: none;
+    }
+
+    .carousel-group {
+        display: flex;
+        flex-shrink: 0;
+        gap: 2rem;
+        scroll-snap-align: start;
+    }
+
+    /* Scroll buttons using ::scroll-button() pseudo-element */
+    .carousel::scroll-button(*) {
+        background: var(--ukrainian-blue);
+        color: var(--primary-contrast);
+        border: none;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 1.5rem;
+        display: grid;
+        place-items: center;
+        z-index: 10;
+        transition: all 300ms ease;
+        position-anchor: --carousel;
+        margin: 1rem;
+    }
+
+    .carousel::scroll-button(left) {
+        content: "❮";
+        position: absolute;
+        position-area: center left;
+    }
+
+    .carousel::scroll-button(right) {
+        content: "❯";
+        position: absolute;
+        position-area: center right;
+    }
+
+    .carousel-container .carousel-group::scroll-marker:target-current {
+        background: var(--ukrainian-blue);
+    }
+
+    .carousel-container .carousel-group::scroll-marker {
+        content: " ";
+        width: 0.75rem;
+        height: 0.75rem;
+        border: 1px solid var(--ukrainian-blue);
+        border-radius: 50%;
+        background-color: var(--bg-light);
+    }
+
+    .carousel::scroll-marker-group {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        position: absolute;
+        bottom: -0.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+    }
+
+    .book-card {
+        width: 10vw;
+        min-width: 120px;
+        height: 200px;
+        background: var(--ukrainian-gold);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        justify-content: center;
+        color: var(--text-dark);
+        font-weight: bold;
+        text-align: center;
+        padding: 1rem;
+    }
+</style>

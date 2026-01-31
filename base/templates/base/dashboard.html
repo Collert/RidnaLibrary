@@ -1,0 +1,69 @@
+{% extends 'base/layout.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block extra_head %}
+<link href="{% static 'base/collection.css' %}" rel="stylesheet">
+<link href="{% static 'base/dashboard.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<main id="dashboard">
+    <h1>{% trans "Your Library" %}</h1>
+    <div id="dashboard-links">
+        <a class="no-style {% if '/all' in request.path %}selected{% endif %}" href="{% url 'dashboard_all' %}">
+            <span class="material-symbols-outlined">cards_stack</span>
+            {% trans "Relevant Items" %}
+            <span id="relevant-items-count" class="item-count">{{ counts.all }}</span>
+        </a>
+        <a class="no-style {% if '/due_soon' in request.path %}selected{% endif %}" href="{% url 'dashboard_due_soon' %}">
+            <span class="material-symbols-outlined">upcoming</span>
+            {% trans "Due soon" %}
+            <span id="due-soon-count" class="item-count">{{ counts.due_soon }}</span>
+        </a>
+        <a class="no-style {% if '/overdue' in request.path %}selected{% endif %}" href="{% url 'dashboard_overdue' %}">
+            <span class="material-symbols-outlined">assignment_late</span>
+            {% trans "Overdue" %}
+            <span id="overdue-count" class="item-count">{{ counts.overdue }}</span>
+        </a>
+        <a class="no-style {% if '/history' in request.path %}selected{% endif %}" href="{% url 'dashboard_history' %}">
+            <span class="material-symbols-outlined">history</span>
+            {% trans "History" %}
+        </a>
+    </div>
+    <section id="dashboard-items">
+        {% for loan in items %}
+            <a href="{% url 'item' loan.item.id %}" class="item-card">
+                <div class="image-container">
+                    {% if loan.item.image %}
+                        <img src="{{ loan.item.image.url }}" alt="{{ loan.item.get_localized_title }}">
+                    {% else %}
+                        <div class="no-image-placeholder"><span class="material-symbols-outlined">image</span></div>
+                    {% endif %}
+                </div>
+                <div class="item-info">
+                    <h2 class="item-title">{{ loan.item.get_localized_title }}</h2>
+                    <p class="item-loan-date">
+                        {% trans "Loaned on" %}: {{ loan.loan_date|date:"F j, Y" }}
+                    </p>    
+                    <p class="item-due-date">
+                        {% trans "Due on" %}: {{ loan.due_date|date:"F j, Y" }}
+                    </p>
+                    {% if loan.is_overdue %}
+                        <p class="item-overdue-warning">
+                            <span class="material-symbols-outlined">warning</span>
+                            {% blocktrans trimmed count loan.days_overdue as days %}
+                                This item is overdue by {{ days }} day!
+                            {% plural %}
+                                This item is overdue by {{ days }} days!
+                            {% endblocktrans %}
+                        </p>
+                    {% endif %}
+                </div>
+            </a>
+        {% empty %}
+            <h1 id="empty-message">{% trans "Nothing here" %}</h1>
+        {% endfor %}
+    </section>
+</main>
+{% endblock %}

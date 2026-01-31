@@ -1,0 +1,213 @@
+{% extends 'base/layout.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block extra_head %}
+<link href="{% static 'base/collection.css' %}" rel="stylesheet">
+<link href="{% static 'base/events.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<main id="events">
+    {% if featured_event %}
+    <section id="featured-event">
+        <img src="{{ featured_event.image.url }}" alt="{{ featured_event.title }}">
+        <div id="featured-event-info">
+            <h3>{% trans "Featured Event" %}</h3>
+            <h1>{{ featured_event.title }}</h1>
+            <p class="event-date"><span class="material-symbols-outlined">event</span>{{ featured_event.event_date }}</p>
+            <p class="event-description">{{ featured_event.description|truncatechars:160 }}</p>
+            <a class="no-style" href="">{% trans "Learn More" %}</a>
+        </div>
+    </section>
+    {% endif %}
+    <section id="event-list">
+        <form id="filters">
+            <h2>{% trans "Event Calendar" %}</h2>
+            <div id="calendar-card">
+                <div id="calendar"></div>
+            </div>
+            <h2>{% trans "Filters" %}</h2>
+            <div id="filter-checkboxes">
+                <div class="filter-section">
+                    <h3><span class="material-symbols-outlined">date_range</span>{% trans "Day" %}</h3>
+                        <div class="checkbox">
+                            <input type="checkbox" {% if "wd" in search.days %}checked{% endif %} id="day-wd" name="day" value="wd"/>
+                            <label for="day-wd">{% trans "Weekdays" %} ({{days_counts.0}})</label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" {% if "we" in search.days %}checked{% endif %} id="day-we" name="day" value="we"/>
+                            <label for="day-we">{% trans "Weekends" %} ({{days_counts.1}})</label>
+                        </div>
+                </div>
+                <div class="filter-section">
+                    <h3><span class="material-symbols-outlined">attractions</span>{% trans "Event type" %}</h3>
+                        {% for event_type in event_types %}
+                        <div class="checkbox">
+                            <input type="checkbox" {% if event_type.code in search.event_types %}checked{% endif %} id="event-type-{{ event_type.code }}" name="event_type" value="{{ event_type.code }}"/>
+                            <label for="event-type-{{ event_type.code }}">{{ event_type.name }} ({{ event_type.count }})</label>
+                        </div>
+                        {% endfor %}
+                </div>
+            </div>
+            <div class="submit-buttons-container">
+                <button type="button" class="button btn-primary"><span class="material-symbols-outlined">filter_alt_off</span>{% trans "Clear filters" %}</button>
+                <button type="submit" class="button btn-primary"><span class="material-symbols-outlined">search</span>{% trans "Search" %}</button>
+            </div>
+        </form>
+        <div id="events-grid">
+            {% for event in page_obj %}
+            <div href="{% url 'event' event.id %}" class="event-card">
+                <div class="image-container">
+                    {% if event.image %}
+                        <img src="{{ event.image.url }}" alt="{{ event.title }}">
+                    {% else %}
+                        <div class="no-image-placeholder"><span class="material-symbols-outlined">image</span></div>
+                    {% endif %}
+                    <div class="event-date-badge">
+                        <span>{{ event.event_date|date:"M" }}</span>
+                        <span>{{ event.event_date|date:"d" }}</span>
+                    </div>
+                </div>
+                <div class="event-info-container">
+                    <div class="event-info">
+                        <h2 class="event-title">{{ event.get_localized_title|truncatechars:18 }}</h2>
+                        <p class="event-date">
+                            <span class="material-symbols-outlined">event</span>
+                            {{ event.event_date }}
+                            <span class="material-symbols-outlined">place</span>
+                            {{ event.address|truncatechars:30 }}
+                        </p>
+                        <p>{{ event.get_localized_description|truncatechars:250 }}</p>
+                    </div>
+                    <a class="no-style" href="{% url 'event' event.id %}">{% trans "Learn More" %}</a>
+                </div>
+            </div>
+            {% empty %}
+            <p>{% trans "No events found." %}</p>
+            {% endfor %}
+            {% if page_obj.has_other_pages %}
+                {% include 'base/components/pagination.html' with items=page_obj %}
+            {% endif %}
+        </div>
+    </section>
+</main>
+
+<div id="calendar-events" style="display: none;">
+    {% for event in all_events %}
+    <span data-date="{{ event.event_date|date:'Y-m-d' }}"></span>
+    {% endfor %}
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const checkboxes = document.querySelectorAll('#filters input[type="checkbox"], #filters input[type="text"]');
+        const clearButton = document.querySelector('.submit-buttons-container button:first-child');
+
+        function updateClearButtonVisibility() {
+            let anyChecked = false;
+            checkboxes.forEach(checkbox => {
+                if ((checkbox.type === 'checkbox' && checkbox.checked) || (checkbox.type === 'text' && checkbox.value.trim() !== '')) {
+                    anyChecked = true;
+                }
+            });
+            showClearFiltersButton(anyChecked);
+        }
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', updateClearButtonVisibility);
+            if (checkbox.type === 'text') {
+                checkbox.addEventListener('input', updateClearButtonVisibility);
+            }
+        });
+
+        clearButton.addEventListener('click', () => {
+            checkboxes.forEach(checkbox => {
+                if (checkbox.type === 'checkbox') {
+                    checkbox.checked = false;
+                } else if (checkbox.type === 'text') {
+                    checkbox.value = '';
+                }
+            });
+            showClearFiltersButton(false);
+        });
+
+        // Initial check on page load
+        updateClearButtonVisibility();
+    });
+
+    function showClearFiltersButton(show) {
+        const buttonContainer = document.querySelector('.submit-buttons-container');
+        if (show) {
+            buttonContainer.classList.add('show-clear-button');
+            return;
+        } else {
+            buttonContainer.classList.remove('show-clear-button');
+        }
+    }
+
+    (function() {
+        const rawDates = Array.from(document.querySelectorAll('#calendar-events span')).map(span => span.getAttribute('data-date'));
+        const eventDates = new Set(rawDates.filter(Boolean));
+        const lang = "{{ LANGUAGE_CODE }}";
+
+        const i18n = {
+            en: { months: ['January','February','March','April','May','June','July','August','September','October','November','December'], days: ['Mo','Tu','We','Th','Fr','Sa','Su'] },
+            fr: { months: ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'], days: ['Lu','Ma','Me','Je','Ve','Sa','Di'] },
+            uk: { months: ['січень','лютий','березень','квітень','травень','червень','липень','серпень','вересень','жовтень','листопад','грудень'], days: ['Пн','Вт','Ср','Чт','Пт','Сб','Нд'] }
+        }[lang] || i18n.en;
+
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth();
+        const firstDay = new Date(year, month, 1);
+        const firstDow = (firstDay.getDay() + 6) % 7; // monday = 0
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        const container = document.getElementById('calendar');
+        const table = document.createElement('table');
+        table.className = 'calendar-table';
+
+        const head = document.createElement('div');
+        head.className = 'calendar-header-row';
+        head.innerHTML = `<span class="calendar-month">${i18n.months[month]} ${year}</span>`;
+        container.appendChild(head);
+
+        const thead = document.createElement('thead');
+        const trHead = document.createElement('tr');
+        i18n.days.forEach(d => {
+            const th = document.createElement('th');
+            th.textContent = d;
+            trHead.appendChild(th);
+        });
+        thead.appendChild(trHead);
+
+        const tbody = document.createElement('tbody');
+        let day = 1;
+        for (let row = 0; row < 6 && day <= daysInMonth; row++) {
+            const tr = document.createElement('tr');
+            for (let col = 0; col < 7; col++) {
+                const td = document.createElement('td');
+                if (row === 0 && col < firstDow || day > daysInMonth) {
+                    td.className = 'empty';
+                } else {
+                    const iso = `${year}-${String(month + 1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+                    td.textContent = day;
+                    td.classList.add('day-cell');
+                    if (eventDates.has(iso)) td.classList.add('has-event');
+                    if (iso === rawDates.find(d => d === iso)) {
+                        // noop placeholder if needing single check
+                    }
+                    day++;
+                }
+                tr.appendChild(td);
+            }
+            tbody.appendChild(tr);
+        }
+
+        table.appendChild(thead);
+        table.appendChild(tbody);
+        container.appendChild(table);
+    })();
+</script>
+{% endblock %}

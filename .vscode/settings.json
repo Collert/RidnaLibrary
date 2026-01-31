@@ -1,5 +1,18 @@
 {
-    "python.pythonPath": "c:\\Users\\mytyb\\OneDrive\\Documents\\GitHub\\RidnaLibrary\\venv\\Scripts\\python.exe",
-    "git.ignoreLimitWarning": true,
-    "python.linting.pylintEnabled": true
+    // "files.associations": {
+    //     "*.html": "django-html"
+    // },
+    "[django-html]": {
+        "editor.formatOnSave": false,
+        "editor.defaultFormatter": null
+    },
+    // "[html]": {
+    //     "editor.formatOnSave": false
+    // },
+    "html.format.enable": false,
+    "html.format.preserveNewLines": true,
+    "html.format.wrapAttributes": "preserve",
+    "cSpell.words": [
+        "favourited"
+    ]
 }

@@ -1,0 +1,93 @@
+#login-register {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100%;
+    min-height: 70vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#form-container {
+    display: grid;
+    place-items: center;
+    padding: 2rem;
+}
+
+/* Form Styles */
+#form-container form {
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px) brightness(0.8);
+    gap: 1.5rem;
+}
+
+#form-container form,
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+#form-container form * {
+    margin: 0;
+}
+
+#form-container form h2 {
+    text-align: center;
+    color: var(--bg-light);
+    font-size: 1.8rem;
+}
+
+/* Form Group Styles */
+.form-group {
+    gap: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--bg-light);
+    font-size: 0.9rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--dark-grey);
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    box-sizing: border-box;
+}
+
+.form-control::placeholder {
+    color: var(--dark-grey);
+}
+
+/* Form Actions */
+.form-actions button {
+    width: 100%;
+    border-radius: 10px;
+}
+
+/* Form Footer */
+.form-footer {
+    text-align: center;
+    border-top: 1px solid var(--grey);
+    padding-top: 1rem;
+}
+
+.form-footer p {
+    margin: 0;
+    color: var(--grey);
+    font-size: 0.9rem;
+}
+
+.form-footer a {
+    --_highlight-color: var(--ukrainian-gold) !important;
+    font-weight: 600;
+}

@@ -1,11 +1,4 @@
-flask
-flask_session
-gunicorn
-sqlalchemy==1.3.23
-google-api-python-client
-google_auth_oauthlib
-psycopg2
-flask_sqlalchemy
-sendgrid
-googletrans==3.1.0a0
-cloudinary
+Django
+Pillow
+Faker
+django-polymorphic

@@ -1,0 +1,140 @@
+{% extends 'base/layout.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block extra_head %}
+<link href="{% static 'base/home.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<main>
+
+    <!-- Header Section -->
+    {% if hero_section %}
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>{{ hero_section.title }}</h1>                
+                <div class="hero-buttons">
+                    <a href="{{ hero_section.button_link }}" class="button btn-primary">{{ hero_section.button_text }}</a>
+                </div>
+            </div>
+            
+            <div class="hero-image">
+                {% if hero_section.image %}
+                    <img src="{{ hero_section.image.url }}" alt="{{ hero_section.title }}">
+                {% else %}
+                    <div class="image-placeholder">
+                        {% trans "Family Reading Together" %}<br>
+                        <small>{% trans "Warm family scene placeholder" %}</small>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    {% else %}
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>{% trans "Your Cultural Home Away From Home" %}</h1>                
+                <div class="hero-buttons">
+                    <a href="{% url 'collection' %}" class="button btn-primary">{% trans "View catalog" %}</a>
+                    <a href="#" class="button btn-secondary">{% trans "Upcoming events" %}</a>
+                </div>
+            </div>
+            
+            <div class="hero-image">
+                <div class="image-placeholder">
+                    {% trans "Family Reading Together" %}<br>
+                    <small>{% trans "Warm family scene placeholder" %}</small>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+    
+    <!-- Quick Info Bar -->
+    <section class="quick-info">
+        <div class="info-item">
+            <span class="material-symbols-outlined">schedule</span>
+            <div>
+                <strong>{% trans "Hours" %}</strong><br>
+                <small>{% trans "9 AM - 6 PM" %}</small>
+            </div>
+        </div>
+        <div class="info-item">
+            <span class="material-symbols-outlined">location_on</span>
+            <div>
+                <strong>{% trans "Location" %}</strong><br>
+                <small>{% trans "Hour | Location" %}</small>
+            </div>
+        </div>
+        <div class="info-item">
+            <span class="material-symbols-outlined">call</span>
+            <div>
+                <strong>{% trans "Phone" %}</strong>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Sections -->
+    <section class="main-sections">
+        <div class="section-card">
+            <div class="section-icon"><span class="material-symbols-outlined">collections_bookmark</span></div>
+            <h3>{% trans "Our Collection" %}</h3>
+            <p>{% trans "Our community is unique in shaping our collection through various events, readings, and courses." %}</p>
+        </div>
+        
+        <div class="section-card">
+            <div class="section-icon"><span class="material-symbols-outlined">partner_heart</span></div>
+            <h3>{% trans "Community & Support" %}</h3>
+            <p>{% trans "Join Our Treasures and community community & support mentorrs, and support in wins." %}</p>
+        </div>
+        
+        <div class="section-card">
+            <div class="section-icon"><span class="material-symbols-outlined">school</span></div>
+            <h3>{% trans "Learn & Grow" %}</h3>
+            <p>{% trans "Learn more about current event and how to enroll afturmaila technicus and realturity and more." %}</p>
+        </div>
+    </section>
+
+    <!-- New Arrivals Section -->
+    <section class="new-arrivals">
+        <h2>{% trans "New Arrivals" %}</h2>
+        
+        {% include 'base/components/sectioned-carousel.html' with item_group=new_arrivals %}
+
+        {% if featured_item %}
+        <div id="featured-item" style="margin-top: 2rem;">
+            <div id="featured-item-image">
+                {% if featured_item.item.image %}
+                    <img src="{{ featured_item.item.image.url }}" alt="{{ featured_item.item.title }}">
+                {% else %}
+                    <div class="image-placeholder"></div>
+                {% endif %}
+            </div>
+            <div id="featured-item-info">
+                <h4>{% trans "Librarian's Pick" %}</h4>
+                <h2>{{ featured_item.title }}</h2>
+                <p>{{ featured_item.description|truncatewords:75 }}</p>
+                <a href="{% url 'item' featured_item.id %}" class="button btn-primary">{% trans "Learn More" %} →</a>
+            </div>
+        </div>
+        {% endif %}
+    </section>
+
+    <!-- Feature Highlights -->
+    <section class="feature-highlights">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <h2>{% trans "Upcoming Events" %}</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h4>{% trans "Українська Діа - Бібліотека" %}</h4>
+                    <p>{% trans "Ukrainian Dia-Library Services" %}</p>
+                    <a href="#" style="color: var(--ukrainian-gold);">{% trans "Read More" %} →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
