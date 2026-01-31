@@ -4,3 +4,4 @@ Faker
 django-polymorphic
 python-dotenv
 psycopg2-binary
+gunicorn
