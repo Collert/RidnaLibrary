@@ -27,7 +27,7 @@ def home(request):
     return render(request, 'base/home.html', {
         'hero_section': hero_section, 
         'new_arrivals': new_arrivals, 
-        'featured_item': featured_item.item
+        'featured_item': featured_item.item if featured_item else None
     })
 
 def item(request, item_id):
