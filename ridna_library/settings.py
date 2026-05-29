@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'ridna_library.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-if DEBUG and False:
+if DEBUG:
     # Development: Use SQLite
     DATABASES = {
         'default': {
