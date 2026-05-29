@@ -1,4 +1,4 @@
-[phases.setup]
+[phases.build]
 cmds = ["python manage.py collectstatic --noinput"]
 
 [start]
