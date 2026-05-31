@@ -6,6 +6,9 @@
 <form action="{% url 'login' %}" method="post">
     <h2>{% trans "Login" %}</h2>
     {% csrf_token %}
+    {% if next %}
+    <input type="hidden" name="next" value="{{ next }}">
+    {% endif %}
     
     <div class="form-group">
         <label for="username">{% trans "Username" %}:</label>

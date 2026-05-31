@@ -8,7 +8,11 @@
 
 {% block body %}
 <main id="event">
+    {% if event.image %}
     <img src="{{ event.image.url }}" alt="{{ event.title }}">
+    {% else %}
+    <div class="no-image-placeholder"><span class="material-symbols-outlined">image</span></div>
+    {% endif %}
     <section id="event-info">
         <div id="info-left">
             <h1>{{ event.get_localized_title }}</h1>
@@ -28,7 +32,7 @@
                 </span>
             {% endif  %}
             <div id="event-buttons">
-                <button id="interest-button" class="{% if is_interested %}interested{% endif %} no-style"><span class="material-symbols-outlined">star</span>{% trans "I'm Interested" %}</button>
+                <button id="interest-button" class="{% if is_interested %}interested{% endif %} no-style" data-authenticated="{{ can_express_interest|yesno:'true,false' }}" data-login-url="{{ interest_login_url }}"><span class="material-symbols-outlined">star</span>{% trans "I'm Interested" %}</button>
                 <button id="add-to-calendar-button" class="no-style"><span class="material-symbols-outlined">calendar_add_on</span>{% trans "Add to Calendar" %}</button>
             </div>
         </div>
@@ -36,25 +40,44 @@
 </main>
 
 <script>
-    document.getElementById('interest-button').addEventListener('click', function() {
+    const interestButton = document.getElementById('interest-button');
+
+    interestButton.addEventListener('click', function() {
+        if (interestButton.dataset.authenticated !== 'true') {
+            window.location.href = interestButton.dataset.loginUrl;
+            return;
+        }
+
         fetch('{% url "express_interest" event.id %}', {
             method: 'POST',
             headers: {
                 'X-CSRFToken': '{{ csrf_token }}',
                 'Content-Type': 'application/json'
             }
-        }).then(response => {
-            if (!response.ok) {
-                showErrorToast('{% trans "There was an error recording your interest." %}');
+        }).then(async response => {
+            const data = await response.json();
+
+            if (response.status === 401 && data.login_url) {
+                window.location.href = data.login_url;
+                return null;
             }
-            return response.json();
+
+            if (!response.ok) {
+                throw new Error('Failed to record interest');
+            }
+
+            return data;
         }).then(data => {
+            if (!data) {
+                return;
+            }
+
             if (data.interested) {
                 showSuccessToast('{% trans "Your interest has been recorded! Thank you for helping us plan this event." %}');
-                document.getElementById('interest-button').classList.add('interested');
+                interestButton.classList.add('interested');
             } else {
                 showToast("{% trans 'Your interest has been removed.' %}");
-                document.getElementById('interest-button').classList.remove('interested');
+                interestButton.classList.remove('interested');
             }
         }).catch(error => {
             console.error('Error:', error);

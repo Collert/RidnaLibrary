@@ -9,6 +9,8 @@ from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.http import HttpResponse, HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
+from django.urls import reverse
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext_lazy as _, ngettext
 from .models import FeaturedItem, HeroSection, Item, ItemHold, Loan, Book, Event, FeaturedEvent, EventKind
 from .enums import *
@@ -24,10 +26,14 @@ def home(request):
     new_arrivals_all = Item.new_arrivals()
     new_arrivals = [new_arrivals_all[:5], new_arrivals_all[5:10], new_arrivals_all[10:15]]
     featured_item = random.choice(FeaturedItem.objects.all()) if FeaturedItem.objects.exists() else None
+    upcoming_events = list(
+        Event.objects.filter(event_date__gte=timezone.now()).order_by('event_date')[:3]
+    )
     return render(request, 'base/home.html', {
         'hero_section': hero_section, 
         'new_arrivals': new_arrivals, 
-        'featured_item': featured_item.item if featured_item else None
+        'featured_item': featured_item.item if featured_item else None,
+        'upcoming_events': upcoming_events,
     })
 
 def item(request, item_id):
@@ -239,14 +245,31 @@ def get_random_splash_screen():
     # URL encode the filename to make it URL safe
     return quote(filename, safe='')
 
+
+def get_next_redirect_target(request):
+    next_url = request.POST.get('next') or request.GET.get('next')
+    if next_url and url_has_allowed_host_and_scheme(
+        next_url,
+        allowed_hosts={request.get_host()},
+        require_https=request.is_secure(),
+    ):
+        return next_url
+    return reverse('dashboard')
+
 def login_view(request):
+    next_url = request.POST.get('next') or request.GET.get('next', '')
+    context = {
+        'bg_img': get_random_splash_screen(),
+        'next': next_url,
+    }
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         
         if not username or not password:
             messages.error(request, _('Please fill in all fields.'))
-            return render(request, 'base/login.html', {'bg_img': get_random_splash_screen()})
+            return render(request, 'base/login.html', context)
         
         user = authenticate(request, username=username, password=password)
         
@@ -264,13 +287,11 @@ def login_view(request):
                     )
                     % {'count': overdue_count},
                 )
-            # Redirect to the next page if specified, otherwise to dashboard
-            next_page = request.GET.get('next', 'dashboard')
-            return redirect(next_page)
+            return redirect(get_next_redirect_target(request))
         else:
             messages.error(request, _('Invalid username or password.'))
     
-    return render(request, 'base/login.html', {'bg_img': get_random_splash_screen()})
+    return render(request, 'base/login.html', context)
 
 def logout_view(request):
     if request.user.is_authenticated:
@@ -396,6 +417,10 @@ def favourites(request):
         'favourite_items': favourite_items
     })
 
+
+def build_login_redirect_url(next_url):
+    return f"{reverse('login')}?next={quote(next_url)}"
+
 def events(request):
     search = {
         "days": request.GET.getlist('day'),
@@ -437,6 +462,8 @@ def event(request, event_id):
     return render(request, 'base/event.html', {
         'event': event,
         'is_interested': is_interested,
+        'can_express_interest': request.user.is_authenticated,
+        'interest_login_url': build_login_redirect_url(request.get_full_path()),
     })
 
 def build_ical_response(*, summary, description, location, start_dt, end_dt, uid, filename):
@@ -499,6 +526,9 @@ def toggle_event_interest(request, event_id):
                 interested = True
             return JsonResponse({'interested': interested})
         else:
-            return JsonResponse({'error': _("User not authenticated")}, status=403)
+            return JsonResponse({
+                'error': _("User not authenticated"),
+                'login_url': build_login_redirect_url(reverse('event', args=[event_id])),
+            }, status=401)
     return HttpResponseNotAllowed(['POST'])
 

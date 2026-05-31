@@ -123,18 +123,23 @@
         {% endif %}
     </section>
 
+    {% if upcoming_events %}
     <!-- Feature Highlights -->
     <section class="feature-highlights">
         <div style="max-width: 1200px; margin: 0 auto;">
             <h2>{% trans "Upcoming Events" %}</h2>
             <div class="feature-grid">
+                {% for event in upcoming_events %}
                 <div class="feature-item">
-                    <h4>{% trans "Українська Діа - Бібліотека" %}</h4>
-                    <p>{% trans "Ukrainian Dia-Library Services" %}</p>
-                    <a href="#" style="color: var(--ukrainian-gold);">{% trans "Read More" %} →</a>
+                    <h4>{{ event.get_localized_title }}</h4>
+                    <p>{{ event.event_date|date:"M j, Y g:i A" }}{% if event.address %} · {{ event.address }}{% endif %}</p>
+                    <p>{{ event.get_localized_description|truncatechars:140 }}</p>
+                    <a href="{% url 'event' event.id %}" style="color: var(--ukrainian-gold);">{% trans "Read More" %} →</a>
                 </div>
+                {% endfor %}
             </div>
         </div>
     </section>
+    {% endif %}
 </main>
 {% endblock %}
