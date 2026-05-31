@@ -8,6 +8,7 @@ from django.utils.translation import get_language
 from .enums import *
 from django.db.models import Q
 from polymorphic.models import PolymorphicModel
+from django.utils.translation import gettext_lazy as _
 
 def calculate_next_saturday():
     today = timezone.now().date()
@@ -163,9 +164,17 @@ class CreativeWork(Item):
 class Book(CreativeWork):
     isbn_number = models.CharField(max_length=13, unique=True)
 
+    class Meta:
+        verbose_name = _("book")
+        verbose_name_plural = _("books")
+
 class Member(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     join_date = models.DateField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = _("member")
+        verbose_name_plural = _("members")
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}" if self.user.first_name and self.user.last_name else self.user.username
@@ -183,6 +192,10 @@ class Loan(models.Model):
     return_date = models.DateField(null=True, blank=True)
     due_date = models.DateField(default=timezone.now() + timedelta(days=calculate_next_saturday()) + timedelta(days=14))
     unlimited_loan = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = _("loan")
+        verbose_name_plural = _("loans")
 
     def __str__(self):
         return f"{self.item.title} loaned to {self.user.username}"
@@ -211,11 +224,19 @@ class HeroSection(models.Model):
     button_text = models.CharField(max_length=10)
     button_link = models.URLField()
 
+    class Meta:
+        verbose_name = _("hero section")
+        verbose_name_plural = _("hero sections")
+
     def __str__(self):
         return self.title
 
 class FeaturedItem(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = _("featured item")
+        verbose_name_plural = _("featured items")
 
     def __str__(self):
         return f"Featured: {self.item.title}"
@@ -225,6 +246,10 @@ class ItemHold(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     hold_date = models.DateField(auto_now_add=True)
     notified = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = _("item hold")
+        verbose_name_plural = _("item holds")
 
     def __str__(self):
         return f"Hold: {self.item.title} for {self.user.username}"
@@ -274,8 +299,16 @@ class Event(models.Model):
     def __str__(self):
         return self.get_localized_title()
 
+    class Meta:
+        verbose_name = _("event")
+        verbose_name_plural = _("events")
+
 class FeaturedEvent(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = _("featured event")
+        verbose_name_plural = _("featured events")
 
     def __str__(self):
         return f"Featured Event: {self.event.title}"
