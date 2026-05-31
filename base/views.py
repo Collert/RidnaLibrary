@@ -425,7 +425,7 @@ def events(request):
     return render(request, 'base/events.html', {
         'page_obj': page_obj,
         'all_events': Event.objects.all(),
-        'featured_event': featured_event.event,
+        'featured_event': featured_event.event if featured_event else None,
         'event_types': EventKind.get_choices_with_counts(),
         'search': search,
         "days_counts": Event.get_counts_by_weekday_weekend(),
