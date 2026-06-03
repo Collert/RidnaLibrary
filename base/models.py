@@ -239,7 +239,12 @@ class FeaturedItem(models.Model):
         verbose_name_plural = _("featured items")
 
     def __str__(self):
-        return f"Featured: {self.item.title}"
+        return f"Librarian's Pick"
+    
+    def save(self, *args, **kwargs):
+        # Ensure only one instance exists (singleton pattern)
+        self.pk = 1
+        super().save(*args, **kwargs)
     
 class ItemHold(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='holds')

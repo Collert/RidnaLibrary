@@ -107,8 +107,8 @@
         {% if featured_item %}
         <div id="featured-item" style="margin-top: 2rem;">
             <div id="featured-item-image">
-                {% if featured_item.item.image %}
-                    <img src="{{ featured_item.item.image.url }}" alt="{{ featured_item.item.title }}">
+                {% if featured_item.image %}
+                    <img src="{{ featured_item.image.url }}" alt="{{ featured_item.title }}">
                 {% else %}
                     <div class="image-placeholder"></div>
                 {% endif %}
@@ -116,7 +116,7 @@
             <div id="featured-item-info">
                 <h4>{% trans "Librarian's Pick" %}</h4>
                 <h2>{{ featured_item.title }}</h2>
-                <p>{{ featured_item.description|truncatewords:75 }}</p>
+                <p>{{ featured_item.description|truncatewords:200 }}</p>
                 <a href="{% url 'item' featured_item.id %}" class="button btn-primary">{% trans "Learn More" %} →</a>
             </div>
         </div>

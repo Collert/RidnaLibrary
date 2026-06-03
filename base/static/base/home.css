@@ -94,6 +94,14 @@
     justify-content: end;
 }
 
+#featured-item-image img {
+    max-width: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0px 0px 8px 7px rgba(0, 0, 0, 0.1);
+    aspect-ratio: 3/4;
+}
+
 #featured-item-info {
     width: 100%;
     display: flex;

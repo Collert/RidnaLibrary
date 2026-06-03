@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'polymorphic',
     "recommendations",
+    "storages"
 ]
 
 MIDDLEWARE = [
@@ -199,11 +200,36 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'  # For production
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Media files (User uploaded files)
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+
+AWS_ACCESS_KEY_ID = os.getenv("RUSTFS_ACCESS_KEY")
+AWS_SECRET_ACCESS_KEY = os.getenv("RUSTFS_SECRET_KEY")
+AWS_STORAGE_BUCKET_NAME = os.getenv("RUSTFS_BUCKET_NAME")
+
+AWS_S3_ENDPOINT_URL = os.getenv("RUSTFS_ENDPOINT_URL")  
+
+AWS_S3_REGION_NAME = "us-east-1"  # RustFS usually doesn't care, but boto3 wants one
+
+AWS_S3_SIGNATURE_VERSION = "s3v4"
+AWS_S3_ADDRESSING_STYLE = "path"
+
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+AWS_QUERYSTRING_AUTH = True
+
+if DEBUG:
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = BASE_DIR / 'media'
+else:
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3.S3Storage",
+        },
+        "staticfiles": {
+            "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        },
+    }
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

@@ -50,7 +50,14 @@ admin_site.register(Group, GroupAdmin)
 admin_site.register(Book, BookAdmin)
 admin_site.register(Member, MemberAdmin)
 admin_site.register(Loan, LoanAdmin)
-admin_site.register(FeaturedItem)
 admin_site.register(HeroSection)
 admin_site.register(Event)
 admin_site.register(FeaturedEvent)
+
+class FeaturedItemAdmin(admin.ModelAdmin):
+
+    def has_add_permission(self, request):
+        # Only allow one instance (singleton)
+        return not FeaturedItem.objects.exists()
+    
+admin_site.register(FeaturedItem, FeaturedItemAdmin)

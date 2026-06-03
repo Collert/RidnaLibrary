@@ -3,7 +3,7 @@
         {% for group in item_group %}
         <div class="carousel-group">
             {% for item in group %}
-            <a href="#" class="book-card no-style">{{ item.title }}</a>
+            <a href="{% url 'item' item.id %}" {% if item.image %}style="background: url({{ item.image.url }})" {% endif %}class="book-card no-style {% if item.image %}has-image{% endif %}">{{ item.title }}</a>
             {% endfor %}
         </div>
         {% endfor %}
@@ -113,5 +113,11 @@
         font-weight: bold;
         text-align: center;
         padding: 1rem;
+    }
+
+    .book-card.has-image {
+        background-size: cover!important;
+        background-position: center!important;
+        color: transparent;
     }
 </style>
