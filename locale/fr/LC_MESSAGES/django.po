@@ -3,64 +3,67 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-05 23:05-0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2026-06-03 15:36-0700\n"
+"PO-Revision-Date: 2026-06-03 15:36-0700\n"
+"Last-Translator: GitHub Copilot <copilot@github.com>\n"
+"Language-Team: French\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+#: .\base\apps.py:7
+msgid "Base"
+msgstr "Application de base"
+
 #: .\base\enums.py:6
 msgid "Fantasy"
-msgstr ""
+msgstr "Fantaisie"
 
 #: .\base\enums.py:7
 msgid "Science Fiction"
-msgstr ""
+msgstr "Science-fiction"
 
 #: .\base\enums.py:8
 msgid "Mystery"
-msgstr ""
+msgstr "Mystère"
 
 #: .\base\enums.py:9
 msgid "Thriller"
-msgstr ""
+msgstr "Thriller"
 
 #: .\base\enums.py:10
 msgid "Romance"
-msgstr ""
+msgstr "Romance"
 
 #: .\base\enums.py:11
 msgid "Horror"
-msgstr ""
+msgstr "Horreur"
 
 #: .\base\enums.py:12
 msgid "Biography"
-msgstr ""
+msgstr "Biographie"
 
 #: .\base\enums.py:13
 msgid "Autobiography"
-msgstr ""
+msgstr "Autobiographie"
 
 #: .\base\enums.py:14 .\base\templates\base\dashboard.html:31
 msgid "History"
-msgstr "L'Histoire"
+msgstr "Histoire"
 
 #: .\base\enums.py:15
 msgid "Philosophy"
-msgstr ""
+msgstr "Philosophie"
 
 #: .\base\enums.py:16
 msgid "Psychology"
-msgstr ""
+msgstr "Psychologie"
 
 #: .\base\enums.py:17
 msgid "Science"
@@ -72,1000 +75,1086 @@ msgstr "Technologie"
 
 #: .\base\enums.py:19
 msgid "Health & Fitness"
-msgstr ""
+msgstr "Santé et forme"
 
 #: .\base\enums.py:20
 msgid "Cooking"
-msgstr ""
+msgstr "Cuisine"
 
 #: .\base\enums.py:21
 msgid "Travel"
-msgstr ""
+msgstr "Voyage"
 
 #: .\base\enums.py:22
 msgid "Sports"
-msgstr ""
+msgstr "Sports"
 
 #: .\base\enums.py:23
 msgid "Politics"
-msgstr ""
+msgstr "Politique"
 
 #: .\base\enums.py:24
 msgid "Economics"
-msgstr ""
+msgstr "Économie"
 
 #: .\base\enums.py:25
 msgid "Religion"
-msgstr ""
+msgstr "Religion"
 
 #: .\base\enums.py:26
 msgid "Self Help"
-msgstr ""
+msgstr "Développement personnel"
 
 #: .\base\enums.py:27
 msgid "Business"
-msgstr ""
+msgstr "Affaires"
 
 #: .\base\enums.py:28
 msgid "Education"
-msgstr ""
+msgstr "Éducation"
 
 #: .\base\enums.py:29
 msgid "Children's Books"
-msgstr ""
+msgstr "Livres pour enfants"
 
 #: .\base\enums.py:30 .\base\enums.py:213
 msgid "Young Adult"
-msgstr ""
+msgstr "Jeunes adultes"
 
 #: .\base\enums.py:31
 msgid "Poetry"
-msgstr ""
+msgstr "Poésie"
 
 #: .\base\enums.py:32
 msgid "Drama"
-msgstr ""
+msgstr "Drame"
 
 #: .\base\enums.py:33
 msgid "Classics"
-msgstr ""
+msgstr "Classiques"
 
 #: .\base\enums.py:34
 msgid "Contemporary Fiction"
-msgstr ""
+msgstr "Fiction contemporaine"
 
 #: .\base\enums.py:35
 msgid "Historical Fiction"
-msgstr ""
+msgstr "Fiction historique"
 
 #: .\base\enums.py:36
 msgid "Crime"
-msgstr ""
+msgstr "Policier"
 
 #: .\base\enums.py:37
 msgid "Adventure"
-msgstr ""
+msgstr "Aventure"
 
 #: .\base\enums.py:38
 msgid "Humor"
-msgstr ""
+msgstr "Humour"
 
 #: .\base\enums.py:39
 msgid "Arts & Music"
-msgstr ""
+msgstr "Arts et musique"
 
 #: .\base\enums.py:40
 msgid "Reference"
-msgstr ""
+msgstr "Référence"
 
 #: .\base\enums.py:41 .\base\enums.py:295
 msgid "Other"
-msgstr ""
+msgstr "Autre"
 
 #: .\base\enums.py:75
 msgid "English"
-msgstr ""
+msgstr "Anglais"
 
 #: .\base\enums.py:76
 msgid "French"
-msgstr ""
+msgstr "Français"
 
 #: .\base\enums.py:77
 msgid "Ukrainian"
-msgstr ""
+msgstr "Ukrainien"
 
 #: .\base\enums.py:111
 msgid "Love & Romance"
-msgstr ""
+msgstr "Amour et romance"
 
 #: .\base\enums.py:112
 msgid "Betrayal"
-msgstr ""
+msgstr "Trahison"
 
 #: .\base\enums.py:113
 msgid "Redemption"
-msgstr ""
+msgstr "Rédemption"
 
 #: .\base\enums.py:114
 msgid "Coming of Age"
-msgstr ""
+msgstr "Passage à l'âge adulte"
 
 #: .\base\enums.py:115
 msgid "Good vs Evil"
-msgstr ""
+msgstr "Bien contre le mal"
 
 #: .\base\enums.py:116
 msgid "Identity & Self-Discovery"
-msgstr ""
+msgstr "Identité et découverte de soi"
 
 #: .\base\enums.py:117
 msgid "Survival"
-msgstr ""
+msgstr "Survie"
 
 #: .\base\enums.py:118
 msgid "Family & Relationships"
-msgstr ""
+msgstr "Famille et relations"
 
 #: .\base\enums.py:119
 msgid "Friendship & Loyalty"
-msgstr ""
+msgstr "Amitié et loyauté"
 
 #: .\base\enums.py:120
 msgid "Power & Corruption"
-msgstr ""
+msgstr "Pouvoir et corruption"
 
 #: .\base\enums.py:121
 msgid "Revenge"
-msgstr ""
+msgstr "Vengeance"
 
 #: .\base\enums.py:122
 msgid "Sacrifice"
-msgstr ""
+msgstr "Sacrifice"
 
 #: .\base\enums.py:123
 msgid "Freedom & Liberation"
-msgstr ""
+msgstr "Liberté et libération"
 
 #: .\base\enums.py:124
 msgid "Justice & Morality"
-msgstr ""
+msgstr "Justice et moralité"
 
 #: .\base\enums.py:125
 msgid "War & Conflict"
-msgstr ""
+msgstr "Guerre et conflit"
 
 #: .\base\enums.py:126
 msgid "Death & Mortality"
-msgstr ""
+msgstr "Mort et mortalité"
 
 #: .\base\enums.py:127
 msgid "Hope & Perseverance"
-msgstr ""
+msgstr "Espoir et persévérance"
 
 #: .\base\enums.py:128
 msgid "Faith & Spirituality"
-msgstr ""
+msgstr "Foi et spiritualité"
 
 #: .\base\enums.py:129
 msgid "Social Class & Inequality"
-msgstr ""
+msgstr "Classe sociale et inégalité"
 
 #: .\base\enums.py:130
 msgid "Prejudice & Discrimination"
-msgstr ""
+msgstr "Préjugés et discrimination"
 
 #: .\base\enums.py:131
 msgid "Loss & Grief"
-msgstr ""
+msgstr "Perte et deuil"
 
 #: .\base\enums.py:132
 msgid "Transformation & Change"
-msgstr ""
+msgstr "Transformation et changement"
 
 #: .\base\enums.py:133
 msgid "Destiny & Fate"
-msgstr ""
+msgstr "Destin et fatalité"
 
 #: .\base\enums.py:134
 msgid "Isolation & Loneliness"
-msgstr ""
+msgstr "Isolement et solitude"
 
 #: .\base\enums.py:135
 msgid "Courage & Heroism"
-msgstr ""
+msgstr "Courage et héroïsme"
 
 #: .\base\enums.py:169
 msgid "Light & Humorous"
-msgstr ""
+msgstr "Léger et humoristique"
 
 #: .\base\enums.py:170
 msgid "Dark & Serious"
-msgstr ""
+msgstr "Sombre et sérieux"
 
 #: .\base\enums.py:171
 msgid "Satirical & Ironic"
-msgstr ""
+msgstr "Satirique et ironique"
 
 #: .\base\enums.py:172
 msgid "Romantic & Sentimental"
-msgstr ""
+msgstr "Romantique et sentimental"
 
 #: .\base\enums.py:173
 msgid "Mysterious & Suspenseful"
-msgstr ""
+msgstr "Mystérieux et plein de suspense"
 
 #: .\base\enums.py:174
 msgid "Optimistic & Uplifting"
-msgstr ""
+msgstr "Optimiste et inspirant"
 
 #: .\base\enums.py:175
 msgid "Pessimistic & Bleak"
-msgstr ""
+msgstr "Pessimiste et sombre"
 
 #: .\base\enums.py:176
 msgid "Whimsical & Fantastical"
-msgstr ""
+msgstr "Fantaisiste et fantastique"
 
 #: .\base\enums.py:177
 msgid "Nostalgic & Reflective"
-msgstr ""
+msgstr "Nostalgique et réfléchi"
 
 #: .\base\enums.py:178
 msgid "Serene & Peaceful"
-msgstr ""
+msgstr "Serein et paisible"
 
 #: .\base\enums.py:212
 msgid "Children"
-msgstr ""
+msgstr "Enfants"
 
 #: .\base\enums.py:214
 msgid "Adult"
-msgstr ""
+msgstr "Adultes"
 
 #: .\base\enums.py:215
 msgid "General Audience"
-msgstr ""
+msgstr "Grand public"
 
 #: .\base\enums.py:249
 msgid "Beginner"
-msgstr ""
+msgstr "Débutant"
 
 #: .\base\enums.py:250
 msgid "Intermediate"
-msgstr ""
+msgstr "Intermédiaire"
 
 #: .\base\enums.py:251
 msgid "Advanced"
-msgstr ""
+msgstr "Avancé"
 
 #: .\base\enums.py:252
 msgid "Expert"
-msgstr ""
+msgstr "Expert"
 
 #: .\base\enums.py:286
 msgid "Author Talk"
-msgstr ""
+msgstr "Rencontre d'auteur"
 
 #: .\base\enums.py:287
 msgid "Book Club"
-msgstr ""
+msgstr "Club de lecture"
 
 #: .\base\enums.py:288
 msgid "Workshop"
-msgstr ""
+msgstr "Atelier"
 
 #: .\base\enums.py:289
 msgid "Story Time"
-msgstr ""
+msgstr "Heure du conte"
 
 #: .\base\enums.py:290
 msgid "Literary Festival"
-msgstr ""
+msgstr "Festival littéraire"
 
 #: .\base\enums.py:291
 msgid "Poetry Reading"
-msgstr ""
+msgstr "Lecture de poésie"
 
 #: .\base\enums.py:292
 msgid "Writing Seminar"
-msgstr ""
+msgstr "Séminaire d'écriture"
 
 #: .\base\enums.py:293
 msgid "Cultural Event"
-msgstr ""
+msgstr "Événement culturel"
 
 #: .\base\enums.py:294
 msgid "Educational Program"
-msgstr ""
+msgstr "Programme éducatif"
 
-#: .\base\templates\base\collection.html:13
+#: .\base\models.py:168
+msgid "book"
+msgstr "livre"
+
+#: .\base\models.py:169
+msgid "books"
+msgstr "livres"
+
+#: .\base\models.py:176
+msgid "member"
+msgstr "membre"
+
+#: .\base\models.py:177
+msgid "members"
+msgstr "membres"
+
+#: .\base\models.py:197
+msgid "loan"
+msgstr "prêt"
+
+#: .\base\models.py:198
+msgid "loans"
+msgstr "prêts"
+
+#: .\base\models.py:228
+msgid "hero section"
+msgstr "section principale"
+
+#: .\base\models.py:229
+msgid "hero sections"
+msgstr "sections principales"
+
+#: .\base\models.py:238
+msgid "featured item"
+msgstr "élément vedette"
+
+#: .\base\models.py:239
+msgid "featured items"
+msgstr "éléments vedettes"
+
+#: .\base\models.py:256
+msgid "item hold"
+msgstr "réservation d'élément"
+
+#: .\base\models.py:257
+msgid "item holds"
+msgstr "réservations d'élément"
+
+#: .\base\models.py:308
+msgid "event"
+msgstr "événement"
+
+#: .\base\models.py:309
+msgid "events"
+msgstr "événements"
+
+#: .\base\models.py:315
+msgid "featured event"
+msgstr "événement vedette"
+
+#: .\base\models.py:316
+msgid "featured events"
+msgstr "événements vedettes"
+
+#: .\base\templates\base\collection.html:14
 #: .\base\templates\base\events.html:30
 msgid "Filters"
-msgstr ""
+msgstr "Filtres"
 
-#: .\base\templates\base\collection.html:15
-#: .\base\templates\base\collection.html:130
-#: .\base\templates\base\events.html:55
-msgid "Search"
-msgstr ""
-
-#: .\base\templates\base\collection.html:16
-msgid "Search the collection..."
-msgstr ""
-
-#: .\base\templates\base\collection.html:20 .\base\templates\base\item.html:33
-msgid "Genre"
-msgstr ""
+#: .\base\templates\base\collection.html:21
+#: .\base\templates\base\layout.html:41
+msgid "Books"
+msgstr "Livres"
 
 #: .\base\templates\base\collection.html:28
-#: .\base\templates\base\collection.html:46
-#: .\base\templates\base\collection.html:64
-#: .\base\templates\base\collection.html:82
-#: .\base\templates\base\collection.html:100
-#: .\base\templates\base\collection.html:118
+msgid "Films & TV"
+msgstr "Films et télé"
+
+#: .\base\templates\base\collection.html:35
+#: .\base\templates\base\layout.html:43
+msgid "Music"
+msgstr "Musique"
+
+#: .\base\templates\base\collection.html:41
+#: .\base\templates\base\collection.html:156
+#: .\base\templates\base\events.html:55
+msgid "Search"
+msgstr "Rechercher"
+
+#: .\base\templates\base\collection.html:42
+msgid "Search the collection..."
+msgstr "Rechercher dans la collection..."
+
+#: .\base\templates\base\collection.html:46 .\base\templates\base\item.html:33
+msgid "Genre"
+msgstr "Genre"
+
+#: .\base\templates\base\collection.html:54
+#: .\base\templates\base\collection.html:72
+#: .\base\templates\base\collection.html:90
+#: .\base\templates\base\collection.html:108
+#: .\base\templates\base\collection.html:126
+#: .\base\templates\base\collection.html:144
 msgid "Show more"
-msgstr ""
+msgstr "Afficher plus"
 
-#: .\base\templates\base\collection.html:38 .\base\templates\base\item.html:29
+#: .\base\templates\base\collection.html:64 .\base\templates\base\item.html:29
 msgid "Language"
-msgstr ""
+msgstr "Langue"
 
-#: .\base\templates\base\collection.html:56
+#: .\base\templates\base\collection.html:82
 msgid "Theme"
-msgstr ""
+msgstr "Thème"
 
-#: .\base\templates\base\collection.html:74
+#: .\base\templates\base\collection.html:100
 msgid "Tone"
-msgstr ""
+msgstr "Ton"
 
-#: .\base\templates\base\collection.html:92
+#: .\base\templates\base\collection.html:118
 msgid "Audience"
-msgstr ""
+msgstr "Public"
 
-#: .\base\templates\base\collection.html:110
+#: .\base\templates\base\collection.html:136
 msgid "Language level"
-msgstr ""
+msgstr "Niveau de langue"
 
-#: .\base\templates\base\collection.html:129
+#: .\base\templates\base\collection.html:155
 #: .\base\templates\base\events.html:54
 msgid "Clear filters"
-msgstr ""
+msgstr "Effacer les filtres"
 
-#: .\base\templates\base\collection.html:135
+#: .\base\templates\base\collection.html:161
 #, python-format
 msgid "Showing %(counter)s result"
 msgid_plural "Showing %(counter)s results"
-msgstr[0] "Montrer %(counter)s resulte"
-msgstr[1] "Montrer %(counter)s resultes"
+msgstr[0] "Affichage de %(counter)s résultat"
+msgstr[1] "Affichage de %(counter)s résultats"
 
-#: .\base\templates\base\collection.html:155
+#: .\base\templates\base\collection.html:183
+#: .\base\templates\base\collection.html:213
 msgid "New"
-msgstr ""
+msgstr "Nouveau"
 
-#: .\base\templates\base\collection.html:161
+#: .\base\templates\base\collection.html:195
+#: .\base\templates\base\collection.html:219
 msgid "Sorry, no items found matching your criteria."
-msgstr ""
+msgstr "Désolé, aucun élément ne correspond à vos critères."
 
 #: .\base\templates\base\components\pagination.html:6
 msgid "Previous"
-msgstr ""
+msgstr "Précédent"
 
 #: .\base\templates\base\components\pagination.html:34
 msgid "Next"
-msgstr ""
+msgstr "Suivant"
 
 #: .\base\templates\base\dashboard.html:12
 msgid "Your Library"
-msgstr ""
+msgstr "Votre bibliothèque"
 
 #: .\base\templates\base\dashboard.html:16
 msgid "Relevant Items"
-msgstr ""
+msgstr "Éléments pertinents"
 
 #: .\base\templates\base\dashboard.html:21
 msgid "Due soon"
-msgstr ""
+msgstr "Bientôt à échéance"
 
 #: .\base\templates\base\dashboard.html:26
 msgid "Overdue"
-msgstr ""
+msgstr "En retard"
 
 #: .\base\templates\base\dashboard.html:47
 msgid "Loaned on"
-msgstr ""
+msgstr "Emprunté le"
 
 #: .\base\templates\base\dashboard.html:50
 msgid "Due on"
-msgstr ""
+msgstr "À rendre le"
 
 #: .\base\templates\base\dashboard.html:55
 #, python-format
 msgid "This item is overdue by %(days)s day!"
 msgid_plural "This item is overdue by %(days)s days!"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Cet élément est en retard de %(days)s jour !"
+msgstr[1] "Cet élément est en retard de %(days)s jours !"
 
 #: .\base\templates\base\dashboard.html:65
 msgid "Nothing here"
-msgstr ""
+msgstr "Rien ici"
 
-#: .\base\templates\base\event.html:18
+#: .\base\templates\base\event.html:22
 msgid "Event Details"
-msgstr ""
+msgstr "Détails de l'événement"
 
-#: .\base\templates\base\event.html:23
+#: .\base\templates\base\event.html:27
 #, python-format
 msgid "%(count)s other person is interested"
 msgid_plural "%(count)s other people are interested"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%(count)s autre personne est intéressée"
+msgstr[1] "%(count)s autres personnes sont intéressées"
 
-#: .\base\templates\base\event.html:31
+#: .\base\templates\base\event.html:35
 msgid "I'm Interested"
-msgstr ""
+msgstr "Ça m'intéresse"
 
-#: .\base\templates\base\event.html:32
+#: .\base\templates\base\event.html:36
 msgid "Add to Calendar"
-msgstr ""
+msgstr "Ajouter au calendrier"
 
-#: .\base\templates\base\event.html:48 .\base\templates\base\event.html:61
-msgid "There was an error recording your interest."
-msgstr ""
-
-#: .\base\templates\base\event.html:53
+#: .\base\templates\base\event.html:76
 msgid ""
 "Your interest has been recorded! Thank you for helping us plan this event."
-msgstr ""
+msgstr "Votre intérêt a été enregistré ! Merci de nous aider à organiser cet événement."
 
-#: .\base\templates\base\event.html:56
+#: .\base\templates\base\event.html:79
 msgid "Your interest has been removed."
-msgstr ""
+msgstr "Votre intérêt a été retiré."
+
+#: .\base\templates\base\event.html:84
+msgid "There was an error recording your interest."
+msgstr "Une erreur est survenue lors de l'enregistrement de votre intérêt."
 
 #: .\base\templates\base\events.html:16
 msgid "Featured Event"
-msgstr ""
+msgstr "Événement vedette"
 
 #: .\base\templates\base\events.html:20 .\base\templates\base\events.html:83
 #: .\base\templates\base\home.html:120
 msgid "Learn More"
-msgstr ""
+msgstr "En savoir plus"
 
 #: .\base\templates\base\events.html:26
 msgid "Event Calendar"
-msgstr ""
+msgstr "Calendrier des événements"
 
 #: .\base\templates\base\events.html:33
 msgid "Day"
-msgstr ""
+msgstr "Jour"
 
 #: .\base\templates\base\events.html:36
 msgid "Weekdays"
-msgstr ""
+msgstr "Jours de semaine"
 
 #: .\base\templates\base\events.html:40
 msgid "Weekends"
-msgstr ""
+msgstr "Week-ends"
 
 #: .\base\templates\base\events.html:44
 msgid "Event type"
-msgstr ""
+msgstr "Type d'événement"
 
 #: .\base\templates\base\events.html:87
 msgid "No events found."
-msgstr ""
+msgstr "Aucun événement trouvé."
 
 #: .\base\templates\base\favourites.html:12
 msgid "Your Favourites"
-msgstr ""
+msgstr "Vos favoris"
 
 #: .\base\templates\base\favourites.html:26
 msgid "Added on"
-msgstr ""
+msgstr "Ajouté le"
 
 #: .\base\templates\base\favourites.html:31
 #, python-format
 msgid "%(copies)s copy available"
 msgid_plural "%(copies)s copies available"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%(copies)s exemplaire disponible"
+msgstr[1] "%(copies)s exemplaires disponibles"
 
 #: .\base\templates\base\favourites.html:46
 msgid "You have no favourite items yet."
-msgstr ""
+msgstr "Vous n'avez pas encore de favoris."
 
 #: .\base\templates\base\home.html:28 .\base\templates\base\home.html:48
 msgid "Family Reading Together"
-msgstr ""
+msgstr "Lecture en famille"
 
 #: .\base\templates\base\home.html:29 .\base\templates\base\home.html:49
 msgid "Warm family scene placeholder"
-msgstr ""
+msgstr "Illustration d'une scène familiale chaleureuse"
 
 #: .\base\templates\base\home.html:39
 msgid "Your Cultural Home Away From Home"
-msgstr ""
+msgstr "Votre foyer culturel loin de chez vous"
 
 #: .\base\templates\base\home.html:41
 msgid "View catalog"
-msgstr ""
+msgstr "Voir le catalogue"
 
 #: .\base\templates\base\home.html:42
 msgid "Upcoming events"
-msgstr ""
+msgstr "Événements à venir"
 
 #: .\base\templates\base\home.html:61
 msgid "Hours"
-msgstr ""
+msgstr "Horaires"
 
 #: .\base\templates\base\home.html:62
 msgid "9 AM - 6 PM"
-msgstr ""
+msgstr "9 h - 18 h"
 
 #: .\base\templates\base\home.html:68
 msgid "Location"
-msgstr ""
+msgstr "Lieu"
 
 #: .\base\templates\base\home.html:69
 msgid "Hour | Location"
-msgstr ""
+msgstr "Horaires | Lieu"
 
 #: .\base\templates\base\home.html:75
 msgid "Phone"
-msgstr ""
+msgstr "Téléphone"
 
 #: .\base\templates\base\home.html:84
 msgid "Our Collection"
-msgstr ""
+msgstr "Notre collection"
 
 #: .\base\templates\base\home.html:85
 msgid ""
 "Our community is unique in shaping our collection through various events, "
 "readings, and courses."
 msgstr ""
+"Notre communauté contribue de manière unique à façonner notre collection "
+"grâce à divers événements, lectures et cours."
 
 #: .\base\templates\base\home.html:90
 msgid "Community & Support"
-msgstr ""
+msgstr "Communauté et soutien"
 
 #: .\base\templates\base\home.html:91
 msgid ""
-"Join Our Treasures and community community & support mentorrs, and support "
-"in wins."
+"Join our community for mentorship, connection, and support as you settle in "
+"and grow."
 msgstr ""
+"Rejoignez notre communauté pour trouver du mentorat, des liens et du "
+"soutien pendant que vous vous installez et évoluez."
 
 #: .\base\templates\base\home.html:96
 msgid "Learn & Grow"
-msgstr ""
+msgstr "Apprendre et grandir"
 
 #: .\base\templates\base\home.html:97
 msgid ""
-"Learn more about current event and how to enroll afturmaila technicus and "
-"realturity and more."
+"Learn more about current events and how to join upcoming programs, "
+"workshops, and more."
 msgstr ""
+"Découvrez les événements en cours et comment participer aux prochains "
+"programmes, ateliers et bien plus encore."
 
 #: .\base\templates\base\home.html:103
 msgid "New Arrivals"
-msgstr ""
+msgstr "Nouveautés"
 
 #: .\base\templates\base\home.html:117
 msgid "Librarian's Pick"
-msgstr ""
+msgstr "La sélection du bibliothécaire"
 
-#: .\base\templates\base\home.html:129
+#: .\base\templates\base\home.html:130
 msgid "Upcoming Events"
-msgstr ""
+msgstr "Événements à venir"
 
-#: .\base\templates\base\home.html:132
-msgid "Українська Діа - Бібліотека"
-msgstr ""
-
-#: .\base\templates\base\home.html:133
-msgid "Ukrainian Dia-Library Services"
-msgstr ""
-
-#: .\base\templates\base\home.html:134
+#: .\base\templates\base\home.html:137
 msgid "Read More"
-msgstr ""
+msgstr "En savoir plus"
 
 #: .\base\templates\base\item.html:16
 msgid "No image available"
-msgstr ""
+msgstr "Aucune image disponible"
 
 #: .\base\templates\base\item.html:21
 msgid "Author"
-msgstr ""
+msgstr "Auteur"
 
 #: .\base\templates\base\item.html:25
 msgid "Published Date"
-msgstr ""
+msgstr "Date de publication"
 
 #: .\base\templates\base\item.html:39
 msgid "Read more"
-msgstr ""
+msgstr "Lire plus"
 
 #: .\base\templates\base\item.html:69
 msgid "Your loan"
-msgstr ""
+msgstr "Votre prêt"
 
 #: .\base\templates\base\item.html:71
 msgid "Preparing your item. Ready on:"
-msgstr ""
+msgstr "Nous préparons votre élément. Prêt le :"
 
 #: .\base\templates\base\item.html:75
 msgid "This item has an unlimited loan period."
-msgstr ""
+msgstr "Cet élément a une durée de prêt illimitée."
 
 #: .\base\templates\base\item.html:77
 #, python-format
 msgid "Overdue by: %(days_overdue)s day"
 msgid_plural "Overdue by: %(days_overdue)s days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "En retard de : %(days_overdue)s jour"
+msgstr[1] "En retard de : %(days_overdue)s jours"
 
 #: .\base\templates\base\item.html:83
 msgid "Due today"
-msgstr ""
+msgstr "À rendre aujourd'hui"
 
 #: .\base\templates\base\item.html:85
 #, python-format
 msgid "Time left: %(days_left)s day"
 msgid_plural "Time left: %(days_left)s days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Temps restant : %(days_left)s jour"
+msgstr[1] "Temps restant : %(days_left)s jours"
 
 #: .\base\templates\base\item.html:94
 msgid "Available copies"
-msgstr ""
+msgstr "Exemplaires disponibles"
 
 #: .\base\templates\base\item.html:97
 #, python-format
 msgid "Available to borrow: %(available_copies)s copy"
 msgid_plural "Available to borrow: %(available_copies)s copies"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Disponible à l'emprunt : %(available_copies)s exemplaire"
+msgstr[1] "Disponibles à l'emprunt : %(available_copies)s exemplaires"
 
 #: .\base\templates\base\item.html:104
 msgid "Currently unavailable"
-msgstr ""
+msgstr "Actuellement indisponible"
 
 #: .\base\templates\base\item.html:104
 msgid "on hold"
-msgstr ""
+msgstr "réservé"
 
 #: .\base\templates\base\item.html:109
 #, python-format
 msgid "Your position in queue: %(user_position_in_hold_queue)s."
-msgstr ""
+msgstr "Votre position dans la file d'attente : %(user_position_in_hold_queue)s."
 
 #: .\base\templates\base\item.html:123
 msgid "You have borrowed this item"
-msgstr ""
+msgstr "Vous avez emprunté cet élément"
 
 #: .\base\templates\base\item.html:126
 msgid "Cancel item request"
-msgstr ""
+msgstr "Annuler la demande d'élément"
 
 #: .\base\templates\base\item.html:130 .\base\templates\base\item.html:132
 msgid "Borrow this item"
-msgstr ""
+msgstr "Emprunter cet élément"
 
 #: .\base\templates\base\item.html:134 .\base\templates\base\item.html:238
 msgid "Place a hold"
-msgstr ""
+msgstr "Réserver"
 
 #: .\base\templates\base\item.html:136 .\base\templates\base\item.html:228
 msgid "Cancel hold"
-msgstr ""
+msgstr "Annuler la réservation"
 
 #: .\base\templates\base\item.html:141
 msgid "Log in to borrow"
-msgstr ""
+msgstr "Connectez-vous pour emprunter"
 
 #: .\base\templates\base\item.html:196
 msgid "Item added to favorites!"
-msgstr ""
+msgstr "Élément ajouté aux favoris !"
 
 #: .\base\templates\base\item.html:198
 msgid "Item removed from favorites."
-msgstr ""
+msgstr "Élément retiré des favoris."
 
 #: .\base\templates\base\item.html:203
 msgid "Failed to update favorites. Please try again."
-msgstr ""
+msgstr "Échec de la mise à jour des favoris. Veuillez réessayer."
 
 #: .\base\templates\base\item.html:232
 msgid "Your position in queue"
-msgstr ""
+msgstr "Votre position dans la file d'attente"
 
 #: .\base\templates\base\item.html:246
 msgid "Failed to place hold. Please try again."
-msgstr ""
+msgstr "Impossible d'effectuer la réservation. Veuillez réessayer."
 
-#: .\base\templates\base\layout.html:9 .\base\templates\base\layout.html:135
+#: .\base\templates\base\layout.html:9 .\base\templates\base\layout.html:149
 msgid "Ridna Library"
-msgstr ""
+msgstr "Ridna Library"
 
-#: .\base\templates\base\layout.html:34 .\base\templates\base\layout.html:97
+#: .\base\templates\base\layout.html:35 .\base\templates\base\layout.html:98
 msgid "About"
-msgstr ""
+msgstr "À propos"
 
-#: .\base\templates\base\layout.html:36
+#: .\base\templates\base\layout.html:37
 msgid "Collection"
-msgstr ""
-
-#: .\base\templates\base\layout.html:38
-msgid "For You"
-msgstr ""
+msgstr "Collection"
 
 #: .\base\templates\base\layout.html:39
-msgid "For sale"
-msgstr ""
+msgid "For You"
+msgstr "Pour vous"
 
 #: .\base\templates\base\layout.html:40
-msgid "Books"
-msgstr ""
-
-#: .\base\templates\base\layout.html:41
-msgid "Film & TV"
-msgstr ""
+msgid "For sale"
+msgstr "À vendre"
 
 #: .\base\templates\base\layout.html:42
-msgid "Music"
-msgstr ""
-
-#: .\base\templates\base\layout.html:45
-msgid "Events"
-msgstr ""
+msgid "Film & TV"
+msgstr "Film et télé"
 
 #: .\base\templates\base\layout.html:46
-msgid "Resources"
-msgstr ""
+msgid "Events"
+msgstr "Événements"
 
 #: .\base\templates\base\layout.html:47
-msgid "Get involved"
-msgstr ""
+msgid "Resources"
+msgstr "Ressources"
 
-#: .\base\templates\base\layout.html:78
-msgid "Dashboard"
-msgstr ""
+#: .\base\templates\base\layout.html:48
+msgid "Get involved"
+msgstr "Participer"
 
 #: .\base\templates\base\layout.html:79
-msgid "Favourites"
-msgstr ""
+msgid "Dashboard"
+msgstr "Tableau de bord"
 
 #: .\base\templates\base\layout.html:80
+msgid "Favourites"
+msgstr "Favoris"
+
+#: .\base\templates\base\layout.html:81
 msgid "Log out"
-msgstr ""
+msgstr "Se déconnecter"
 
-#: .\base\templates\base\layout.html:95
-msgid "Company"
-msgstr ""
-
-#: .\base\templates\base\layout.html:98
-msgid "Careers"
-msgstr ""
+#: .\base\templates\base\layout.html:96
+msgid "Library"
+msgstr "Bibliothèque"
 
 #: .\base\templates\base\layout.html:99
-msgid "Press Center"
-msgstr ""
-
-#: .\base\templates\base\layout.html:100
-msgid "Investor Relations"
-msgstr ""
-
-#: .\base\templates\base\layout.html:101
-msgid "Trust Center"
-msgstr ""
-
-#: .\base\templates\base\layout.html:106
-msgid "Links"
-msgstr ""
-
-#: .\base\templates\base\layout.html:108
-msgid "Download Extension"
-msgstr ""
-
-#: .\base\templates\base\layout.html:109
-msgid "Desktop"
-msgstr ""
+msgid "Volunteering"
+msgstr "Bénévolat"
 
 #: .\base\templates\base\layout.html:110
-msgid "Mobile"
-msgstr ""
+msgid "Links"
+msgstr "Liens"
 
-#: .\base\templates\base\layout.html:111
-msgid "Status"
-msgstr ""
+#: .\base\templates\base\layout.html:112
+msgid "HEUCC website"
+msgstr "Site Web de HEUCC"
 
-#: .\base\templates\base\layout.html:116
+#: .\base\templates\base\layout.html:123
 msgid "Contact"
-msgstr ""
+msgstr "Contact"
 
-#: .\base\templates\base\layout.html:125
+#: .\base\templates\base\layout.html:132
 msgid "Newsletter Signup"
-msgstr ""
+msgstr "Inscription à l'infolettre"
 
-#: .\base\templates\base\layout.html:126
+#: .\base\templates\base\layout.html:133
 msgid "Stay updated with our latest arrivals and events"
-msgstr ""
+msgstr "Restez informé de nos dernières nouveautés et de nos événements"
 
-#: .\base\templates\base\layout.html:128
+#: .\base\templates\base\layout.html:137
 msgid "Your email address"
-msgstr ""
+msgstr "Votre adresse e-mail"
 
-#: .\base\templates\base\layout.html:129
+#: .\base\templates\base\layout.html:140
 msgid "Subscribe"
-msgstr ""
+msgstr "S'abonner"
 
-#: .\base\templates\base\layout.html:135
+#: .\base\templates\base\layout.html:149
 msgid "All rights reserved."
-msgstr ""
+msgstr "Tous droits réservés."
 
-#: .\base\templates\base\login.html:7 .\base\templates\base\login.html:38
+#: .\base\templates\base\layout.html:151
+msgid "Facebook"
+msgstr "Facebook"
+
+#: .\base\templates\base\layout.html:154
+msgid "X / Twitter"
+msgstr "X / Twitter"
+
+#: .\base\templates\base\layout.html:157
+msgid "Instagram"
+msgstr "Instagram"
+
+#: .\base\templates\base\layout.html:160
+msgid "YouTube"
+msgstr "YouTube"
+
+#: .\base\templates\base\layout.html:267
+msgid "Submitting..."
+msgstr "Envoi en cours..."
+
+#: .\base\templates\base\layout.html:268
+msgid "Subscribed!"
+msgstr "Abonné !"
+
+#: .\base\templates\base\layout.html:269 .\base\views.py:91
+msgid "Thanks for subscribing!"
+msgstr "Merci pour votre abonnement !"
+
+#: .\base\templates\base\layout.html:270 .\base\views.py:91
+msgid "Something went wrong. Please try again."
+msgstr "Un problème est survenu. Veuillez réessayer."
+
+#: .\base\templates\base\login.html:7 .\base\templates\base\login.html:41
 msgid "Login"
-msgstr ""
+msgstr "Connexion"
 
-#: .\base\templates\base\login.html:11 .\base\templates\base\register.html:11
+#: .\base\templates\base\login.html:14 .\base\templates\base\register.html:11
 msgid "Username"
-msgstr ""
+msgstr "Nom d'utilisateur"
 
-#: .\base\templates\base\login.html:17
+#: .\base\templates\base\login.html:20
 msgid "Enter your username"
-msgstr ""
+msgstr "Entrez votre nom d'utilisateur"
 
-#: .\base\templates\base\login.html:24 .\base\templates\base\register.html:37
+#: .\base\templates\base\login.html:27 .\base\templates\base\register.html:37
 msgid "Password"
-msgstr ""
+msgstr "Mot de passe"
 
-#: .\base\templates\base\login.html:30 .\base\templates\base\register.html:43
+#: .\base\templates\base\login.html:33 .\base\templates\base\register.html:43
 msgid "Enter your password"
-msgstr ""
+msgstr "Entrez votre mot de passe"
 
-#: .\base\templates\base\login.html:43
+#: .\base\templates\base\login.html:46
 msgid "Don't have an account?"
-msgstr ""
+msgstr "Vous n'avez pas de compte ?"
 
-#: .\base\templates\base\login.html:44
+#: .\base\templates\base\login.html:47
 msgid "Register here"
-msgstr ""
+msgstr "Inscrivez-vous ici"
 
 #: .\base\templates\base\register.html:7 .\base\templates\base\register.html:64
 msgid "Register"
-msgstr ""
+msgstr "S'inscrire"
 
 #: .\base\templates\base\register.html:17
 msgid "Choose a username"
-msgstr ""
+msgstr "Choisissez un nom d'utilisateur"
 
 #: .\base\templates\base\register.html:24
 msgid "Email"
-msgstr ""
+msgstr "E-mail"
 
 #: .\base\templates\base\register.html:30
 msgid "Enter your email address"
-msgstr ""
+msgstr "Entrez votre adresse e-mail"
 
 #: .\base\templates\base\register.html:50
 msgid "Confirm Password"
-msgstr ""
+msgstr "Confirmez le mot de passe"
 
 #: .\base\templates\base\register.html:56
 msgid "Confirm your password"
-msgstr ""
+msgstr "Confirmez votre mot de passe"
 
 #: .\base\templates\base\register.html:69
 msgid "Already have an account?"
-msgstr ""
+msgstr "Vous avez déjà un compte ?"
 
 #: .\base\templates\base\register.html:70
 msgid "Login here"
-msgstr ""
+msgstr "Connectez-vous ici"
 
-#: .\base\views.py:56
+#: .\base\views.py:86
+msgid "We could not reach the newsletter service. Please try again."
+msgstr "Nous n'avons pas pu joindre le service d'infolettre. Veuillez réessayer."
+
+#: .\base\views.py:130
 msgid "Item request cancelled successfully!"
-msgstr ""
+msgstr "La demande d'élément a été annulée avec succès !"
 
-#: .\base\views.py:58
+#: .\base\views.py:132
 msgid "No pending request found to cancel."
-msgstr ""
+msgstr "Aucune demande en attente à annuler."
 
-#: .\base\views.py:61
+#: .\base\views.py:135
 msgid "This item is currently not available for borrowing."
-msgstr ""
+msgstr "Cet élément n'est actuellement pas disponible à l'emprunt."
 
-#: .\base\views.py:63
+#: .\base\views.py:137
 msgid "You must be logged in to borrow items."
-msgstr ""
+msgstr "Vous devez être connecté pour emprunter des éléments."
 
-#: .\base\views.py:65
+#: .\base\views.py:139
 msgid "You have already borrowed this item and not yet returned it."
-msgstr ""
+msgstr "Vous avez déjà emprunté cet élément et ne l'avez pas encore retourné."
 
-#: .\base\views.py:67
+#: .\base\views.py:141
 msgid "You have already requested this item and it is not yet received."
-msgstr ""
+msgstr "Vous avez déjà demandé cet élément et ne l'avez pas encore reçu."
 
-#: .\base\views.py:71
+#: .\base\views.py:145
 #, python-format
 msgid "Item successfully borrowed! Pick it up on %(loan_date)s."
-msgstr ""
+msgstr "Élément emprunté avec succès ! Venez le récupérer le %(loan_date)s."
 
-#: .\base\views.py:82
+#: .\base\views.py:156
 msgid "You must be logged in to place a hold."
-msgstr ""
+msgstr "Vous devez être connecté pour réserver un élément."
 
-#: .\base\views.py:87
+#: .\base\views.py:161
 msgid "You already have a hold on this item."
-msgstr ""
+msgstr "Vous avez déjà une réservation sur cet élément."
 
-#: .\base\views.py:91
+#: .\base\views.py:165
 #, python-format
 msgid ""
 "You have successfully placed a hold on this item. Your position in the queue "
 "is %(position)s."
-msgstr ""
+msgstr "Vous avez réservé cet élément avec succès. Votre position dans la file d'attente est %(position)s."
 
-#: .\base\views.py:100
+#: .\base\views.py:174
 msgid "You must be logged in to cancel a hold."
-msgstr ""
+msgstr "Vous devez être connecté pour annuler une réservation."
 
-#: .\base\views.py:105
+#: .\base\views.py:179
 msgid "Your hold has been successfully cancelled."
-msgstr ""
+msgstr "Votre réservation a bien été annulée."
 
-#: .\base\views.py:107
+#: .\base\views.py:181
 msgid "You do not have a hold on this item."
-msgstr ""
+msgstr "Vous n'avez pas de réservation sur cet élément."
 
-#: .\base\views.py:127 .\base\views.py:478
+#: .\base\views.py:202 .\base\views.py:595
 msgid "User not authenticated"
-msgstr ""
+msgstr "Utilisateur non authentifié"
 
-#: .\base\views.py:224 .\base\views.py:266
+#: .\base\views.py:336 .\base\views.py:376
 msgid "Please fill in all fields."
-msgstr ""
+msgstr "Veuillez remplir tous les champs."
 
-#: .\base\views.py:231
+#: .\base\views.py:343
 #, python-format
 msgid "Welcome back, %(username)s!"
-msgstr ""
+msgstr "Bon retour, %(username)s !"
 
-#: .\base\views.py:237
+#: .\base\views.py:349
 #, python-format
 msgid "You have %(count)s overdue item. Please return it as soon as possible."
 msgid_plural ""
 "You have %(count)s overdue items. Please return them as soon as possible."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Vous avez %(count)s élément en retard. Veuillez le retourner dès que possible."
+msgstr[1] "Vous avez %(count)s éléments en retard. Veuillez les retourner dès que possible."
 
-#: .\base\views.py:247
+#: .\base\views.py:357
 msgid "Invalid username or password."
-msgstr ""
+msgstr "Nom d'utilisateur ou mot de passe invalide."
 
-#: .\base\views.py:254
+#: .\base\views.py:364
 msgid "You have been successfully logged out."
-msgstr ""
+msgstr "Vous avez été déconnecté avec succès."
 
-#: .\base\views.py:270
+#: .\base\views.py:380
 msgid "Passwords do not match."
-msgstr ""
+msgstr "Les mots de passe ne correspondent pas."
 
-#: .\base\views.py:275
+#: .\base\views.py:385
 msgid "Username already exists. Please choose a different username."
-msgstr ""
+msgstr "Ce nom d'utilisateur existe déjà. Veuillez en choisir un autre."
 
-#: .\base\views.py:280
+#: .\base\views.py:390
 msgid ""
 "Email already registered. Please use a different email or try logging in."
-msgstr ""
+msgstr "Cette adresse e-mail est déjà enregistrée. Veuillez en utiliser une autre ou essayer de vous connecter."
 
-#: .\base\views.py:303
+#: .\base\views.py:413
 #, python-format
 msgid ""
 "Welcome to Ridna Library, %(username)s! Your account has been created "
 "successfully."
-msgstr ""
+msgstr "Bienvenue à Ridna Library, %(username)s ! Votre compte a été créé avec succès."
 
-#: .\base\views.py:307
+#: .\base\views.py:417
 msgid "An error occurred while creating your account. Please try again."
-msgstr ""
+msgstr "Une erreur s'est produite lors de la création de votre compte. Veuillez réessayer."
+
+#: .\recommendations\apps.py:7
+msgid "Recommendations"
+msgstr "Recommandations"

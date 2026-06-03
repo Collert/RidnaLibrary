@@ -3,16 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-05 23:05-0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2026-06-03 15:36-0700\n"
+"PO-Revision-Date: 2026-06-03 15:22-0700\n"
+"Last-Translator: GitHub Copilot <copilot@github.com>\n"
+"Language-Team: Ukrainian\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,1071 +20,1171 @@ msgstr ""
 "100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
 "(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
 
+#: .\base\apps.py:7
+msgid "Base"
+msgstr "Базовий застосунок"
+
 #: .\base\enums.py:6
 msgid "Fantasy"
 msgstr "Фентезі"
 
 #: .\base\enums.py:7
 msgid "Science Fiction"
-msgstr ""
+msgstr "Наукова фантастика"
 
 #: .\base\enums.py:8
 msgid "Mystery"
-msgstr ""
+msgstr "Детектив"
 
 #: .\base\enums.py:9
 msgid "Thriller"
-msgstr ""
+msgstr "Трилер"
 
 #: .\base\enums.py:10
 msgid "Romance"
-msgstr ""
+msgstr "Романтика"
 
 #: .\base\enums.py:11
 msgid "Horror"
-msgstr ""
+msgstr "Жахи"
 
 #: .\base\enums.py:12
 msgid "Biography"
-msgstr ""
+msgstr "Біографія"
 
 #: .\base\enums.py:13
 msgid "Autobiography"
-msgstr ""
+msgstr "Автобіографія"
 
 #: .\base\enums.py:14 .\base\templates\base\dashboard.html:31
 msgid "History"
-msgstr ""
+msgstr "Історія"
 
 #: .\base\enums.py:15
 msgid "Philosophy"
-msgstr ""
+msgstr "Філософія"
 
 #: .\base\enums.py:16
 msgid "Psychology"
-msgstr ""
+msgstr "Психологія"
 
 #: .\base\enums.py:17
 msgid "Science"
-msgstr ""
+msgstr "Наука"
 
 #: .\base\enums.py:18
 msgid "Technology"
-msgstr ""
+msgstr "Технології"
 
 #: .\base\enums.py:19
 msgid "Health & Fitness"
-msgstr ""
+msgstr "Здоров'я та фітнес"
 
 #: .\base\enums.py:20
 msgid "Cooking"
-msgstr ""
+msgstr "Кулінарія"
 
 #: .\base\enums.py:21
 msgid "Travel"
-msgstr ""
+msgstr "Подорожі"
 
 #: .\base\enums.py:22
 msgid "Sports"
-msgstr ""
+msgstr "Спорт"
 
 #: .\base\enums.py:23
 msgid "Politics"
-msgstr ""
+msgstr "Політика"
 
 #: .\base\enums.py:24
 msgid "Economics"
-msgstr ""
+msgstr "Економіка"
 
 #: .\base\enums.py:25
 msgid "Religion"
-msgstr ""
+msgstr "Релігія"
 
 #: .\base\enums.py:26
 msgid "Self Help"
-msgstr ""
+msgstr "Саморозвиток"
 
 #: .\base\enums.py:27
 msgid "Business"
-msgstr ""
+msgstr "Бізнес"
 
 #: .\base\enums.py:28
 msgid "Education"
-msgstr ""
+msgstr "Освіта"
 
 #: .\base\enums.py:29
 msgid "Children's Books"
-msgstr ""
+msgstr "Дитячі книжки"
 
 #: .\base\enums.py:30 .\base\enums.py:213
 msgid "Young Adult"
-msgstr ""
+msgstr "Молодіжна література"
 
 #: .\base\enums.py:31
 msgid "Poetry"
-msgstr ""
+msgstr "Поезія"
 
 #: .\base\enums.py:32
 msgid "Drama"
-msgstr ""
+msgstr "Драма"
 
 #: .\base\enums.py:33
 msgid "Classics"
-msgstr ""
+msgstr "Класика"
 
 #: .\base\enums.py:34
 msgid "Contemporary Fiction"
-msgstr ""
+msgstr "Сучасна проза"
 
 #: .\base\enums.py:35
 msgid "Historical Fiction"
-msgstr ""
+msgstr "Історична проза"
 
 #: .\base\enums.py:36
 msgid "Crime"
-msgstr ""
+msgstr "Кримінал"
 
 #: .\base\enums.py:37
 msgid "Adventure"
-msgstr ""
+msgstr "Пригоди"
 
 #: .\base\enums.py:38
 msgid "Humor"
-msgstr ""
+msgstr "Гумор"
 
 #: .\base\enums.py:39
 msgid "Arts & Music"
-msgstr ""
+msgstr "Мистецтво та музика"
 
 #: .\base\enums.py:40
 msgid "Reference"
-msgstr ""
+msgstr "Довідкова література"
 
 #: .\base\enums.py:41 .\base\enums.py:295
 msgid "Other"
-msgstr ""
+msgstr "Інше"
 
 #: .\base\enums.py:75
 msgid "English"
-msgstr ""
+msgstr "Англійська"
 
 #: .\base\enums.py:76
 msgid "French"
-msgstr ""
+msgstr "Французька"
 
 #: .\base\enums.py:77
 msgid "Ukrainian"
-msgstr ""
+msgstr "Українська"
 
 #: .\base\enums.py:111
 msgid "Love & Romance"
-msgstr ""
+msgstr "Любов і романтика"
 
 #: .\base\enums.py:112
 msgid "Betrayal"
-msgstr ""
+msgstr "Зрада"
 
 #: .\base\enums.py:113
 msgid "Redemption"
-msgstr ""
+msgstr "Спокута"
 
 #: .\base\enums.py:114
 msgid "Coming of Age"
-msgstr ""
+msgstr "Дорослішання"
 
 #: .\base\enums.py:115
 msgid "Good vs Evil"
-msgstr ""
+msgstr "Добро проти зла"
 
 #: .\base\enums.py:116
 msgid "Identity & Self-Discovery"
-msgstr ""
+msgstr "Ідентичність і самопізнання"
 
 #: .\base\enums.py:117
 msgid "Survival"
-msgstr ""
+msgstr "Виживання"
 
 #: .\base\enums.py:118
 msgid "Family & Relationships"
-msgstr ""
+msgstr "Сім'я та стосунки"
 
 #: .\base\enums.py:119
 msgid "Friendship & Loyalty"
-msgstr ""
+msgstr "Дружба і вірність"
 
 #: .\base\enums.py:120
 msgid "Power & Corruption"
-msgstr ""
+msgstr "Влада і корупція"
 
 #: .\base\enums.py:121
 msgid "Revenge"
-msgstr ""
+msgstr "Помста"
 
 #: .\base\enums.py:122
 msgid "Sacrifice"
-msgstr ""
+msgstr "Самопожертва"
 
 #: .\base\enums.py:123
 msgid "Freedom & Liberation"
-msgstr ""
+msgstr "Свобода і визволення"
 
 #: .\base\enums.py:124
 msgid "Justice & Morality"
-msgstr ""
+msgstr "Справедливість і мораль"
 
 #: .\base\enums.py:125
 msgid "War & Conflict"
-msgstr ""
+msgstr "Війна і конфлікт"
 
 #: .\base\enums.py:126
 msgid "Death & Mortality"
-msgstr ""
+msgstr "Смерть і смертність"
 
 #: .\base\enums.py:127
 msgid "Hope & Perseverance"
-msgstr ""
+msgstr "Надія і наполегливість"
 
 #: .\base\enums.py:128
 msgid "Faith & Spirituality"
-msgstr ""
+msgstr "Віра і духовність"
 
 #: .\base\enums.py:129
 msgid "Social Class & Inequality"
-msgstr ""
+msgstr "Соціальний клас і нерівність"
 
 #: .\base\enums.py:130
 msgid "Prejudice & Discrimination"
-msgstr ""
+msgstr "Упередження та дискримінація"
 
 #: .\base\enums.py:131
 msgid "Loss & Grief"
-msgstr ""
+msgstr "Втрата і горе"
 
 #: .\base\enums.py:132
 msgid "Transformation & Change"
-msgstr ""
+msgstr "Трансформація і зміни"
 
 #: .\base\enums.py:133
 msgid "Destiny & Fate"
-msgstr ""
+msgstr "Призначення і доля"
 
 #: .\base\enums.py:134
 msgid "Isolation & Loneliness"
-msgstr ""
+msgstr "Ізоляція і самотність"
 
 #: .\base\enums.py:135
 msgid "Courage & Heroism"
-msgstr ""
+msgstr "Відвага і героїзм"
 
 #: .\base\enums.py:169
 msgid "Light & Humorous"
-msgstr ""
+msgstr "Легкий і гумористичний"
 
 #: .\base\enums.py:170
 msgid "Dark & Serious"
-msgstr ""
+msgstr "Похмурий і серйозний"
 
 #: .\base\enums.py:171
 msgid "Satirical & Ironic"
-msgstr ""
+msgstr "Сатиричний і іронічний"
 
 #: .\base\enums.py:172
 msgid "Romantic & Sentimental"
-msgstr ""
+msgstr "Романтичний і сентиментальний"
 
 #: .\base\enums.py:173
 msgid "Mysterious & Suspenseful"
-msgstr ""
+msgstr "Таємничий і напружений"
 
 #: .\base\enums.py:174
 msgid "Optimistic & Uplifting"
-msgstr ""
+msgstr "Оптимістичний і надихаючий"
 
 #: .\base\enums.py:175
 msgid "Pessimistic & Bleak"
-msgstr ""
+msgstr "Песимістичний і похмурий"
 
 #: .\base\enums.py:176
 msgid "Whimsical & Fantastical"
-msgstr ""
+msgstr "Химерний і фантастичний"
 
 #: .\base\enums.py:177
 msgid "Nostalgic & Reflective"
-msgstr ""
+msgstr "Ностальгійний і задумливий"
 
 #: .\base\enums.py:178
 msgid "Serene & Peaceful"
-msgstr ""
+msgstr "Спокійний і мирний"
 
 #: .\base\enums.py:212
 msgid "Children"
-msgstr ""
+msgstr "Для дітей"
 
 #: .\base\enums.py:214
 msgid "Adult"
-msgstr ""
+msgstr "Для дорослих"
 
 #: .\base\enums.py:215
 msgid "General Audience"
-msgstr ""
+msgstr "Для широкої аудиторії"
 
 #: .\base\enums.py:249
 msgid "Beginner"
-msgstr ""
+msgstr "Початковий"
 
 #: .\base\enums.py:250
 msgid "Intermediate"
-msgstr ""
+msgstr "Середній"
 
 #: .\base\enums.py:251
 msgid "Advanced"
-msgstr ""
+msgstr "Просунутий"
 
 #: .\base\enums.py:252
 msgid "Expert"
-msgstr ""
+msgstr "Експертний"
 
 #: .\base\enums.py:286
 msgid "Author Talk"
-msgstr ""
+msgstr "Зустріч з автором"
 
 #: .\base\enums.py:287
 msgid "Book Club"
-msgstr ""
+msgstr "Книжковий клуб"
 
 #: .\base\enums.py:288
 msgid "Workshop"
-msgstr ""
+msgstr "Майстер-клас"
 
 #: .\base\enums.py:289
 msgid "Story Time"
-msgstr ""
+msgstr "Час історій"
 
 #: .\base\enums.py:290
 msgid "Literary Festival"
-msgstr ""
+msgstr "Літературний фестиваль"
 
 #: .\base\enums.py:291
 msgid "Poetry Reading"
-msgstr ""
+msgstr "Поетичні читання"
 
 #: .\base\enums.py:292
 msgid "Writing Seminar"
-msgstr ""
+msgstr "Письменницький семінар"
 
 #: .\base\enums.py:293
 msgid "Cultural Event"
-msgstr ""
+msgstr "Культурний захід"
 
 #: .\base\enums.py:294
 msgid "Educational Program"
-msgstr ""
+msgstr "Освітня програма"
 
-#: .\base\templates\base\collection.html:13
+#: .\base\models.py:168
+msgid "book"
+msgstr "книга"
+
+#: .\base\models.py:169
+msgid "books"
+msgstr "книги"
+
+#: .\base\models.py:176
+msgid "member"
+msgstr "учасник"
+
+#: .\base\models.py:177
+msgid "members"
+msgstr "учасники"
+
+#: .\base\models.py:197
+msgid "loan"
+msgstr "позика"
+
+#: .\base\models.py:198
+msgid "loans"
+msgstr "позики"
+
+#: .\base\models.py:228
+msgid "hero section"
+msgstr "головний банер"
+
+#: .\base\models.py:229
+msgid "hero sections"
+msgstr "головні банери"
+
+#: .\base\models.py:238
+msgid "featured item"
+msgstr "рекомендований матеріал"
+
+#: .\base\models.py:239
+msgid "featured items"
+msgstr "рекомендовані матеріали"
+
+#: .\base\models.py:256
+msgid "item hold"
+msgstr "резервування матеріалу"
+
+#: .\base\models.py:257
+msgid "item holds"
+msgstr "резервування матеріалів"
+
+#: .\base\models.py:308
+msgid "event"
+msgstr "подія"
+
+#: .\base\models.py:309
+msgid "events"
+msgstr "події"
+
+#: .\base\models.py:315
+msgid "featured event"
+msgstr "рекомендована подія"
+
+#: .\base\models.py:316
+msgid "featured events"
+msgstr "рекомендовані події"
+
+#: .\base\templates\base\collection.html:14
 #: .\base\templates\base\events.html:30
 msgid "Filters"
-msgstr ""
+msgstr "Фільтри"
 
-#: .\base\templates\base\collection.html:15
-#: .\base\templates\base\collection.html:130
-#: .\base\templates\base\events.html:55
-msgid "Search"
-msgstr ""
-
-#: .\base\templates\base\collection.html:16
-msgid "Search the collection..."
-msgstr ""
-
-#: .\base\templates\base\collection.html:20 .\base\templates\base\item.html:33
-msgid "Genre"
-msgstr ""
+#: .\base\templates\base\collection.html:21
+#: .\base\templates\base\layout.html:41
+msgid "Books"
+msgstr "Книги"
 
 #: .\base\templates\base\collection.html:28
-#: .\base\templates\base\collection.html:46
-#: .\base\templates\base\collection.html:64
-#: .\base\templates\base\collection.html:82
-#: .\base\templates\base\collection.html:100
-#: .\base\templates\base\collection.html:118
-msgid "Show more"
-msgstr ""
+msgid "Films & TV"
+msgstr "Фільми й ТБ"
 
-#: .\base\templates\base\collection.html:38 .\base\templates\base\item.html:29
+#: .\base\templates\base\collection.html:35
+#: .\base\templates\base\layout.html:43
+msgid "Music"
+msgstr "Музика"
+
+#: .\base\templates\base\collection.html:41
+#: .\base\templates\base\collection.html:156
+#: .\base\templates\base\events.html:55
+msgid "Search"
+msgstr "Пошук"
+
+#: .\base\templates\base\collection.html:42
+msgid "Search the collection..."
+msgstr "Шукати в колекції..."
+
+#: .\base\templates\base\collection.html:46 .\base\templates\base\item.html:33
+msgid "Genre"
+msgstr "Жанр"
+
+#: .\base\templates\base\collection.html:54
+#: .\base\templates\base\collection.html:72
+#: .\base\templates\base\collection.html:90
+#: .\base\templates\base\collection.html:108
+#: .\base\templates\base\collection.html:126
+#: .\base\templates\base\collection.html:144
+msgid "Show more"
+msgstr "Показати більше"
+
+#: .\base\templates\base\collection.html:64 .\base\templates\base\item.html:29
 msgid "Language"
 msgstr "Мова"
 
-#: .\base\templates\base\collection.html:56
+#: .\base\templates\base\collection.html:82
 msgid "Theme"
-msgstr ""
+msgstr "Тема"
 
-#: .\base\templates\base\collection.html:74
+#: .\base\templates\base\collection.html:100
 msgid "Tone"
-msgstr ""
+msgstr "Тональність"
 
-#: .\base\templates\base\collection.html:92
+#: .\base\templates\base\collection.html:118
 msgid "Audience"
-msgstr ""
+msgstr "Аудиторія"
 
-#: .\base\templates\base\collection.html:110
-#, fuzzy
-#| msgid "Language"
+#: .\base\templates\base\collection.html:136
 msgid "Language level"
-msgstr "Мова"
+msgstr "Рівень мови"
 
-#: .\base\templates\base\collection.html:129
+#: .\base\templates\base\collection.html:155
 #: .\base\templates\base\events.html:54
 msgid "Clear filters"
-msgstr ""
+msgstr "Очистити фільтри"
 
-#: .\base\templates\base\collection.html:135
+#: .\base\templates\base\collection.html:161
 #, python-format
 msgid "Showing %(counter)s result"
 msgid_plural "Showing %(counter)s results"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Показано %(counter)s результат"
+msgstr[1] "Показано %(counter)s результати"
+msgstr[2] "Показано %(counter)s результатів"
+msgstr[3] "Показано %(counter)s результату"
 
-#: .\base\templates\base\collection.html:155
+#: .\base\templates\base\collection.html:183
+#: .\base\templates\base\collection.html:213
 msgid "New"
-msgstr ""
+msgstr "Нове"
 
-#: .\base\templates\base\collection.html:161
+#: .\base\templates\base\collection.html:195
+#: .\base\templates\base\collection.html:219
 msgid "Sorry, no items found matching your criteria."
-msgstr ""
+msgstr "На жаль, за вашими критеріями нічого не знайдено."
 
 #: .\base\templates\base\components\pagination.html:6
 msgid "Previous"
-msgstr ""
+msgstr "Попередня"
 
 #: .\base\templates\base\components\pagination.html:34
 msgid "Next"
-msgstr ""
+msgstr "Наступна"
 
 #: .\base\templates\base\dashboard.html:12
 msgid "Your Library"
-msgstr ""
+msgstr "Ваша бібліотека"
 
 #: .\base\templates\base\dashboard.html:16
 msgid "Relevant Items"
-msgstr ""
+msgstr "Рекомендовані матеріали"
 
 #: .\base\templates\base\dashboard.html:21
 msgid "Due soon"
-msgstr ""
+msgstr "Скоро повернути"
 
 #: .\base\templates\base\dashboard.html:26
 msgid "Overdue"
-msgstr ""
+msgstr "Прострочено"
 
 #: .\base\templates\base\dashboard.html:47
 msgid "Loaned on"
-msgstr ""
+msgstr "Видано"
 
 #: .\base\templates\base\dashboard.html:50
 msgid "Due on"
-msgstr ""
+msgstr "Повернути до"
 
 #: .\base\templates\base\dashboard.html:55
 #, python-format
 msgid "This item is overdue by %(days)s day!"
 msgid_plural "This item is overdue by %(days)s days!"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Термін повернення цього матеріалу прострочено на %(days)s день!"
+msgstr[1] "Термін повернення цього матеріалу прострочено на %(days)s дні!"
+msgstr[2] "Термін повернення цього матеріалу прострочено на %(days)s днів!"
+msgstr[3] "Термін повернення цього матеріалу прострочено на %(days)s дня!"
 
 #: .\base\templates\base\dashboard.html:65
 msgid "Nothing here"
-msgstr ""
+msgstr "Тут нічого немає"
 
-#: .\base\templates\base\event.html:18
+#: .\base\templates\base\event.html:22
 msgid "Event Details"
-msgstr ""
+msgstr "Деталі події"
 
-#: .\base\templates\base\event.html:23
+#: .\base\templates\base\event.html:27
 #, python-format
 msgid "%(count)s other person is interested"
 msgid_plural "%(count)s other people are interested"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Ще %(count)s людина зацікавлена"
+msgstr[1] "Ще %(count)s людини зацікавлені"
+msgstr[2] "Ще %(count)s людей зацікавлені"
+msgstr[3] "Ще %(count)s людини зацікавлені"
 
-#: .\base\templates\base\event.html:31
+#: .\base\templates\base\event.html:35
 msgid "I'm Interested"
-msgstr ""
+msgstr "Мені цікаво"
 
-#: .\base\templates\base\event.html:32
+#: .\base\templates\base\event.html:36
 msgid "Add to Calendar"
-msgstr ""
+msgstr "Додати в календар"
 
-#: .\base\templates\base\event.html:48 .\base\templates\base\event.html:61
-msgid "There was an error recording your interest."
-msgstr ""
-
-#: .\base\templates\base\event.html:53
+#: .\base\templates\base\event.html:76
 msgid ""
 "Your interest has been recorded! Thank you for helping us plan this event."
 msgstr ""
+"Ваш інтерес зафіксовано! Дякуємо, що допомагаєте нам планувати цю подію."
 
-#: .\base\templates\base\event.html:56
+#: .\base\templates\base\event.html:79
 msgid "Your interest has been removed."
-msgstr ""
+msgstr "Вашу зацікавленість видалено."
+
+#: .\base\templates\base\event.html:84
+msgid "There was an error recording your interest."
+msgstr "Не вдалося зберегти вашу зацікавленість."
 
 #: .\base\templates\base\events.html:16
 msgid "Featured Event"
-msgstr ""
+msgstr "Рекомендована подія"
 
 #: .\base\templates\base\events.html:20 .\base\templates\base\events.html:83
 #: .\base\templates\base\home.html:120
 msgid "Learn More"
-msgstr ""
+msgstr "Дізнатися більше"
 
 #: .\base\templates\base\events.html:26
 msgid "Event Calendar"
-msgstr ""
+msgstr "Календар подій"
 
 #: .\base\templates\base\events.html:33
 msgid "Day"
-msgstr ""
+msgstr "День"
 
 #: .\base\templates\base\events.html:36
 msgid "Weekdays"
-msgstr ""
+msgstr "Будні"
 
 #: .\base\templates\base\events.html:40
 msgid "Weekends"
-msgstr ""
+msgstr "Вихідні"
 
 #: .\base\templates\base\events.html:44
 msgid "Event type"
-msgstr ""
+msgstr "Тип події"
 
 #: .\base\templates\base\events.html:87
 msgid "No events found."
-msgstr ""
+msgstr "Подій не знайдено."
 
 #: .\base\templates\base\favourites.html:12
 msgid "Your Favourites"
-msgstr ""
+msgstr "Ваші улюблені"
 
 #: .\base\templates\base\favourites.html:26
 msgid "Added on"
-msgstr ""
+msgstr "Додано"
 
 #: .\base\templates\base\favourites.html:31
 #, python-format
 msgid "%(copies)s copy available"
 msgid_plural "%(copies)s copies available"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Доступний %(copies)s примірник"
+msgstr[1] "Доступні %(copies)s примірники"
+msgstr[2] "Доступно %(copies)s примірників"
+msgstr[3] "Доступно %(copies)s примірника"
 
 #: .\base\templates\base\favourites.html:46
 msgid "You have no favourite items yet."
-msgstr ""
+msgstr "У вас ще немає улюблених матеріалів."
 
 #: .\base\templates\base\home.html:28 .\base\templates\base\home.html:48
 msgid "Family Reading Together"
-msgstr ""
+msgstr "Сімейне читання разом"
 
 #: .\base\templates\base\home.html:29 .\base\templates\base\home.html:49
 msgid "Warm family scene placeholder"
-msgstr ""
+msgstr "Тепла сімейна сцена"
 
 #: .\base\templates\base\home.html:39
 msgid "Your Cultural Home Away From Home"
-msgstr ""
+msgstr "Ваш культурний дім далеко від дому"
 
 #: .\base\templates\base\home.html:41
 msgid "View catalog"
-msgstr ""
+msgstr "Переглянути каталог"
 
 #: .\base\templates\base\home.html:42
 msgid "Upcoming events"
-msgstr ""
+msgstr "Майбутні події"
 
 #: .\base\templates\base\home.html:61
 msgid "Hours"
-msgstr ""
+msgstr "Години роботи"
 
 #: .\base\templates\base\home.html:62
 msgid "9 AM - 6 PM"
-msgstr ""
+msgstr "9:00 - 18:00"
 
 #: .\base\templates\base\home.html:68
 msgid "Location"
-msgstr ""
+msgstr "Локація"
 
 #: .\base\templates\base\home.html:69
 msgid "Hour | Location"
-msgstr ""
+msgstr "Години роботи | Локація"
 
 #: .\base\templates\base\home.html:75
 msgid "Phone"
-msgstr ""
+msgstr "Телефон"
 
 #: .\base\templates\base\home.html:84
 msgid "Our Collection"
-msgstr ""
+msgstr "Наша колекція"
 
 #: .\base\templates\base\home.html:85
 msgid ""
 "Our community is unique in shaping our collection through various events, "
 "readings, and courses."
 msgstr ""
+"Наша спільнота унікально формує нашу колекцію через події, читання та курси."
 
 #: .\base\templates\base\home.html:90
 msgid "Community & Support"
-msgstr ""
+msgstr "Спільнота та підтримка"
 
 #: .\base\templates\base\home.html:91
 msgid ""
-"Join Our Treasures and community community & support mentorrs, and support "
-"in wins."
-msgstr ""
+"Join our community for mentorship, connection, and support as you settle in "
+"and grow."
+msgstr "Долучайтеся до нашої спільноти, знаходьте наставництво, підтримку та нові зв'язки, поки облаштовуєтеся й зростаєте."
 
 #: .\base\templates\base\home.html:96
 msgid "Learn & Grow"
-msgstr ""
+msgstr "Навчайтеся й зростайте"
 
 #: .\base\templates\base\home.html:97
 msgid ""
-"Learn more about current event and how to enroll afturmaila technicus and "
-"realturity and more."
+"Learn more about current events and how to join upcoming programs, "
+"workshops, and more."
 msgstr ""
+"Дізнайтеся більше про поточні події та про те, як долучитися до майбутніх "
+"програм, майстер-класів та інших ініціатив."
 
 #: .\base\templates\base\home.html:103
 msgid "New Arrivals"
-msgstr ""
+msgstr "Нові надходження"
 
 #: .\base\templates\base\home.html:117
 msgid "Librarian's Pick"
-msgstr ""
+msgstr "Вибір бібліотекаря"
 
-#: .\base\templates\base\home.html:129
+#: .\base\templates\base\home.html:130
 msgid "Upcoming Events"
-msgstr ""
+msgstr "Майбутні події"
 
-#: .\base\templates\base\home.html:132
-msgid "Українська Діа - Бібліотека"
-msgstr ""
-
-#: .\base\templates\base\home.html:133
-msgid "Ukrainian Dia-Library Services"
-msgstr ""
-
-#: .\base\templates\base\home.html:134
+#: .\base\templates\base\home.html:137
 msgid "Read More"
-msgstr ""
+msgstr "Читати далі"
 
 #: .\base\templates\base\item.html:16
 msgid "No image available"
-msgstr ""
+msgstr "Зображення відсутнє"
 
 #: .\base\templates\base\item.html:21
 msgid "Author"
-msgstr ""
+msgstr "Автор"
 
 #: .\base\templates\base\item.html:25
 msgid "Published Date"
-msgstr ""
+msgstr "Дата публікації"
 
 #: .\base\templates\base\item.html:39
 msgid "Read more"
-msgstr ""
+msgstr "Читати далі"
 
 #: .\base\templates\base\item.html:69
 msgid "Your loan"
-msgstr ""
+msgstr "Ваше користування"
 
 #: .\base\templates\base\item.html:71
 msgid "Preparing your item. Ready on:"
-msgstr ""
+msgstr "Готуємо ваш матеріал. Буде готовий:"
 
 #: .\base\templates\base\item.html:75
 msgid "This item has an unlimited loan period."
-msgstr ""
+msgstr "Цей матеріал має необмежений термін користування."
 
 #: .\base\templates\base\item.html:77
 #, python-format
 msgid "Overdue by: %(days_overdue)s day"
 msgid_plural "Overdue by: %(days_overdue)s days"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Прострочено на: %(days_overdue)s день"
+msgstr[1] "Прострочено на: %(days_overdue)s дні"
+msgstr[2] "Прострочено на: %(days_overdue)s днів"
+msgstr[3] "Прострочено на: %(days_overdue)s дня"
 
 #: .\base\templates\base\item.html:83
 msgid "Due today"
-msgstr ""
+msgstr "Повернути сьогодні"
 
 #: .\base\templates\base\item.html:85
 #, python-format
 msgid "Time left: %(days_left)s day"
 msgid_plural "Time left: %(days_left)s days"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Залишилось: %(days_left)s день"
+msgstr[1] "Залишилось: %(days_left)s дні"
+msgstr[2] "Залишилось: %(days_left)s днів"
+msgstr[3] "Залишилось: %(days_left)s дня"
 
 #: .\base\templates\base\item.html:94
 msgid "Available copies"
-msgstr ""
+msgstr "Доступно примірників"
 
 #: .\base\templates\base\item.html:97
 #, python-format
 msgid "Available to borrow: %(available_copies)s copy"
 msgid_plural "Available to borrow: %(available_copies)s copies"
-msgstr[0] "В наявності: %(available_copies)s примірник"
-msgstr[1] "В наявності: %(available_copies)s примірники"
-msgstr[2] "В наявності: %(available_copies)s примірників"
+msgstr[0] "Доступно для позики: %(available_copies)s примірник"
+msgstr[1] "Доступно для позики: %(available_copies)s примірники"
+msgstr[2] "Доступно для позики: %(available_copies)s примірників"
+msgstr[3] "Доступно для позики: %(available_copies)s примірника"
 
 #: .\base\templates\base\item.html:104
 msgid "Currently unavailable"
-msgstr ""
+msgstr "Наразі недоступно"
 
 #: .\base\templates\base\item.html:104
 msgid "on hold"
-msgstr ""
+msgstr "у резерві"
 
 #: .\base\templates\base\item.html:109
 #, python-format
 msgid "Your position in queue: %(user_position_in_hold_queue)s."
-msgstr ""
+msgstr "Ваша позиція в черзі: %(user_position_in_hold_queue)s."
 
 #: .\base\templates\base\item.html:123
 msgid "You have borrowed this item"
-msgstr ""
+msgstr "Ви вже позичили цей матеріал"
 
 #: .\base\templates\base\item.html:126
 msgid "Cancel item request"
-msgstr ""
+msgstr "Скасувати запит на матеріал"
 
 #: .\base\templates\base\item.html:130 .\base\templates\base\item.html:132
 msgid "Borrow this item"
-msgstr ""
+msgstr "Позичити цей матеріал"
 
 #: .\base\templates\base\item.html:134 .\base\templates\base\item.html:238
 msgid "Place a hold"
-msgstr ""
+msgstr "Зарезервувати"
 
 #: .\base\templates\base\item.html:136 .\base\templates\base\item.html:228
 msgid "Cancel hold"
-msgstr ""
+msgstr "Скасувати резерв"
 
 #: .\base\templates\base\item.html:141
 msgid "Log in to borrow"
-msgstr ""
+msgstr "Увійдіть, щоб позичити"
 
 #: .\base\templates\base\item.html:196
 msgid "Item added to favorites!"
-msgstr ""
+msgstr "Матеріал додано до улюблених!"
 
 #: .\base\templates\base\item.html:198
 msgid "Item removed from favorites."
-msgstr ""
+msgstr "Матеріал видалено з улюблених."
 
 #: .\base\templates\base\item.html:203
 msgid "Failed to update favorites. Please try again."
-msgstr ""
+msgstr "Не вдалося оновити улюблені. Спробуйте ще раз."
 
 #: .\base\templates\base\item.html:232
 msgid "Your position in queue"
-msgstr ""
+msgstr "Ваша позиція в черзі"
 
 #: .\base\templates\base\item.html:246
 msgid "Failed to place hold. Please try again."
-msgstr ""
+msgstr "Не вдалося створити резерв. Спробуйте ще раз."
 
-#: .\base\templates\base\layout.html:9 .\base\templates\base\layout.html:135
+#: .\base\templates\base\layout.html:9 .\base\templates\base\layout.html:149
 msgid "Ridna Library"
-msgstr ""
+msgstr "Ridna Library"
 
-#: .\base\templates\base\layout.html:34 .\base\templates\base\layout.html:97
+#: .\base\templates\base\layout.html:35 .\base\templates\base\layout.html:98
 msgid "About"
-msgstr ""
+msgstr "Про нас"
 
-#: .\base\templates\base\layout.html:36
+#: .\base\templates\base\layout.html:37
 msgid "Collection"
-msgstr ""
-
-#: .\base\templates\base\layout.html:38
-msgid "For You"
-msgstr ""
+msgstr "Колекція"
 
 #: .\base\templates\base\layout.html:39
-msgid "For sale"
-msgstr ""
+msgid "For You"
+msgstr "Для вас"
 
 #: .\base\templates\base\layout.html:40
-msgid "Books"
-msgstr ""
-
-#: .\base\templates\base\layout.html:41
-msgid "Film & TV"
-msgstr ""
+msgid "For sale"
+msgstr "На продаж"
 
 #: .\base\templates\base\layout.html:42
-msgid "Music"
-msgstr ""
-
-#: .\base\templates\base\layout.html:45
-msgid "Events"
-msgstr ""
+msgid "Film & TV"
+msgstr "Фільми й ТБ"
 
 #: .\base\templates\base\layout.html:46
-msgid "Resources"
-msgstr ""
+msgid "Events"
+msgstr "Події"
 
 #: .\base\templates\base\layout.html:47
-msgid "Get involved"
-msgstr ""
+msgid "Resources"
+msgstr "Ресурси"
 
-#: .\base\templates\base\layout.html:78
-msgid "Dashboard"
-msgstr ""
+#: .\base\templates\base\layout.html:48
+msgid "Get involved"
+msgstr "Долучитися"
 
 #: .\base\templates\base\layout.html:79
-msgid "Favourites"
-msgstr ""
+msgid "Dashboard"
+msgstr "Кабінет"
 
 #: .\base\templates\base\layout.html:80
+msgid "Favourites"
+msgstr "Улюблені"
+
+#: .\base\templates\base\layout.html:81
 msgid "Log out"
-msgstr ""
+msgstr "Вийти"
 
-#: .\base\templates\base\layout.html:95
-msgid "Company"
-msgstr ""
-
-#: .\base\templates\base\layout.html:98
-msgid "Careers"
-msgstr ""
+#: .\base\templates\base\layout.html:96
+msgid "Library"
+msgstr "Бібліотека"
 
 #: .\base\templates\base\layout.html:99
-msgid "Press Center"
-msgstr ""
-
-#: .\base\templates\base\layout.html:100
-msgid "Investor Relations"
-msgstr ""
-
-#: .\base\templates\base\layout.html:101
-msgid "Trust Center"
-msgstr ""
-
-#: .\base\templates\base\layout.html:106
-msgid "Links"
-msgstr ""
-
-#: .\base\templates\base\layout.html:108
-msgid "Download Extension"
-msgstr ""
-
-#: .\base\templates\base\layout.html:109
-msgid "Desktop"
-msgstr ""
+msgid "Volunteering"
+msgstr "Волонтерство"
 
 #: .\base\templates\base\layout.html:110
-msgid "Mobile"
-msgstr ""
+msgid "Links"
+msgstr "Посилання"
 
-#: .\base\templates\base\layout.html:111
-msgid "Status"
-msgstr ""
+#: .\base\templates\base\layout.html:112
+msgid "HEUCC website"
+msgstr "Сайт HEUCC"
 
-#: .\base\templates\base\layout.html:116
+#: .\base\templates\base\layout.html:123
 msgid "Contact"
-msgstr ""
+msgstr "Контакти"
 
-#: .\base\templates\base\layout.html:125
+#: .\base\templates\base\layout.html:132
 msgid "Newsletter Signup"
-msgstr ""
+msgstr "Підписка на розсилку"
 
-#: .\base\templates\base\layout.html:126
+#: .\base\templates\base\layout.html:133
 msgid "Stay updated with our latest arrivals and events"
-msgstr ""
+msgstr "Стежте за нашими новими надходженнями та подіями"
 
-#: .\base\templates\base\layout.html:128
+#: .\base\templates\base\layout.html:137
 msgid "Your email address"
-msgstr ""
+msgstr "Ваша електронна адреса"
 
-#: .\base\templates\base\layout.html:129
+#: .\base\templates\base\layout.html:140
 msgid "Subscribe"
-msgstr ""
+msgstr "Підписатися"
 
-#: .\base\templates\base\layout.html:135
+#: .\base\templates\base\layout.html:149
 msgid "All rights reserved."
-msgstr ""
+msgstr "Усі права захищено."
 
-#: .\base\templates\base\login.html:7 .\base\templates\base\login.html:38
+#: .\base\templates\base\layout.html:151
+msgid "Facebook"
+msgstr "Facebook"
+
+#: .\base\templates\base\layout.html:154
+msgid "X / Twitter"
+msgstr "X / Twitter"
+
+#: .\base\templates\base\layout.html:157
+msgid "Instagram"
+msgstr "Instagram"
+
+#: .\base\templates\base\layout.html:160
+msgid "YouTube"
+msgstr "YouTube"
+
+#: .\base\templates\base\layout.html:267
+msgid "Submitting..."
+msgstr "Надсилання..."
+
+#: .\base\templates\base\layout.html:268
+msgid "Subscribed!"
+msgstr "Підписано!"
+
+#: .\base\templates\base\layout.html:269 .\base\views.py:91
+msgid "Thanks for subscribing!"
+msgstr "Дякуємо за підписку!"
+
+#: .\base\templates\base\layout.html:270 .\base\views.py:91
+msgid "Something went wrong. Please try again."
+msgstr "Щось пішло не так. Спробуйте ще раз."
+
+#: .\base\templates\base\login.html:7 .\base\templates\base\login.html:41
 msgid "Login"
-msgstr ""
+msgstr "Увійти"
 
-#: .\base\templates\base\login.html:11 .\base\templates\base\register.html:11
+#: .\base\templates\base\login.html:14 .\base\templates\base\register.html:11
 msgid "Username"
-msgstr ""
+msgstr "Ім'я користувача"
 
-#: .\base\templates\base\login.html:17
+#: .\base\templates\base\login.html:20
 msgid "Enter your username"
-msgstr ""
+msgstr "Введіть ім'я користувача"
 
-#: .\base\templates\base\login.html:24 .\base\templates\base\register.html:37
+#: .\base\templates\base\login.html:27 .\base\templates\base\register.html:37
 msgid "Password"
-msgstr ""
+msgstr "Пароль"
 
-#: .\base\templates\base\login.html:30 .\base\templates\base\register.html:43
+#: .\base\templates\base\login.html:33 .\base\templates\base\register.html:43
 msgid "Enter your password"
-msgstr ""
+msgstr "Введіть пароль"
 
-#: .\base\templates\base\login.html:43
+#: .\base\templates\base\login.html:46
 msgid "Don't have an account?"
-msgstr ""
+msgstr "Немає облікового запису?"
 
-#: .\base\templates\base\login.html:44
+#: .\base\templates\base\login.html:47
 msgid "Register here"
-msgstr ""
+msgstr "Зареєструйтеся тут"
 
 #: .\base\templates\base\register.html:7 .\base\templates\base\register.html:64
 msgid "Register"
-msgstr ""
+msgstr "Зареєструватися"
 
 #: .\base\templates\base\register.html:17
 msgid "Choose a username"
-msgstr ""
+msgstr "Оберіть ім'я користувача"
 
 #: .\base\templates\base\register.html:24
 msgid "Email"
-msgstr ""
+msgstr "Електронна пошта"
 
 #: .\base\templates\base\register.html:30
 msgid "Enter your email address"
-msgstr ""
+msgstr "Введіть електронну адресу"
 
 #: .\base\templates\base\register.html:50
 msgid "Confirm Password"
-msgstr ""
+msgstr "Підтвердіть пароль"
 
 #: .\base\templates\base\register.html:56
 msgid "Confirm your password"
-msgstr ""
+msgstr "Підтвердіть пароль"
 
 #: .\base\templates\base\register.html:69
 msgid "Already have an account?"
-msgstr ""
+msgstr "Уже маєте обліковий запис?"
 
 #: .\base\templates\base\register.html:70
 msgid "Login here"
-msgstr ""
+msgstr "Увійдіть тут"
 
-#: .\base\views.py:56
+#: .\base\views.py:86
+msgid "We could not reach the newsletter service. Please try again."
+msgstr "Нам не вдалося зв'язатися із сервісом розсилки. Спробуйте ще раз."
+
+#: .\base\views.py:130
 msgid "Item request cancelled successfully!"
-msgstr ""
+msgstr "Запит на матеріал успішно скасовано!"
 
-#: .\base\views.py:58
+#: .\base\views.py:132
 msgid "No pending request found to cancel."
-msgstr ""
+msgstr "Немає активного запиту для скасування."
 
-#: .\base\views.py:61
+#: .\base\views.py:135
 msgid "This item is currently not available for borrowing."
-msgstr ""
+msgstr "Цей матеріал наразі недоступний для позики."
 
-#: .\base\views.py:63
+#: .\base\views.py:137
 msgid "You must be logged in to borrow items."
-msgstr ""
+msgstr "Щоб позичати матеріали, потрібно увійти."
 
-#: .\base\views.py:65
+#: .\base\views.py:139
 msgid "You have already borrowed this item and not yet returned it."
-msgstr ""
+msgstr "Ви вже позичили цей матеріал і ще не повернули його."
 
-#: .\base\views.py:67
+#: .\base\views.py:141
 msgid "You have already requested this item and it is not yet received."
-msgstr ""
+msgstr "Ви вже замовили цей матеріал, але ще не отримали його."
 
-#: .\base\views.py:71
+#: .\base\views.py:145
 #, python-format
 msgid "Item successfully borrowed! Pick it up on %(loan_date)s."
-msgstr ""
+msgstr "Матеріал успішно оформлено! Заберіть його %(loan_date)s."
 
-#: .\base\views.py:82
+#: .\base\views.py:156
 msgid "You must be logged in to place a hold."
-msgstr ""
+msgstr "Щоб зарезервувати матеріал, потрібно увійти."
 
-#: .\base\views.py:87
+#: .\base\views.py:161
 msgid "You already have a hold on this item."
-msgstr ""
+msgstr "Ви вже маєте резерв на цей матеріал."
 
-#: .\base\views.py:91
+#: .\base\views.py:165
 #, python-format
 msgid ""
 "You have successfully placed a hold on this item. Your position in the queue "
 "is %(position)s."
 msgstr ""
+"Ви успішно зарезервували цей матеріал. Ваша позиція в черзі: %(position)s."
 
-#: .\base\views.py:100
+#: .\base\views.py:174
 msgid "You must be logged in to cancel a hold."
-msgstr ""
+msgstr "Щоб скасувати резерв, потрібно увійти."
 
-#: .\base\views.py:105
+#: .\base\views.py:179
 msgid "Your hold has been successfully cancelled."
-msgstr ""
+msgstr "Ваш резерв успішно скасовано."
 
-#: .\base\views.py:107
+#: .\base\views.py:181
 msgid "You do not have a hold on this item."
-msgstr ""
+msgstr "У вас немає резерву на цей матеріал."
 
-#: .\base\views.py:127 .\base\views.py:478
+#: .\base\views.py:202 .\base\views.py:595
 msgid "User not authenticated"
-msgstr ""
+msgstr "Користувача не автентифіковано"
 
-#: .\base\views.py:224 .\base\views.py:266
+#: .\base\views.py:336 .\base\views.py:376
 msgid "Please fill in all fields."
-msgstr ""
+msgstr "Будь ласка, заповніть усі поля."
 
-#: .\base\views.py:231
+#: .\base\views.py:343
 #, python-format
 msgid "Welcome back, %(username)s!"
-msgstr ""
+msgstr "З поверненням, %(username)s!"
 
-#: .\base\views.py:237
+#: .\base\views.py:349
 #, python-format
 msgid "You have %(count)s overdue item. Please return it as soon as possible."
 msgid_plural ""
 "You have %(count)s overdue items. Please return them as soon as possible."
 msgstr[0] ""
+"У вас %(count)s прострочений матеріал. Будь ласка, поверніть його якомога "
+"швидше."
 msgstr[1] ""
+"У вас %(count)s прострочені матеріали. Будь ласка, поверніть їх якомога "
+"швидше."
 msgstr[2] ""
+"У вас %(count)s прострочених матеріалів. Будь ласка, поверніть їх якомога "
+"швидше."
 msgstr[3] ""
+"У вас %(count)s простроченого матеріалу. Будь ласка, поверніть його якомога "
+"швидше."
 
-#: .\base\views.py:247
+#: .\base\views.py:357
 msgid "Invalid username or password."
-msgstr ""
+msgstr "Неправильне ім'я користувача або пароль."
 
-#: .\base\views.py:254
+#: .\base\views.py:364
 msgid "You have been successfully logged out."
-msgstr ""
+msgstr "Ви успішно вийшли з облікового запису."
 
-#: .\base\views.py:270
+#: .\base\views.py:380
 msgid "Passwords do not match."
-msgstr ""
+msgstr "Паролі не збігаються."
 
-#: .\base\views.py:275
+#: .\base\views.py:385
 msgid "Username already exists. Please choose a different username."
-msgstr ""
+msgstr "Таке ім'я користувача вже існує. Оберіть інше."
 
-#: .\base\views.py:280
+#: .\base\views.py:390
 msgid ""
 "Email already registered. Please use a different email or try logging in."
 msgstr ""
+"Цю електронну адресу вже зареєстровано. Використайте іншу або спробуйте "
+"увійти."
 
-#: .\base\views.py:303
+#: .\base\views.py:413
 #, python-format
 msgid ""
 "Welcome to Ridna Library, %(username)s! Your account has been created "
 "successfully."
 msgstr ""
+"Ласкаво просимо до Ridna Library, %(username)s! Ваш обліковий запис успішно "
+"створено."
 
-#: .\base\views.py:307
+#: .\base\views.py:417
 msgid "An error occurred while creating your account. Please try again."
-msgstr ""
+msgstr "Під час створення облікового запису сталася помилка. Спробуйте ще раз."
+
+#: .\recommendations\apps.py:7
+msgid "Recommendations"
+msgstr "Рекомендації"

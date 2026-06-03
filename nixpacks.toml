@@ -1,5 +1,8 @@
 [phases.build]
-cmds = ["python manage.py collectstatic --noinput"]
+cmds = [
+  "python manage.py compilemessages",
+  "python manage.py collectstatic --noinput"
+]
 
 [start]
 cmd = "gunicorn ridna_library.wsgi:application --bind 0.0.0.0:8000 --access-logfile - --error-logfile - --capture-output --log-level info"
