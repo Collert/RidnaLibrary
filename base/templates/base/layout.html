@@ -125,10 +125,17 @@
             <div id="newsletter" class="footer-section">
                 <h4>{% trans "Newsletter Signup" %}</h4>
                 <p>{% trans "Stay updated with our latest arrivals and events" %}</p>
-                <form>
-                    <input type="email" class="no-style" placeholder="{% trans 'Your email address' %}">
-                    <button class="btn btn-primary no-style">{% trans "Subscribe" %}</button>
+                <form id="newsletter-form" action="{% url 'newsletter_subscribe' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                    <input type="email" name="email" class="no-style" placeholder="{% trans 'Your email address' %}" autocomplete="email" required>
+                    <input type="hidden" name="l" value="b38e444b-b0f5-4e7d-8fff-54f2cf7524f2">
+                    <button class="btn btn-primary no-style" type="submit">
+                        <span class="newsletter-button-label">{% trans "Subscribe" %}</span>
+                        <span class="newsletter-button-icon material-symbols-outlined" aria-hidden="true">check</span>
+                    </button>
                 </form>
+                <p id="newsletter-feedback" class="newsletter-feedback" role="status" aria-live="polite"></p>
             </div>
         </div>
         
@@ -249,6 +256,110 @@
         function showInfoToast(message, icon, duration) {
             return showToast(message, 'info', icon, duration);
         }
+    </script>
+
+    {% trans "Submitting..." as newsletter_submitting_text %}
+    {% trans "Subscribed!" as newsletter_subscribed_text %}
+    {% trans "Thanks for subscribing!" as newsletter_success_text %}
+    {% trans "Something went wrong. Please try again." as newsletter_error_text %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const newsletterForm = document.getElementById('newsletter-form');
+            if (!newsletterForm) {
+                return;
+            }
+
+            const emailInput = newsletterForm.querySelector('input[name="email"]');
+            const submitButton = newsletterForm.querySelector('button[type="submit"]');
+            const buttonLabel = submitButton.querySelector('.newsletter-button-label');
+            const feedback = document.getElementById('newsletter-feedback');
+            const defaultButtonText = buttonLabel.textContent.trim();
+            const loadingButtonText = '{{ newsletter_submitting_text|escapejs }}';
+            const successButtonText = '{{ newsletter_subscribed_text|escapejs }}';
+            const successMessage = '{{ newsletter_success_text|escapejs }}';
+            const fallbackErrorMessage = '{{ newsletter_error_text|escapejs }}';
+            let successResetTimeout;
+
+            function setFeedback(message, theme) {
+                feedback.textContent = message || '';
+                feedback.className = 'newsletter-feedback';
+                if (theme) {
+                    feedback.classList.add(`is-${theme}`);
+                }
+            }
+
+            function resetSuccessState() {
+                newsletterForm.classList.remove('is-success');
+                buttonLabel.textContent = defaultButtonText;
+                setFeedback('', null);
+            }
+
+            newsletterForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+
+                if (newsletterForm.classList.contains('is-loading')) {
+                    return;
+                }
+
+                clearTimeout(successResetTimeout);
+                newsletterForm.classList.remove('is-success', 'has-error');
+                setFeedback('', null);
+
+                if (!newsletterForm.reportValidity()) {
+                    return;
+                }
+
+                newsletterForm.classList.add('is-loading');
+                submitButton.disabled = true;
+                buttonLabel.textContent = loadingButtonText;
+
+                try {
+                    const response = await fetch(newsletterForm.action, {
+                        method: 'POST',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: new FormData(newsletterForm)
+                    });
+                    let payload = {};
+
+                    try {
+                        payload = await response.json();
+                    } catch (parseError) {
+                        payload = {};
+                    }
+
+                    if (response.ok) {
+                        newsletterForm.reset();
+                        newsletterForm.classList.remove('has-error');
+                        newsletterForm.classList.add('is-success');
+                        buttonLabel.textContent = successButtonText;
+                        setFeedback(payload.message || successMessage, 'success');
+                        successResetTimeout = window.setTimeout(resetSuccessState, 4000);
+                        return;
+                    }
+
+                    newsletterForm.classList.add('has-error');
+                    setFeedback(payload.message || fallbackErrorMessage, 'error');
+                } catch (error) {
+                    newsletterForm.classList.add('has-error');
+                    setFeedback(fallbackErrorMessage, 'error');
+                } finally {
+                    newsletterForm.classList.remove('is-loading');
+                    submitButton.disabled = false;
+                    if (!newsletterForm.classList.contains('is-success')) {
+                        buttonLabel.textContent = defaultButtonText;
+                    }
+                }
+            });
+
+            emailInput.addEventListener('input', function() {
+                if (newsletterForm.classList.contains('has-error')) {
+                    newsletterForm.classList.remove('has-error');
+                    setFeedback('', null);
+                }
+            });
+        });
     </script>
 
     {% if messages %}

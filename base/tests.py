@@ -1,5 +1,9 @@
 from datetime import timedelta
+from io import BytesIO
+from unittest.mock import MagicMock, patch
+from urllib.error import HTTPError
 
+from django.contrib.messages import get_messages
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
@@ -122,3 +126,73 @@ class EventInterestAuthTests(TestCase):
 		self.assertJSONEqual(first_response.content, {'interested': True})
 		self.assertJSONEqual(second_response.content, {'interested': False})
 		self.assertFalse(self.event.interested_users.filter(id=user.id).exists())
+
+
+class NewsletterSubscribeTests(TestCase):
+	@patch('base.views.urlopen')
+	def test_ajax_submission_returns_success_payload_with_default_message(self, mock_urlopen):
+		mock_response = MagicMock()
+		mock_response.__enter__.return_value = mock_response
+		mock_response.getcode.return_value = 200
+		mock_response.read.return_value = b'{"data":{"has_optin":false}}'
+		mock_urlopen.return_value = mock_response
+
+		response = self.client.post(
+			reverse('newsletter_subscribe'),
+			{
+				'email': 'reader@example.com',
+				'l': 'mailing-list-id',
+			},
+			HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+		)
+
+		self.assertEqual(response.status_code, 200)
+		self.assertJSONEqual(
+			response.content,
+			{
+				'data': {'has_optin': False},
+				'message': 'Thanks for subscribing!',
+			},
+		)
+
+	@patch('base.views.urlopen')
+	def test_ajax_submission_preserves_upstream_error_message(self, mock_urlopen):
+		mock_urlopen.side_effect = HTTPError(
+			'https://marketing.uahelp.ca/api/public/subscription',
+			400,
+			'Bad Request',
+			None,
+			BytesIO(b'{"message":"Invalid email."}'),
+		)
+
+		response = self.client.post(
+			reverse('newsletter_subscribe'),
+			{
+				'email': 'invalid',
+				'l': 'mailing-list-id',
+			},
+			HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+		)
+
+		self.assertEqual(response.status_code, 400)
+		self.assertJSONEqual(response.content, {'message': 'Invalid email.'})
+
+	@patch('base.views.urlopen')
+	def test_standard_submission_redirects_back_with_message(self, mock_urlopen):
+		mock_response = MagicMock()
+		mock_response.__enter__.return_value = mock_response
+		mock_response.getcode.return_value = 200
+		mock_response.read.return_value = b'{"data":{"has_optin":false}}'
+		mock_urlopen.return_value = mock_response
+
+		response = self.client.post(
+			reverse('newsletter_subscribe'),
+			{
+				'email': 'reader@example.com',
+				'l': 'mailing-list-id',
+				'next': '/events/',
+			},
+		)
+
+		self.assertRedirects(response, '/events/', fetch_redirect_response=False)
+		self.assertEqual([str(message) for message in get_messages(response.wsgi_request)], ['Thanks for subscribing!'])

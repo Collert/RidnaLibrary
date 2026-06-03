@@ -1,6 +1,11 @@
+import datetime
+import json
 import os
 import random
-import datetime
+from urllib.error import HTTPError, URLError
+from urllib.parse import quote, urlencode
+from urllib.request import Request, urlopen
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -16,10 +21,23 @@ from .models import FeaturedItem, HeroSection, Item, ItemHold, Loan, Book, Event
 from .enums import *
 from django.core.paginator import Paginator
 from django.db.models import Q
-from urllib.parse import quote
 from django.utils import timezone
 from recommendations.views import record_interaction
 from recommendations.enums import InteractionWeight
+
+
+NEWSLETTER_SUBSCRIPTION_URL = 'https://marketing.uahelp.ca/api/public/subscription'
+NEWSLETTER_REQUEST_TIMEOUT_SECONDS = 10
+
+
+def _decode_newsletter_response(raw_body):
+    if not raw_body:
+        return {}
+
+    try:
+        return json.loads(raw_body.decode('utf-8'))
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        return {}
 
 def home(request):
     hero_section = HeroSection.objects.first()
@@ -35,6 +53,53 @@ def home(request):
         'featured_item': featured_item.item if featured_item else None,
         'upcoming_events': upcoming_events,
     })
+
+
+def newsletter_subscribe(request):
+    if request.method != 'POST':
+        return HttpResponseNotAllowed(['POST'])
+
+    upstream_payload = urlencode({
+        'email': request.POST.get('email', '').strip(),
+        'l': request.POST.get('l', '').strip(),
+    }).encode('utf-8')
+    upstream_request = Request(
+        NEWSLETTER_SUBSCRIPTION_URL,
+        data=upstream_payload,
+        headers={
+            'Accept': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        method='POST',
+    )
+
+    try:
+        with urlopen(upstream_request, timeout=NEWSLETTER_REQUEST_TIMEOUT_SECONDS) as response:
+            status_code = response.getcode()
+            response_payload = _decode_newsletter_response(response.read())
+    except HTTPError as exc:
+        status_code = exc.code
+        response_payload = _decode_newsletter_response(exc.read())
+    except URLError:
+        status_code = 502
+        response_payload = {
+            'message': _('We could not reach the newsletter service. Please try again.'),
+        }
+
+    response_payload.setdefault(
+        'message',
+        _('Thanks for subscribing!') if 200 <= status_code < 300 else _('Something went wrong. Please try again.'),
+    )
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse(response_payload, status=status_code)
+
+    if 200 <= status_code < 300:
+        messages.success(request, response_payload['message'])
+    else:
+        messages.error(request, response_payload['message'])
+
+    return redirect(get_next_redirect_target(request, default_url_name='home'))
 
 def item(request, item_id):
     item = Book.objects.get(pk=item_id)
@@ -246,7 +311,7 @@ def get_random_splash_screen():
     return quote(filename, safe='')
 
 
-def get_next_redirect_target(request):
+def get_next_redirect_target(request, default_url_name='dashboard'):
     next_url = request.POST.get('next') or request.GET.get('next')
     if next_url and url_has_allowed_host_and_scheme(
         next_url,
@@ -254,7 +319,7 @@ def get_next_redirect_target(request):
         require_https=request.is_secure(),
     ):
         return next_url
-    return reverse('dashboard')
+    return reverse(default_url_name)
 
 def login_view(request):
     next_url = request.POST.get('next') or request.GET.get('next', '')
