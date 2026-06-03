@@ -85,3 +85,31 @@ main {
 .item-overdue-warning * {
     color: var(--error-color);
 }
+
+@media (max-width: 900px) and (orientation: portrait) {
+    main {
+        padding: 1.25rem;
+        gap: 1.5rem;
+    }
+
+    #dashboard-links {
+        width: 100%;
+        display: grid;
+        gap: 0.75rem;
+    }
+
+    #dashboard-links a,
+    #dashboard-links a:first-child,
+    #dashboard-links a:last-child {
+        border-radius: 16px;
+    }
+
+    #dashboard-links a:not(:first-child) {
+        border-left: 2px solid var(--ukrainian-blue);
+    }
+
+    #dashboard-items {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+}

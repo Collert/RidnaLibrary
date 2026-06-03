@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <div class="carousel-container">
     <div class="carousel">
         {% for group in item_group %}
@@ -8,14 +10,26 @@
         </div>
         {% endfor %}
     </div>
+    <div class="carousel-mobile-controls" aria-label="{% trans 'Carousel navigation' %}">
+        <button type="button" class="carousel-nav-button prev" aria-label="{% trans 'Previous items' %}">
+            <span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
+        </button>
+        <div class="carousel-markers" role="tablist" aria-label="{% trans 'Carousel pages' %}"></div>
+        <button type="button" class="carousel-nav-button next" aria-label="{% trans 'Next items' %}">
+            <span class="material-symbols-outlined" aria-hidden="true">chevron_right</span>
+        </button>
+    </div>
 </div>
 
 <style>
     .carousel-container {
         display: flex;
+        flex-direction: column;
+        align-items: center;
         justify-content: center;
         width: 100%;
         position: relative;
+        overflow-x: clip;
     }
 
     .carousel {
@@ -43,6 +57,10 @@
         flex-shrink: 0;
         gap: 2rem;
         scroll-snap-align: start;
+    }
+
+    .carousel-mobile-controls {
+        display: none;
     }
 
     /* Scroll buttons using ::scroll-button() pseudo-element */
@@ -120,4 +138,189 @@
         background-position: center!important;
         color: transparent;
     }
+
+    @media (max-width: 900px) and (orientation: portrait) {
+        .carousel {
+            max-width: 100%;
+            gap: 0.75rem;
+            padding: 1rem calc((100% - min(100%, 19.5rem)) / 2) 0.25rem;
+            scroll-padding-inline: calc((100% - min(100%, 19.5rem)) / 2);
+        }
+
+        .carousel-group {
+            width: min(100%, 19.5rem);
+            min-width: min(100%, 19.5rem);
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+            margin: 0 auto;
+        }
+
+        .carousel-group > .book-card:last-child:nth-child(odd) {
+            grid-column: 1 / -1;
+            width: calc((100% - 1rem) / 2);
+            justify-self: center;
+        }
+
+        .book-card {
+            width: 100%;
+            min-width: 0;
+            height: 180px;
+        }
+
+        .carousel::scroll-button(*) {
+            width: 0;
+            height: 0;
+            margin: 0;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .carousel::scroll-marker-group {
+            display: none;
+        }
+
+        .carousel-mobile-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            width: 100%;
+            margin-top: 0.75rem;
+        }
+
+        .carousel-nav-button {
+            width: 2.75rem;
+            height: 2.75rem;
+            border: none;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--ukrainian-blue);
+            color: var(--bg-light);
+            cursor: pointer;
+        }
+
+        .carousel-nav-button:disabled {
+            opacity: 0.45;
+            cursor: default;
+        }
+
+        .carousel-nav-button span {
+            color: inherit;
+        }
+
+        .carousel-markers {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .carousel-marker {
+            width: 0.75rem;
+            height: 0.75rem;
+            border: 1px solid var(--ukrainian-blue);
+            border-radius: 999px;
+            background: transparent;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .carousel-marker.is-active {
+            background: var(--ukrainian-blue);
+        }
+    }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.carousel-container').forEach(function(container) {
+            if (container.dataset.carouselReady === 'true') {
+                return;
+            }
+
+            container.dataset.carouselReady = 'true';
+
+            const carousel = container.querySelector('.carousel');
+            const groups = Array.from(container.querySelectorAll('.carousel-group'));
+            const controls = container.querySelector('.carousel-mobile-controls');
+            const markersContainer = container.querySelector('.carousel-markers');
+            const previousButton = container.querySelector('.carousel-nav-button.prev');
+            const nextButton = container.querySelector('.carousel-nav-button.next');
+
+            if (!carousel || groups.length <= 1 || !controls || !markersContainer || !previousButton || !nextButton) {
+                if (controls) {
+                    controls.hidden = true;
+                }
+                return;
+            }
+
+            const markerButtons = groups.map(function(_, index) {
+                const marker = document.createElement('button');
+                marker.type = 'button';
+                marker.className = 'carousel-marker';
+                marker.setAttribute('aria-label', `Carousel page ${index + 1}`);
+                marker.addEventListener('click', function() {
+                    scrollToGroup(index);
+                });
+                markersContainer.appendChild(marker);
+                return marker;
+            });
+
+            function getHorizontalPadding() {
+                return parseFloat(getComputedStyle(carousel).paddingLeft) || 0;
+            }
+
+            function getActiveIndex() {
+                const reference = carousel.scrollLeft + getHorizontalPadding();
+
+                return groups.reduce(function(bestIndex, group, index) {
+                    const bestDistance = Math.abs(groups[bestIndex].offsetLeft - reference);
+                    const currentDistance = Math.abs(group.offsetLeft - reference);
+                    return currentDistance < bestDistance ? index : bestIndex;
+                }, 0);
+            }
+
+            function updateControls() {
+                const activeIndex = getActiveIndex();
+
+                markerButtons.forEach(function(marker, index) {
+                    marker.classList.toggle('is-active', index === activeIndex);
+                    marker.setAttribute('aria-current', index === activeIndex ? 'true' : 'false');
+                });
+
+                previousButton.disabled = activeIndex === 0;
+                nextButton.disabled = activeIndex === groups.length - 1;
+            }
+
+            function scrollToGroup(index) {
+                const targetIndex = Math.max(0, Math.min(index, groups.length - 1));
+                const targetLeft = groups[targetIndex].offsetLeft - getHorizontalPadding();
+
+                carousel.scrollTo({
+                    left: targetLeft,
+                    behavior: 'smooth'
+                });
+
+                window.setTimeout(updateControls, 250);
+            }
+
+            previousButton.addEventListener('click', function() {
+                scrollToGroup(getActiveIndex() - 1);
+            });
+
+            nextButton.addEventListener('click', function() {
+                scrollToGroup(getActiveIndex() + 1);
+            });
+
+            carousel.addEventListener('scroll', function() {
+                window.requestAnimationFrame(updateControls);
+            }, { passive: true });
+
+            window.addEventListener('resize', updateControls);
+            updateControls();
+        });
+    });
+</script>

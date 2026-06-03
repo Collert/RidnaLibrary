@@ -37,3 +37,15 @@ main section {
 .item-availability.none-available * {
     color: var(--error-color);
 }
+
+@media (max-width: 900px) and (orientation: portrait) {
+    main {
+        padding: 1.25rem;
+        gap: 1.5rem;
+    }
+
+    main section {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+}

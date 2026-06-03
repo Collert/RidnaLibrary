@@ -10,6 +10,15 @@
 
 {% block body %}
 <main id="collection">
+    <section id="filters-accordion" class="is-open">
+    <button type="button" id="filters-accordion-toggle" aria-expanded="true" aria-controls="filters-panel">
+        <span class="accordion-summary-copy">
+            <span class="material-symbols-outlined">search</span>
+            <span>{% trans "Search and filters" %}</span>
+        </span>
+        <span class="material-symbols-outlined accordion-chevron" aria-hidden="true">expand_more</span>
+    </button>
+    <div id="filters-panel">
     <form method="get" id="filters">
         <h2><span class="material-symbols-outlined">filter_alt</span>{% trans "Filters" %}</h2>
         <div class="filter-section">
@@ -156,6 +165,8 @@
             <button type="submit" class="button btn-primary"><span class="material-symbols-outlined">search</span>{% trans "Search" %}</button>
         </div>
     </form>
+    </div>
+    </section>
     <section id="item-list">
         <div id="results-count">
             {% blocktrans trimmed count counter=items.paginator.count %}
@@ -238,9 +249,43 @@
     });
 
     document.addEventListener('DOMContentLoaded', () => {
+        const filtersAccordion = document.getElementById('filters-accordion');
+        const filtersToggle = document.getElementById('filters-accordion-toggle');
         const checkboxes = document.querySelectorAll('#filters input[type="checkbox"], #filters input[type="text"]');
         const clearButton = document.querySelector('.submit-buttons-container button:first-child');
         const radioButtons = document.querySelectorAll('#filters input[type="radio"]');
+        const mobileFiltersQuery = window.matchMedia('(max-width: 900px) and (orientation: portrait)');
+
+        function setAccordionState(open) {
+            if (!filtersAccordion || !filtersToggle) {
+                return;
+            }
+
+            filtersAccordion.classList.toggle('is-open', open);
+            filtersToggle.setAttribute('aria-expanded', String(open));
+        }
+
+        function hasActiveFilters() {
+            return Array.from(checkboxes).some(checkbox => (
+                (checkbox.type === 'checkbox' && checkbox.checked) ||
+                (checkbox.type === 'text' && checkbox.value.trim() !== '')
+            ));
+        }
+
+        function syncAccordionState() {
+            if (!filtersAccordion) {
+                return;
+            }
+
+            if (!mobileFiltersQuery.matches) {
+                setAccordionState(true);
+                return;
+            }
+
+            if (filtersAccordion.dataset.userToggled !== 'true') {
+                setAccordionState(hasActiveFilters());
+            }
+        }
 
         radioButtons.forEach(radio => {
             radio.addEventListener('change', () => {
@@ -254,6 +299,22 @@
             });
         });
 
+        filtersToggle?.addEventListener('click', () => {
+            if (!mobileFiltersQuery.matches) {
+                return;
+            }
+
+            filtersAccordion.dataset.userToggled = 'true';
+            setAccordionState(!filtersAccordion.classList.contains('is-open'));
+        });
+
+        mobileFiltersQuery.addEventListener('change', () => {
+            if (!mobileFiltersQuery.matches && filtersAccordion) {
+                delete filtersAccordion.dataset.userToggled;
+            }
+            syncAccordionState();
+        });
+
         function updateClearButtonVisibility() {
             let anyChecked = false;
             checkboxes.forEach(checkbox => {
@@ -262,6 +323,9 @@
                 }
             });
             showClearFiltersButton(anyChecked);
+            if (anyChecked && filtersAccordion && mobileFiltersQuery.matches) {
+                setAccordionState(true);
+            }
         }
 
         checkboxes.forEach(checkbox => {
@@ -283,6 +347,7 @@
         });
 
         // Initial check on page load
+        syncAccordionState();
         updateClearButtonVisibility();
     });
 

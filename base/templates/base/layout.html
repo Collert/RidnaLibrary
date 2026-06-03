@@ -26,12 +26,21 @@
 <body>
     <!-- Navigation -->
     <header>
-        <nav>
+        <nav id="site-navigation">
             <div class="nav-brand">
                 <span>Ridna Library</span>
             </div>
+            <button
+                class="nav-menu-toggle"
+                type="button"
+                aria-controls="primary-navigation"
+                aria-expanded="false"
+                aria-label="{% trans 'Toggle navigation menu' %}"
+            >
+                <span class="material-symbols-outlined" aria-hidden="true">menu</span>
+            </button>
             
-            <div class="nav-links">
+            <div class="nav-links" id="primary-navigation">
                 <a {% if request.path == '/' %}class="selected"{% endif %} href="{% url 'home' %}">{% trans "About" %}</a>
                 <div id="collection-container">
                     <a {% if '/collection/' in request.path %}class="selected"{% endif %} href="{% url 'collection' %}">{% trans "Collection" %}</a>
@@ -73,6 +82,7 @@
                         {% else %}
                         <span class="material-symbols-outlined">person_4</span>
                         {% endif %}
+                        <span class="profile-chip-copy">{% trans "My profile" %}</span>
                     </a>
                     {% if request.user.is_authenticated %}
                     <div id="profile-controls">
@@ -159,6 +169,70 @@
     </footer>
     
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const nav = document.getElementById('site-navigation');
+            const navToggle = document.querySelector('.nav-menu-toggle');
+            const navLinks = document.getElementById('primary-navigation');
+
+            if (!nav || !navToggle || !navLinks) {
+                return;
+            }
+
+            const portraitMenuQuery = window.matchMedia('(max-width: 900px) and (orientation: portrait)');
+
+            function syncMenuState(forceClosed = false) {
+                const shouldClose = forceClosed || !portraitMenuQuery.matches;
+
+                if (!portraitMenuQuery.matches) {
+                    nav.classList.remove('menu-open');
+                    navLinks.removeAttribute('inert');
+                    navLinks.setAttribute('aria-hidden', 'false');
+                    navToggle.setAttribute('aria-expanded', 'false');
+                    navToggle.querySelector('.material-symbols-outlined').textContent = 'menu';
+                    return;
+                }
+
+                if (shouldClose) {
+                    nav.classList.remove('menu-open');
+                    navLinks.setAttribute('inert', '');
+                    navLinks.setAttribute('aria-hidden', 'true');
+                    navToggle.setAttribute('aria-expanded', 'false');
+                    navToggle.querySelector('.material-symbols-outlined').textContent = 'menu';
+                    return;
+                }
+
+                const isOpen = nav.classList.contains('menu-open');
+                if (isOpen) {
+                    navLinks.removeAttribute('inert');
+                    navLinks.setAttribute('aria-hidden', 'false');
+                } else {
+                    navLinks.setAttribute('inert', '');
+                    navLinks.setAttribute('aria-hidden', 'true');
+                }
+                navToggle.setAttribute('aria-expanded', String(isOpen));
+                navToggle.querySelector('.material-symbols-outlined').textContent = isOpen ? 'close' : 'menu';
+            }
+
+            navToggle.addEventListener('click', function() {
+                nav.classList.toggle('menu-open');
+                syncMenuState();
+            });
+
+            navLinks.querySelectorAll('a').forEach(function(link) {
+                link.addEventListener('click', function() {
+                    if (portraitMenuQuery.matches) {
+                        syncMenuState(true);
+                    }
+                });
+            });
+
+            portraitMenuQuery.addEventListener('change', function() {
+                syncMenuState(true);
+            });
+
+            syncMenuState(true);
+        });
+
         // Toast Notification System
         function showToast(message, theme = 'info', icon = null, duration = 5000) {
             const container = document.getElementById('toast-container');

@@ -23,6 +23,10 @@
     color: var(--text-dark);
 }
 
+img {
+    max-width: 100%;
+}
+
 .button.btn-primary,
 .btn-primary {
     background: var(--ukrainian-blue) !important;
@@ -72,6 +76,7 @@ header nav {
     justify-content: space-between;
     align-items: center;
     height: 4rem;
+    position: relative;
 }
 
 .nav-brand {
@@ -90,6 +95,31 @@ header nav {
     gap: 2rem;
     padding: 0 2rem;
     height: 100%;
+}
+
+.nav-menu-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-right: 1rem;
+    padding: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    border-radius: 999px;
+    background: transparent !important;
+    box-shadow: none !important;
+    cursor: pointer;
+}
+
+.nav-menu-toggle span {
+    color: var(--ukrainian-blue);
+}
+
+.profile-chip-copy {
+    display: none;
 }
 
 .nav-links a {
@@ -132,7 +162,9 @@ header nav {
 #profile-container:hover #profile-controls,
 #profile-controls:hover,
 #collection-container:hover #collection-controls,
-#collection-controls:hover {
+#collection-controls:hover,
+#profile-container:focus-within #profile-controls,
+#collection-container:focus-within #collection-controls {
     height: auto;
     border: 1px solid var(--dark-grey);
 }
@@ -163,7 +195,9 @@ header nav {
 #profile-container:hover #profile-controls,
 #profile-controls:hover,
 #collection-container:hover #collection-controls,
-#collection-controls:hover {
+#collection-controls:hover,
+#profile-container:focus-within #profile-controls,
+#collection-container:focus-within #collection-controls {
     padding: .5rem;
     height: auto;
     border: 1px solid var(--dark-grey);
@@ -410,6 +444,203 @@ header nav {
     outline-offset: 3px;
 }
 
+@media (max-width: 900px) and (orientation: portrait) {
+    header {
+        margin-bottom: 0;
+    }
+
+    main {
+        padding-top: 0;
+    }
+
+    header nav {
+        height: auto;
+        min-height: 4rem;
+        flex-wrap: wrap;
+        align-items: center;
+        padding: 0.75rem 1rem 1rem;
+        gap: 0.75rem;
+    }
+
+    .nav-brand {
+        padding: 0;
+        flex: 1;
+        min-width: 0;
+    }
+
+    .nav-brand span {
+        font-size: 1rem;
+    }
+
+    .nav-menu-toggle {
+        display: inline-flex;
+        margin-right: 0;
+    }
+
+    .nav-menu-toggle:hover,
+    .nav-menu-toggle:focus-visible {
+        background: rgba(0, 87, 183, 0.08) !important;
+        outline: none;
+    }
+
+    .nav-links {
+        display: flex;
+        width: 100%;
+        height: 0;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+        padding: 0;
+        overflow: clip;
+        opacity: 0;
+        pointer-events: none;
+        transition: height 320ms ease, opacity 220ms ease, margin-top 320ms ease;
+    }
+
+    #site-navigation.menu-open .nav-links {
+        height: auto;
+        opacity: 1;
+        pointer-events: auto;
+        margin-top: 0.25rem;
+        transition: height 320ms ease, opacity 220ms ease, margin-top 320ms ease;
+    }
+
+    .nav-links>a,
+    #language-toggle,
+    #profile_button,
+    #collection-container>a {
+        min-height: auto;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.78);
+        padding: 0.9rem 1rem;
+        justify-content: flex-start;
+        align-items: center;
+        flex-direction: row;
+        box-shadow: 0 10px 30px rgba(0, 87, 183, 0.08);
+    }
+
+    .nav-links>a.selected,
+    #collection-container>a.selected,
+    #profile_button.selected {
+        box-shadow: inset 0 0 0 2px rgba(255, 215, 0, 0.8), 0 10px 30px rgba(0, 87, 183, 0.08);
+    }
+
+    .nav-links a::after {
+        display: none;
+    }
+
+    #collection-container,
+    #profile-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        width: 100%;
+        height: auto;
+    }
+
+    #profile_button {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.75rem;
+    }
+
+    #profile_button .profile-pic {
+        margin-right: 0;
+        flex-shrink: 0;
+    }
+
+    #profile_button .material-symbols-outlined {
+        flex-shrink: 0;
+    }
+
+    .profile-chip-copy {
+        display: inline;
+        font-weight: 600;
+    }
+
+    #language-toggle {
+        display: block;
+    }
+
+    #language-toggle select {
+        width: 100%;
+        min-height: 1.5rem;
+        font-size: 1rem;
+    }
+
+    #profile-controls,
+    #collection-controls {
+        position: static;
+        top: auto;
+        right: auto;
+        transform: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        width: 100%;
+        min-width: 0;
+        height: auto;
+        padding: 0.5rem;
+        overflow: visible;
+        border: 1px solid rgba(12, 74, 116, 0.12);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.64);
+        box-shadow: none;
+    }
+
+    #profile-controls a,
+    #collection-controls a {
+        border-radius: 12px;
+        background: rgba(248, 245, 233, 0.9);
+        padding: 0.75rem 0.9rem;
+        white-space: normal;
+    }
+
+    .footer {
+        padding: 2.5rem 1.25rem 1rem;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    #newsletter form {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    #newsletter form input,
+    #newsletter form button {
+        width: 100%;
+        border-radius: 12px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .social-links {
+        flex-wrap: wrap;
+    }
+
+    #toast-container {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+
+    .toast {
+        min-width: auto;
+        max-width: none;
+    }
+}
+
 /* Toast Notification Styles */
 #toast-container {
     position: fixed;
@@ -544,7 +775,7 @@ button.toast-close:hover {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 768px) and (orientation: portrait) {
     #toast-container {
         top: 10px;
         right: 10px;

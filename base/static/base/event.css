@@ -80,3 +80,24 @@ main>img {
     --text-color: var(--bg-light);
     --accent-color: var(--ukrainian-blue);
 }
+
+@media (max-width: 900px) and (orientation: portrait) {
+    main {
+        padding: 1.25rem;
+        gap: 1.5rem;
+    }
+
+    main>img,
+    main>.no-image-placeholder {
+        height: 14rem;
+    }
+
+    #event-info {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    #event-buttons {
+        grid-template-columns: 1fr;
+    }
+}

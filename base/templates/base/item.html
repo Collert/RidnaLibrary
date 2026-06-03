@@ -39,6 +39,7 @@
             <p>{{ item.get_localized_description|truncatechars:800 }} <button>{% trans "Read more" %}</button></p>
             {% endif %}
             <div id="availability-container">
+                <div class="availability-status-icon">
                 {% if borrowed_by_user %}
                     {% if user_loan.unlimited_loan %}
                         <span class="material-symbols-outlined waiting">all_inclusive</span>
@@ -64,6 +65,7 @@
                             <span class="material-symbols-outlined unavailable">cancel</span>
                     {% endif %}
                 {% endif %}
+                </div>
                 <div id="availability-info">
                     {% if borrowed_by_user or requested_by_user %}
                         <h4>{% trans "Your loan" %}</h4>

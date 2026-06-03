@@ -88,15 +88,32 @@ main#item {
 }
 
 #availability-container {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
     gap: 2rem;
     padding: 2rem;
     border-radius: 15px;
     background-color: #ece5d2;
 }
 
+.availability-status-icon {
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.45);
+    display: grid;
+    place-items: center;
+}
+
 #availability-container .material-symbols-outlined {
     font-size: 3rem;
+}
+
+#availability-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
 }
 
 #availability-container .available {
@@ -137,10 +154,15 @@ main#item {
 }
 
 #action-bar button.icon {
-    height: 2.25rem;
+    width: 3rem;
+    min-width: 3rem;
+    height: 3rem;
+    padding: 0;
+    border-radius: 999px;
     display: grid;
     place-items: center;
     border-color: var(--ukrainian-gold) !important;
+    flex: 0 0 auto;
 }
 
 #action-bar button.icon:hover,
@@ -150,4 +172,44 @@ main#item {
 
 #action-bar button.icon.favorited span {
     font-variation-settings: 'FILL' 1;
+}
+
+@media (max-width: 900px) and (orientation: portrait) {
+    main#item {
+        padding: 1.25rem;
+        gap: 2rem;
+    }
+
+    #main {
+        grid-template-columns: 1fr;
+        gap: 1.75rem;
+    }
+
+    #main img,
+    #main .image-placeholder {
+        width: min(100%, 320px);
+        justify-self: center;
+    }
+
+    #item-details h1 {
+        font-size: clamp(2.2rem, 12vw, 3rem);
+    }
+
+    #availability-container,
+    #action-bar {
+        flex-direction: column;
+    }
+
+    #availability-container {
+        grid-template-columns: 1fr;
+        justify-items: start;
+        gap: 1rem;
+    }
+
+    #action-bar button.icon {
+        width: 3.5rem;
+        min-width: 3.5rem;
+        height: 3.5rem;
+        align-self: center;
+    }
 }

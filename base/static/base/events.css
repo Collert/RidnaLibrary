@@ -196,3 +196,44 @@ main {
     gap: 0.5rem;
     justify-content: space-between;
 }
+
+@media (max-width: 900px) and (orientation: portrait) {
+    main {
+        padding: 1.25rem;
+        gap: 1.5rem;
+    }
+
+    #featured-event {
+        grid-template-columns: 1fr;
+    }
+
+    #featured-event img {
+        min-height: 220px;
+        border-radius: 15px 15px 0 0;
+    }
+
+    #featured-event #featured-event-info {
+        padding: 1.25rem;
+    }
+
+    #event-list {
+        grid-template-columns: 1fr;
+    }
+
+    #calendar-card {
+        width: 100%;
+    }
+
+    .event-card {
+        flex-direction: column;
+    }
+
+    .event-card .image-container {
+        flex-basis: auto;
+        width: 100%;
+    }
+
+    .event-title {
+        font-size: clamp(1.6rem, 8vw, 2.1rem);
+    }
+}

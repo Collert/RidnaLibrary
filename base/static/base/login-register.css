@@ -91,3 +91,24 @@
     --_highlight-color: var(--ukrainian-gold) !important;
     font-weight: 600;
 }
+
+@media (max-width: 900px) and (orientation: portrait) {
+    #login-register {
+        grid-template-columns: 1fr;
+        min-height: calc(100vh - 4rem);
+        padding: 1.25rem 0;
+    }
+
+    #login-register>div:first-child {
+        display: none;
+    }
+
+    #form-container {
+        padding: 1.25rem;
+    }
+
+    #form-container form {
+        max-width: none;
+        padding: 1.5rem;
+    }
+}
