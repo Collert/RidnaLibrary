@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["gettext"]
+nixPkgs = ["python312", "gettext"]
 
 [phases.build]
 cmds = [
