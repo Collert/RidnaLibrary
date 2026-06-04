@@ -14,6 +14,7 @@ main#item {
 #main img,
 #main .image-placeholder {
     aspect-ratio: 3/4;
+    object-fit: cover;
     width: 30vw;
     border-radius: 20px;
     box-shadow: 7px 7px 12px 3px rgba(0, 0, 0, 0.2);
