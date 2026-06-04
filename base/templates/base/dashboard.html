@@ -44,10 +44,10 @@
                 <div class="item-info">
                     <h2 class="item-title">{{ loan.item.get_localized_title }}</h2>
                     <p class="item-loan-date">
-                        {% trans "Loaned on" %}: {{ loan.loan_date|date:"F j, Y" }}
+                        {% trans "Loaned on" %}: {{ loan.loan_date|date:"DATE_FORMAT" }}
                     </p>    
                     <p class="item-due-date">
-                        {% trans "Due on" %}: {{ loan.due_date|date:"F j, Y" }}
+                        {% trans "Due on" %}: {{ loan.due_date|date:"DATE_FORMAT" }}
                     </p>
                     {% if loan.is_overdue %}
                         <p class="item-overdue-warning">

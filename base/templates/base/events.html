@@ -15,7 +15,7 @@
         <div id="featured-event-info">
             <h3>{% trans "Featured Event" %}</h3>
             <h1>{{ featured_event.title }}</h1>
-            <p class="event-date"><span class="material-symbols-outlined">event</span>{{ featured_event.event_date }}</p>
+            <p class="event-date"><span class="material-symbols-outlined">event</span>{{ featured_event.event_date|date:"DATETIME_FORMAT" }}</p>
             <p class="event-description">{{ featured_event.description|truncatechars:160 }}</p>
             <a class="no-style" href="">{% trans "Learn More" %}</a>
         </div>
@@ -74,7 +74,7 @@
                         <h2 class="event-title">{{ event.get_localized_title|truncatechars:18 }}</h2>
                         <p class="event-date">
                             <span class="material-symbols-outlined">event</span>
-                            {{ event.event_date }}
+                            {{ event.event_date|date:"DATETIME_FORMAT" }}
                             <span class="material-symbols-outlined">place</span>
                             {{ event.address|truncatechars:30 }}
                         </p>

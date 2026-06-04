@@ -23,7 +23,7 @@
                 <div class="item-info">
                     <h2 class="item-title">{{ item.get_localized_title }}</h2>
                     <p class="item-added-date">
-                        {% trans "Added on" %}: {{ item.added_date|date:"F j" }}
+                        {% trans "Added on" %}: {{ item.added_date|date:"MONTH_DAY_FORMAT" }}
                     </p>
                     {% if item.available_copies > 0 %}
                         <p class="item-availability">

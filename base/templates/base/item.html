@@ -22,7 +22,7 @@
             <div id="quick-info">
                 <div class="info-block">
                     <span class="material-symbols-outlined">calendar_month</span>
-                    <span><strong>{% trans "Published Date" %}:</strong> {{ item.published_date }}</span>
+                    <span><strong>{% trans "Published Date" %}:</strong> {{ item.published_date|date:"DATE_FORMAT" }}</span>
                 </div>
                 <div class="info-block">
                     <span class="material-symbols-outlined">translate</span>
@@ -70,7 +70,7 @@
                     {% if borrowed_by_user or requested_by_user %}
                         <h4>{% trans "Your loan" %}</h4>
                         {% if requested_by_user %}
-                            <span class="available-text">{% trans "Preparing your item. Ready on:" %} {{ user_loan.loan_date }}</span>
+                            <span class="available-text">{% trans "Preparing your item. Ready on:" %} {{ user_loan.loan_date|date:"DATE_FORMAT" }}</span>
                         {% elif borrowed_by_user %}
                             <span class="available-text">
                                 {% if user_loan.unlimited_loan %}

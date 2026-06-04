@@ -1,16 +1,17 @@
-from datetime import timedelta
+from datetime import date, timedelta
 from io import BytesIO
 from unittest.mock import MagicMock, patch
 from urllib.error import HTTPError
 
-from django.contrib.messages import get_messages
 from django.contrib.auth.models import User
-from django.test import TestCase
+from django.contrib.messages import get_messages
+from django.template.loader import render_to_string
+from django.test import RequestFactory, TestCase
 from django.urls import reverse
-from django.utils import timezone
+from django.utils import formats, timezone, translation
 
-from .enums import EventKind
-from .models import Event
+from .enums import EventKind, Genre
+from .models import Book, Event, Loan
 
 
 class HomeViewUpcomingEventsTests(TestCase):
@@ -126,6 +127,54 @@ class EventInterestAuthTests(TestCase):
 		self.assertJSONEqual(first_response.content, {'interested': True})
 		self.assertJSONEqual(second_response.content, {'interested': False})
 		self.assertFalse(self.event.interested_users.filter(id=user.id).exists())
+
+
+class LocalizedDateFormattingTests(TestCase):
+	def test_project_locales_translate_month_names(self):
+		sample_date = date(1989, 2, 10)
+
+		with translation.override('uk'):
+			self.assertEqual(formats.date_format(sample_date, 'DATE_FORMAT'), '10 лютого 1989 р.')
+			self.assertEqual(formats.date_format(sample_date, 'M'), 'Лют.')
+
+		with translation.override('fr'):
+			self.assertEqual(formats.date_format(sample_date, 'DATE_FORMAT'), '10 février 1989')
+			self.assertEqual(formats.date_format(sample_date, 'M'), 'Févr.')
+
+	def test_dashboard_uses_locale_date_format(self):
+		user = User.objects.create_user(username='date-reader', password='password123')
+		book = Book.objects.create(
+			title='Localized Dates',
+			description='Date formatting regression fixture.',
+			published_date=date(1989, 2, 10),
+			total_copies=1,
+			author='Test Author',
+			genre=Genre.FANTASY,
+			isbn_number='9780000000001',
+		)
+		loan = Loan.objects.create(
+			item=book,
+			user=user,
+			loan_date=date(1989, 2, 10),
+			due_date=date(1989, 2, 17),
+		)
+
+		request = RequestFactory().get(reverse('dashboard_all'))
+		request.user = user
+
+		with translation.override('uk'):
+			rendered = render_to_string(
+				'base/dashboard.html',
+				{
+					'items': [loan],
+					'counts': {'all': 1, 'due_soon': 1, 'overdue': 1},
+				},
+				request=request,
+			)
+
+		self.assertIn('10 лютого 1989 р.', rendered)
+		self.assertIn('17 лютого 1989 р.', rendered)
+		self.assertNotIn('February', rendered)
 
 
 class NewsletterSubscribeTests(TestCase):

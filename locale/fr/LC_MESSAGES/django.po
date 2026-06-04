@@ -17,6 +17,126 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+msgid "January"
+msgstr "janvier"
+
+msgid "February"
+msgstr "février"
+
+msgid "March"
+msgstr "mars"
+
+msgid "April"
+msgstr "avril"
+
+msgid "May"
+msgstr "mai"
+
+msgid "June"
+msgstr "juin"
+
+msgid "July"
+msgstr "juillet"
+
+msgid "August"
+msgstr "août"
+
+msgid "September"
+msgstr "septembre"
+
+msgid "October"
+msgstr "octobre"
+
+msgid "November"
+msgstr "novembre"
+
+msgid "December"
+msgstr "décembre"
+
+msgid "jan"
+msgstr "janv."
+
+msgid "feb"
+msgstr "févr."
+
+msgid "mar"
+msgstr "mars"
+
+msgid "apr"
+msgstr "avr."
+
+msgid "may"
+msgstr "mai"
+
+msgid "jun"
+msgstr "juin"
+
+msgid "jul"
+msgstr "juil."
+
+msgid "aug"
+msgstr "août"
+
+msgid "sep"
+msgstr "sept."
+
+msgid "oct"
+msgstr "oct."
+
+msgid "nov"
+msgstr "nov."
+
+msgid "dec"
+msgstr "déc."
+
+msgctxt "abbrev. month"
+msgid "Jan."
+msgstr "janv."
+
+msgctxt "abbrev. month"
+msgid "Feb."
+msgstr "févr."
+
+msgctxt "abbrev. month"
+msgid "March"
+msgstr "mars"
+
+msgctxt "abbrev. month"
+msgid "April"
+msgstr "avr."
+
+msgctxt "abbrev. month"
+msgid "May"
+msgstr "mai"
+
+msgctxt "abbrev. month"
+msgid "June"
+msgstr "juin"
+
+msgctxt "abbrev. month"
+msgid "July"
+msgstr "juil."
+
+msgctxt "abbrev. month"
+msgid "Aug."
+msgstr "août"
+
+msgctxt "abbrev. month"
+msgid "Sept."
+msgstr "sept."
+
+msgctxt "abbrev. month"
+msgid "Oct."
+msgstr "oct."
+
+msgctxt "abbrev. month"
+msgid "Nov."
+msgstr "nov."
+
+msgctxt "abbrev. month"
+msgid "Dec."
+msgstr "déc."
+
 #: .\base\apps.py:7
 msgid "Base"
 msgstr "Application de base"

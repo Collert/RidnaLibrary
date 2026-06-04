@@ -21,7 +21,7 @@ from .models import FeaturedItem, HeroSection, Item, ItemHold, Loan, Book, Event
 from .enums import *
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.utils import timezone
+from django.utils import formats, timezone
 from recommendations.views import record_interaction
 from recommendations.enums import InteractionWeight
 
@@ -142,7 +142,11 @@ def borrow_item(request, item_id):
             else:
                 # Create a new loan
                 loan = Loan.objects.create(item=item, user=request.user)
-                messages.success(request, _("Item successfully borrowed! Pick it up on %(loan_date)s.") % {'loan_date': loan.loan_date})
+                messages.success(
+                    request,
+                    _("Item successfully borrowed! Pick it up on %(loan_date)s.")
+                    % {'loan_date': formats.date_format(loan.loan_date, 'DATE_FORMAT')},
+                )
         
         return redirect('item', item_id=item.id)
     else:

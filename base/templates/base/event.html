@@ -20,7 +20,7 @@
         </div>
         <div id="info-right">
             <h2>{% trans "Event Details" %}</h2>
-            <span><span class="material-symbols-outlined">event</span>{{ event.event_date }}</span>
+            <span><span class="material-symbols-outlined">event</span>{{ event.event_date|date:"DATETIME_FORMAT" }}</span>
             <span><span class="material-symbols-outlined">location_on</span>{{ event.address }}</span>
             {% if event.interested_users.count > 0 %}
                 <span><span class="material-symbols-outlined">diversity_3</span>
