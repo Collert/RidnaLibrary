@@ -21,21 +21,25 @@ def record_interaction_api(request):
     return JsonResponse({"scores": scores}, safe=False)
 
 def record_interaction(user, item: Item, weight: int):
+    user_id = getattr(user, 'pk', None)
+    if not getattr(user, 'is_authenticated', False) or user_id is None:
+        return []
+
     if not settings.DEBUG and Interaction.objects.filter(
-        user=user, 
+        user_id=user_id,
         item=item, 
         weight=weight, 
         timestamp__gte=timezone.now()-timezone.timedelta(minutes=15)
         ).exists():
         return []
-    interaction = Interaction(user=user, weight=weight, item=item)
+    interaction = Interaction(user_id=user_id, weight=weight, item=item)
     interaction.save()
 
     tags = item.tags
     added_scores = []
 
     for tag in tags:
-        ts_object, _ = UserTagScore.objects.get_or_create(tag=tag, user=user)
+        ts_object, _ = UserTagScore.objects.get_or_create(tag=tag, user_id=user_id)
         ts_object.add_score(weight)
         added_scores.append({
             "tag": tag,

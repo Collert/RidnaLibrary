@@ -36,7 +36,7 @@
             {% if item.get_localized_description|length < 800 %}
             <p>{{ item.get_localized_description }}</p>
             {% else %}
-            <p>{{ item.get_localized_description|truncatechars:800 }} <button>{% trans "Read more" %}</button></p>
+            <p>{{ item.get_localized_description|truncatechars:800 }} <button id="read-more-button" type="button">{% trans "Read more" %}</button></p>
             {% endif %}
             <div id="availability-container">
                 <div class="availability-status-icon">
@@ -154,12 +154,12 @@
 </main>
 
 <script>
-    const readMoreButton = document.querySelector('#item-details button');
+    const readMoreButton = document.querySelector('#read-more-button');
     const descriptionParagraph = '{{ item.get_localized_description|escapejs }}';
     const remainingText = descriptionParagraph.length > 800 ? descriptionParagraph.slice(799, descriptionParagraph.length) : '';
 
-    readMoreButton.addEventListener('click', () => {
-        descriptionParagraphElement = document.querySelector('#item-details p');
+    readMoreButton?.addEventListener('click', () => {
+        const descriptionParagraphElement = document.querySelector('#item-details p');
         readMoreButton.classList.add('remove');
         setTimeout(() => {
             readMoreButton.remove();
@@ -180,7 +180,9 @@
         type();
     }
 
-    document.querySelector('#favorite-button').addEventListener('click', function(event) {
+    const favoriteButton = document.querySelector('#favorite-button');
+
+    favoriteButton?.addEventListener('click', function(event) {
         event.preventDefault();
         fetch("{% url 'favourite_item' item.id %}", {
             method: 'POST',
