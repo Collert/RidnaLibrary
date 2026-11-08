@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'polymorphic',
     "recommendations",
-    "storages"
+    "storages",
+    "townhall_connector.contrib.django",
 ]
 
 MIDDLEWARE = [
@@ -239,3 +240,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CSRF_TRUSTED_ORIGINS = [
     "https://library.uahelp.ca",
 ]
+
+
+# Town Hall shift tracking (town-hall-connector). While a staff member with a Town Hall ID
+# (Users > Member > Town Hall ID) has the admin open, their shift runs in Town Hall; it ends when
+# they sign out, or 5 minutes after their last open admin tab stops sending heartbeats.
+# Leave any of these empty to turn tracking off.
+TOWNHALL_URL = os.getenv('TOWNHALL_URL', '')          # e.g. https://townhall.example.org
+TOWNHALL_API_KEY = os.getenv('TOWNHALL_API_KEY', '')  # Town Hall > Console > Organization > API
+TOWNHALL_ROLE_ID = os.getenv('TOWNHALL_ROLE_ID', '')  # the permanent "Librarian" role's ID, listed on that page
+TOWNHALL_USER_ID = 'member.town_hall_id'

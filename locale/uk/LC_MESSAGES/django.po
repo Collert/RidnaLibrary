@@ -1356,3 +1356,20 @@ msgstr "Під час створення облікового запису ст�
 #: .\recommendations\apps.py:7
 msgid "Recommendations"
 msgstr "Рекомендації"
+
+#: base/models.py
+msgid "Town Hall ID"
+msgstr "ID у Town Hall"
+
+#: base/models.py
+msgid "Enter the 6-digit Town Hall ID."
+msgstr "Введіть 6-значний ID у Town Hall."
+
+#: base/models.py
+msgid ""
+"The staff member's 6-digit Town Hall ID (their kiosk ID). Their time in the "
+"admin is logged as a Town Hall shift. Leave empty to not track it."
+msgstr ""
+"6-значний ID працівника в Town Hall (його ID для кіоску). Час роботи в "
+"адмін-панелі записується як зміна в Town Hall. Залиште порожнім, щоб не "
+"відстежувати."

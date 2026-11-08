@@ -23,6 +23,8 @@ from base.admin import admin_site
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
+    # Heartbeats from the admin, forwarded to Town Hall (townhall_connector)
+    path('townhall/', include('townhall_connector.contrib.django.urls')),
 ]
 
 urlpatterns += i18n_patterns(

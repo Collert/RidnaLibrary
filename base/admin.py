@@ -22,7 +22,7 @@ class MemberInline(admin.StackedInline):
     model = Member
     can_delete = False
     extra = 0
-    fields = ['join_date']
+    fields = ['join_date', 'town_hall_id']
     readonly_fields = ['join_date']
 
 class UserRecommendationExtrasInline(admin.StackedInline):
@@ -36,7 +36,8 @@ class CustomUserAdmin(UserAdmin):
     inlines = [MemberInline, UserRecommendationExtrasInline]
 
 class MemberAdmin(admin.ModelAdmin):
-    list_display = ['user', 'join_date']
+    list_display = ['user', 'join_date', 'town_hall_id']
+    search_fields = ['user__username', 'user__first_name', 'user__last_name', 'town_hall_id']
     list_filter = ['join_date']
     readonly_fields = ['join_date']
 

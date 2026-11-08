@@ -1,3 +1,4 @@
+from django.core.validators import RegexValidator
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -171,6 +172,13 @@ class Book(CreativeWork):
 class Member(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     join_date = models.DateField(auto_now_add=True)
+    # Staff only: their 6-digit Town Hall (kiosk) ID. While they have the admin open, their
+    # shift in the TOWNHALL_ROLE_ID role is tracked in Town Hall (townhall_connector).
+    town_hall_id = models.CharField(
+        _("Town Hall ID"), max_length=6, blank=True,
+        validators=[RegexValidator(r'^\d{6}$', _("Enter the 6-digit Town Hall ID."))],
+        help_text=_("The staff member's 6-digit Town Hall ID (their kiosk ID). Their time in the admin is logged as a Town Hall shift. Leave empty to not track it."),
+    )
 
     class Meta:
         verbose_name = _("member")
