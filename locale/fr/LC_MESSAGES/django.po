@@ -1278,3 +1278,20 @@ msgstr "Une erreur s'est produite lors de la création de votre compte. Veuillez
 #: .\recommendations\apps.py:7
 msgid "Recommendations"
 msgstr "Recommandations"
+
+#: base/models.py
+msgid "Town Hall ID"
+msgstr "Identifiant Town Hall"
+
+#: base/models.py
+msgid "Enter the 6-digit Town Hall ID."
+msgstr "Saisissez l'identifiant Town Hall à 6 chiffres."
+
+#: base/models.py
+msgid ""
+"The staff member's 6-digit Town Hall ID (their kiosk ID). Their time in the "
+"admin is logged as a Town Hall shift. Leave empty to not track it."
+msgstr ""
+"L'identifiant Town Hall à 6 chiffres du membre du personnel (son identifiant "
+"de borne). Son temps dans l'administration est enregistré comme un quart dans "
+"Town Hall. Laissez vide pour ne pas le suivre."
